@@ -7,10 +7,10 @@ import CssBaseline from '@mui/material/CssBaseline/CssBaseline';
 import MultiSelect from './MultiSelect/MultiSelect';
 import { useTranslation } from 'react-i18next';
 import { Grid } from '@mui/material';
+import { useFormik } from 'formik';
 
 function App() {
   const { t } = useTranslation();
-  const [count, setCount] = useState(0);
   const [currentSelection, setCurrentSelection] = useState([]);
 
   const PRODUCT_CATEGORY_OPTIONS = [
@@ -25,15 +25,26 @@ function App() {
     { label: t('inventory.RemoteHand'), id: 'RMH' },
   ];
 
+  const formik = useFormik({
+    initialValues: {
+      products: [],
+    },
+    onSubmit: values => {
+      console.log(values);
+    },
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Grid container>
         <Grid item xs={8}>
-          <MultiSelect
+        <MultiSelect
             label="Products"
-            currentSelection={currentSelection}
-            setCurrentSelection={setCurrentSelection}
+            currentSelection={formik.values.products}
+            setCurrentSelection={(value) => {
+              formik.setFieldValue('products', value);
+            }}
             options={PRODUCT_CATEGORY_OPTIONS}
             extraStyles={{
               minWidth: '300px',
