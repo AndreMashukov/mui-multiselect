@@ -34,6 +34,8 @@ function App() {
     },
   });
 
+  console.log(formik.touched)
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -50,7 +52,7 @@ function App() {
             extraStyles={{
               minWidth: '300px',
             }}
-            setTouched={formik.setTouched}
+            setTouched={formik.setFieldTouched}
           />
         </Grid>
         <Grid xs={4}></Grid>

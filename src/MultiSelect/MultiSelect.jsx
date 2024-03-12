@@ -86,8 +86,8 @@ const MultiSelect = (props) => {
   }, [currentSelection]);
 
   const handleBlur = () => {
-    setTouched(id);
-  }
+    setTouched(id)
+  };
 
   return (
     <Stack
@@ -121,6 +121,7 @@ const MultiSelect = (props) => {
           name={name}
           error={error}
           input={<OutlinedInput id="select-multiple-chip" label={label} />}
+          onClose={handleBlur}
           renderValue={(selected) => (
             <Stack
               flexDirection="row"
