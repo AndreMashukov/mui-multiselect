@@ -40,6 +40,7 @@ function App() {
       <Grid container>
         <Grid item xs={8}>
         <MultiSelect
+            id="products"
             label="Products"
             currentSelection={formik.values.products}
             setCurrentSelection={(value) => {
@@ -49,6 +50,7 @@ function App() {
             extraStyles={{
               minWidth: '300px',
             }}
+            setTouched={formik.setTouched}
           />
         </Grid>
         <Grid xs={4}></Grid>

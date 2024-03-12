@@ -1,23 +1,24 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
-import Checkbox from '@mui/material/Checkbox';
-import ListItemText from '@mui/material/ListItemText';
-import { Stack, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { useTranslation } from 'react-i18next';
-import { grey } from '@mui/material/colors';
-import { useRef } from 'react';
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import * as React from "react";
+import {useMemo} from "react";
+import {useTheme} from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
+import {Stack, Typography} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {useTranslation} from "react-i18next";
+import {grey} from "@mui/material/colors";
+import {useRef} from "react";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import {useEffect} from "react";
+import {useState} from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -39,8 +40,9 @@ function getStyles(id, currentSelection, theme) {
   };
 }
 
-export default function MultiSelect(props) {
+const MultiSelect = (props) => {
   const {
+    id,
     label,
     options,
     currentSelection,
@@ -48,10 +50,10 @@ export default function MultiSelect(props) {
     extraStyles,
     name,
     error,
-    onChange,
     disabled,
+    setTouched,
   } = props;
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const theme = useTheme();
 
   // console.log("****", options);
@@ -60,13 +62,13 @@ export default function MultiSelect(props) {
 
   const scrollUp = () => {
     if (chipsContainerRef.current) {
-      chipsContainerRef.current.scrollTop -= 30; // adjust scroll speed here
+      chipsContainerRef.current.scrollTop -= 20; // adjust scroll speed here
     }
   };
 
   const scrollDown = () => {
     if (chipsContainerRef.current) {
-      chipsContainerRef.current.scrollTop += 30;
+      chipsContainerRef.current.scrollTop += 20; // adjust scroll speed here
     }
   };
 
@@ -74,7 +76,7 @@ export default function MultiSelect(props) {
 
   const checkOverflow = () => {
     if (chipsContainerRef.current) {
-      const { scrollHeight, clientHeight } = chipsContainerRef.current;
+      const {scrollHeight, clientHeight} = chipsContainerRef.current;
       setIsOverflowing(scrollHeight > clientHeight);
     }
   };
@@ -82,6 +84,10 @@ export default function MultiSelect(props) {
   useEffect(() => {
     checkOverflow();
   }, [currentSelection]);
+
+  const handleBlur = () => {
+    setTouched(id);
+  }
 
   return (
     <Stack
@@ -93,43 +99,43 @@ export default function MultiSelect(props) {
       <Stack
         justifyContent="flex-end"
         alignItems="flex-end"
-        sx={{ width: '100%' }}
+        sx={{width: "100%"}}
       >
         <Typography variant="body2" color={disabled && grey[500]}>
-          {t('number-being-selected', { number: currentSelection.length })}
+          {t("number-being-selected", {number: currentSelection.length})}
         </Typography>
       </Stack>
       <FormControl
-        sx={{ width: '100%', backgroundColor: 'white' }}
+        sx={{width: "100%", backgroundColor: "white"}}
         error={error}
         disabled={disabled}
       >
         <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
         <Select
+          id={id}
           disabled={disabled}
           labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
           multiple
+          onBlur={handleBlur}
           value={currentSelection}
           name={name}
           error={error}
-          onChange={onChange}
           input={<OutlinedInput id="select-multiple-chip" label={label} />}
           renderValue={(selected) => (
             <Stack
               flexDirection="row"
               justifyContent="space-between"
               // alignItems="center"
-              sx={{ width: '100%' }}
+              sx={{width: "100%"}}
             >
               <Box
                 ref={chipsContainerRef}
                 sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
+                  display: "flex",
+                  flexWrap: "wrap",
                   gap: 0.5,
-                  overflow: 'hidden',
-                  maxHeight: '100px',
+                  overflow: "hidden",
+                  maxHeight: "100px",
                 }}
               >
                 {selected.map((value) => {
@@ -147,6 +153,7 @@ export default function MultiSelect(props) {
                           );
                         }}
                         onMouseDown={(event) => {
+                          // This will prevent the dropdown from opening
                           event.stopPropagation();
                         }}
                         size="small"
@@ -165,7 +172,7 @@ export default function MultiSelect(props) {
                 >
                   {isOverflowing && (
                     <KeyboardArrowUpRoundedIcon
-                      sx={{ cursor: 'pointer' }}
+                      sx={{cursor: "pointer"}}
                       onClick={scrollUp}
                       onMouseDown={(event) => {
                         event.stopPropagation();
@@ -175,9 +182,10 @@ export default function MultiSelect(props) {
                   {!disabled && (
                     <Box display="flex" alignItems="center" height="100%">
                       <CloseIcon
-                        sx={{ cursor: 'pointer' }}
+                        sx={{cursor: "pointer"}}
                         onClick={() => setCurrentSelection([])}
                         onMouseDown={(event) => {
+                          // This will prevent the dropdown from opening
                           event.stopPropagation();
                         }}
                       />
@@ -185,7 +193,7 @@ export default function MultiSelect(props) {
                   )}
                   {isOverflowing && (
                     <KeyboardArrowDownRoundedIcon
-                      sx={{ cursor: 'pointer' }}
+                      sx={{cursor: "pointer"}}
                       onClick={scrollDown}
                       onMouseDown={(event) => {
                         event.stopPropagation();
@@ -210,7 +218,7 @@ export default function MultiSelect(props) {
               }
             }}
           >
-            <ListItemText primary={t('select-all')} />
+            <ListItemText primary={t("select-all")} />
           </MenuItem>
           {options.map((item) => (
             <MenuItem
@@ -231,7 +239,7 @@ export default function MultiSelect(props) {
 
               <ListItemText
                 primary={item.label}
-                sx={{ position: 'relative', top: '2px' }}
+                sx={{position: "relative", top: "2px"}}
               />
             </MenuItem>
           ))}
@@ -239,4 +247,46 @@ export default function MultiSelect(props) {
       </FormControl>
     </Stack>
   );
-}
+};
+
+const MultiSelectMemo = ({
+  id,
+  label,
+  options,
+  currentSelection,
+  setCurrentSelection,
+  extraStyles,
+  name,
+  error,
+  disabled,
+  setTouched,
+}) => {
+  return useMemo(() => {
+    return (
+      <MultiSelect
+        id={id}
+        label={label}
+        options={options}
+        currentSelection={currentSelection}
+        setCurrentSelection={setCurrentSelection}
+        extraStyles={extraStyles}
+        name={name}
+        error={error}
+        disabled={disabled}
+        setTouched={setTouched}
+      />
+    );
+  }, [
+    id,
+    label,
+    options,
+    currentSelection,
+    setCurrentSelection,
+    extraStyles,
+    name,
+    error,
+    disabled,
+  ]);
+};
+
+export default MultiSelectMemo;
