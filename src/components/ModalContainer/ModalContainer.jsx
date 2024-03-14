@@ -34,7 +34,7 @@ export default function ModalContainer({title, open, setOpen, children}) {
       >
         <DialogTitle>
           <Grid container justifyContent="center" alignItems="center">
-            <Typography variant="h5" color="primary" gutterBottom>
+            <Typography variant="h4" color="secondary">
               {title}
             </Typography>
           </Grid>
