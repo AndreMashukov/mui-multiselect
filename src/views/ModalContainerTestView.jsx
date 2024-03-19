@@ -1,21 +1,40 @@
 import { Button, Grid } from "@mui/material"
 import { useState } from "react"
 import ModalContainer from "../components/ModalContainer/ModalContainer";
+import { useGenericReducer } from "../hooks/useGenericReducer";
 
 export const ModalContainerTestView = () => {
-  const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false)
+
+  const {state, actions} = useGenericReducer({
+    reducers: {
+      setOpen: (state, action) => ({
+        ...state,
+        open: action.payload,
+      }),
+      setTitle: (state, action) => ({
+        ...state,
+        title: action.payload,
+      }),
+    },
+    initialState: {
+      open: false,
+      title: "",
+    }
+  })
   return (
     <>
       <Button onClick={() => {
-        setOpen(true);
+        actions.setTitle("Title");
+        actions.setOpen(true);
       }}>
         Open
       </Button>
-      {open && (
+      {state.open && (
         <ModalContainer
-          open={open}
-          setOpen={setOpen}
-          title="Title"
+          open={state.open}s
+          setOpen={actions.setOpen}
+          title={state.title}
         >
           <Grid container sx={{ width: "300px" }}>
             Text
