@@ -11,8 +11,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid container sx={{position: "relative", top: "-"}}>
-        <Grid item xs={10}>
+      <Grid container sx={{position: "fixed", ml: 3}}>
+        <Grid item xs={10} sx={{position: "relative", bottom: "300px"}}>
           {/* <MultiSelectTestView /> */}
           {/* <ModalContainerTestView /> */}
           <DatepickerView />
@@ -24,3 +24,4 @@ function App() {
 }
 
 export default App;
+
