@@ -6,18 +6,18 @@ import moment from 'moment';
 import { useState } from 'react';
 
 export const CustomDateTimePicker = () => {
-  const [value, setValue] = useState(moment("2022-04-17T15:30"));
+  const [value, setValue] = useState(moment());
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState('');
 
   const handleDateChange = (newValue) => {
     setValue(newValue);
     
-    console.log(newValue.format());
-    // console.log(newValue.isAfter(moment.now());
+    // console.log(newValue.format());
+    // console.log(newValue.isAfter(moment()));
 
     // Add your validation logic here
-    if (newValue.isBefore(moment.now())) {
+    if (newValue.isBefore(moment())) {
       setError(true);
       setHelperText('Error: Invalid date');
     } else {
