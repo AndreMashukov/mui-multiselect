@@ -21,7 +21,6 @@ export const RangePickerView = () => {
     },
   });
 
-
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <CustomRangePicker 
