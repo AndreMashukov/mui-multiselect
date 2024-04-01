@@ -1,11 +1,11 @@
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import theme from './theme';
 import CssBaseline from '@mui/material/CssBaseline/CssBaseline';
-import { useTranslation } from 'react-i18next';
 import { Grid } from '@mui/material';
 import { MultiSelectTestView } from './views/MultiSelectTestView';
 import { ModalContainerTestView } from './views/ModalContainerTestView';
 import { DatepickerView } from './views/DatepickerView';
+import { RangePickerView } from './views/RangePickerView';
 
 function App() {
   return (
@@ -15,7 +15,8 @@ function App() {
         <Grid item xs={10} sx={{position: "relative", bottom: "300px"}}>
           {/* <MultiSelectTestView /> */}
           {/* <ModalContainerTestView /> */}
-          <DatepickerView />
+          {/* <DatepickerView /> */}
+          <RangePickerView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>
