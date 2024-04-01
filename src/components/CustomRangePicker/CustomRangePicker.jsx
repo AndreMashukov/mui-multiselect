@@ -1,23 +1,30 @@
 import * as React from "react";
 import { MultiInputDateTimeRangeField } from "@mui/x-date-pickers-pro/MultiInputDateTimeRangeField";
-import moment from "moment";
 
 // eslint-disable-next-line react/prop-types
-export default function CustomRangePicker({ startDateLabel, endDateLabel }) {
-  const [value, setValue] = React.useState(() => [
-    moment("2022-04-17T15:30"),
-    moment("2022-04-21T18:30"),
-  ]);
+export default function CustomRangePicker({
+  startDateLabel,
+  endDateLabel,
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
+}) {
+  // const [value, setValue] = React.useState(() => [
+  //   moment("2022-04-17T15:30"),
+  //   moment("2022-04-21T18:30"),
+  // ]);
 
   const onChange = (newValue) => {
-    console.log(newValue);
-    setValue(newValue);
+    // console.log(newValue);
+    setStartDate(newValue[0]);
+    setEndDate(newValue[1]);
   };
 
   return (
     <MultiInputDateTimeRangeField
       format="DD/MM/YYYY HH:mm"
-      value={value}
+      value={[startDate, endDate]}
       onChange={onChange}
       slotProps={{
         textField: ({ position }) => ({
