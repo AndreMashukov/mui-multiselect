@@ -14,20 +14,21 @@ import ValidationError from "../components/ValidationError/ValidationError";
 export const RangePickerView = () => {
   const validationSchema = yup.object({
     startDate: yup
-      .date()
+      .string()
       .required()
-      .test("valid", "Start date is invalid", (value) =>
-        moment(value).isValid()
-      ),
+      .test("valid", "Start date is invalid", (value) => {
+        return moment(value).isValid();
+      }),
     endDate: yup
-      .date()
+      .string()
       .required()
-      .test("valid", "End date is invalid", (value) => moment(value).isValid())
-      .when("startDate", (startDate, schema) =>
-        startDate
-          ? schema.min(startDate, "End date must be after start date")
-          : schema
-      ),
+      .test("valid", "End date is invalid", (value) => {
+        return moment(value).isValid();
+      })
+      .test("after", "End date must be after start date", function (value) {
+        const { startDate } = this.parent;
+        return moment(value).isAfter(moment(startDate));
+      }),
   });
 
   const formik = useFormik({
@@ -91,10 +92,14 @@ export const RangePickerView = () => {
         extraStyles={{ mb: 2 }}
       />
       <CustomRangePicker
-        startDate={formik.values.startDate}
-        endDate={formik.values.endDate}
-        setStartDate={(value) => formik.setFieldValue("startDate", value)}
-        setEndDate={(value) => formik.setFieldValue("endDate", value)}
+        startDate={moment(formik.values.startDate, "DD/MM/YYYY HH:mm")}
+        endDate={moment(formik.values.endDate, "DD/MM/YYYY HH:mm")}
+        setStartDate={(value) =>
+          formik.setFieldValue("startDate", value.format("DD/MM/YYYY HH:mm"))
+        }
+        setEndDate={(value) =>
+          formik.setFieldValue("endDate", value.format("DD/MM/YYYY HH:mm"))
+        }
         startDateLabel="Start Date"
         endDateLabel="End Date"
       />
@@ -104,7 +109,9 @@ export const RangePickerView = () => {
           <ValidationError message={formik.errors.endDate} />
         )} */}
       {(formik.errors.endDate || formik.values.startDate) && (
-        <ValidationError message={formik.errors.endDate} />
+        <ValidationError
+          message={formik.errors.startDate || formik.errors.endDate}
+        />
       )}
       <br />
       <Button
