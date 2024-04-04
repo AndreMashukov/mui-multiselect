@@ -1,4 +1,3 @@
-import * as React from "react";
 import { MultiInputDateTimeRangeField } from "@mui/x-date-pickers-pro/MultiInputDateTimeRangeField";
 
 // eslint-disable-next-line react/prop-types
@@ -27,7 +26,7 @@ export default function CustomRangePicker({
       format="DD/MM/YYYY HH:mm"
       value={[startDate, endDate]}
       onChange={onChange}
-      onBlur={handleBlur}s
+      onBlur={handleBlur}
       slotProps={{
         textField: ({ position }) => ({
           label: position === "start" ? startDateLabel : endDateLabel,
