@@ -9,6 +9,7 @@ export default function CustomRangePicker({
   endDate,
   setStartDate,
   setEndDate,
+  handleBlur,
 }) {
   // const [value, setValue] = React.useState(() => [
   //   moment("2022-04-17T15:30"),
@@ -26,6 +27,7 @@ export default function CustomRangePicker({
       format="DD/MM/YYYY HH:mm"
       value={[startDate, endDate]}
       onChange={onChange}
+      onBlur={handleBlur}s
       slotProps={{
         textField: ({ position }) => ({
           label: position === "start" ? startDateLabel : endDateLabel,

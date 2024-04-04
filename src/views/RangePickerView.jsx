@@ -33,8 +33,8 @@ export const RangePickerView = () => {
 
   const formik = useFormik({
     initialValues: {
-      startDate: null,
-      endDate: null,
+      startDate: undefined,
+      endDate: undefined,
     },
     validationSchema,
     onSubmit: (values) => {
@@ -102,17 +102,23 @@ export const RangePickerView = () => {
         }
         startDateLabel="Start Date"
         endDateLabel="End Date"
+        handleBlur={() => {
+          formik.setFieldTouched("startDate", true);
+          formik.setFieldTouched("endDate", true);
+        }}
       />
       {/* {formik.touched.endDate &&
         formik.touched.startDate &&
         formik.errors.endDate && (
           <ValidationError message={formik.errors.endDate} />
         )} */}
-      {(formik.errors.endDate || formik.values.startDate) && (
-        <ValidationError
-          message={formik.errors.startDate || formik.errors.endDate}
-        />
-      )}
+      {(formik.errors.endDate || formik.values.startDate) &&
+        formik.touched.startDate &&
+        formik.touched.endDate && (
+          <ValidationError
+            message={formik.errors.startDate || formik.errors.endDate}
+          />
+        )}
       <br />
       <Button
         onClick={formik.handleSubmit}
