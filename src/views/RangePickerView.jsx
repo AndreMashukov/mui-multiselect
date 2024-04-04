@@ -37,14 +37,14 @@ export const RangePickerView = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log({
+      console.log("submit", {
         startDate: values.startDate.format(),
         endDate: values.endDate.format(),
       });
     },
   });
 
-  console.log(formik.errors);
+  // console.log(formik.errors);
   const [selectedOption, setSelectedOption] = useState();
 
   const selectorOptions = [
@@ -76,9 +76,6 @@ export const RangePickerView = () => {
       ) {
         setSelectedOption(undefined);
       }
-      // if (!formik.values.endDate.isValid || !formik.values.startDate.isValid) {
-      //   setSelectedOption(undefined);
-      // }
     }
     // forcibly run formik validation on startDate and endDate
     formik.setFieldTouched("startDate", true);
@@ -112,7 +109,7 @@ export const RangePickerView = () => {
       <br />
       <Button
         onClick={formik.handleSubmit}
-        // disabled={!formik.isValid}
+        disabled={!formik.isValid}
         sx={{
           mt: 2,
         }}
