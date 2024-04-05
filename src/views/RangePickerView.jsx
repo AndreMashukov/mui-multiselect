@@ -39,8 +39,8 @@ export const RangePickerView = () => {
     validationSchema,
     onSubmit: (values) => {
       console.log("submit", {
-        startDate: values.startDate.format(),
-        endDate: values.endDate.format(),
+        startDate: values.startDate,
+        endDate: values.endDate,
       });
     },
   });
@@ -83,6 +83,11 @@ export const RangePickerView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.startDate, formik.values.endDate]);
 
+  // return null or date
+  const getDate = (date) => {
+    return date ? moment(date, "DD/MM/YYYY HH:mm") : null;
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <SelectorSecondary
@@ -92,8 +97,8 @@ export const RangePickerView = () => {
         extraStyles={{ mb: 2 }}
       />
       <CustomRangePicker
-        startDate={moment(formik.values.startDate, "DD/MM/YYYY HH:mm")}
-        endDate={moment(formik.values.endDate, "DD/MM/YYYY HH:mm")}
+        startDate={getDate(formik.values.startDate)}
+        endDate={getDate(formik.values.endDate)}
         setStartDate={(value) =>
           formik.setFieldValue("startDate", value.format("DD/MM/YYYY HH:mm"))
         }

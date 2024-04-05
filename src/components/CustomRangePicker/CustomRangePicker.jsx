@@ -21,6 +21,14 @@ export default function CustomRangePicker({
     setEndDate(newValue[1]);
   };
 
+
+  // const showErrors = () => {
+  //   if (!startDate || !endDate) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
   return (
     <MultiInputDateTimeRangeField
       format="DD/MM/YYYY HH:mm"
@@ -30,6 +38,7 @@ export default function CustomRangePicker({
       slotProps={{
         textField: ({ position }) => ({
           label: position === "start" ? startDateLabel : endDateLabel,
+          // error: showErrors(),
         }),
       }}
     />
