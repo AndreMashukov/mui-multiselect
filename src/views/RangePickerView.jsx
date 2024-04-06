@@ -42,7 +42,11 @@ export const RangePickerView = () => {
 
   return (
     <>
-      <RangePickerWithSelector formik={formik} />
+      <RangePickerWithSelector
+        formik={formik}
+        startDateName="startDate"
+        endDateName="endDate"
+      />
       <br />
       <Button
         onClick={formik.handleSubmit}

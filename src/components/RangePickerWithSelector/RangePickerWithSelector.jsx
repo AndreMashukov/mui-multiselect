@@ -7,7 +7,7 @@ import ValidationError from "../ValidationError/ValidationError";
 import { useEffect, useState } from "react";
 import moment from "moment";
 
-const RangePickerWithSelector = ({ formik }) => {
+const RangePickerWithSelector = ({ formik, startDateName, endDateName }) => {
   const [selectedOption, setSelectedOption] = useState();
 
   const selectorOptions = [
@@ -21,29 +21,29 @@ const RangePickerWithSelector = ({ formik }) => {
     if (!selectedOption) return;
     const unit = selectedOption;
     if (unit) {
-      formik.setFieldValue("startDate", moment().subtract(1, unit));
-      formik.setFieldValue("endDate", moment());
+      formik.setFieldValue(startDateName, moment().subtract(1, unit));
+      formik.setFieldValue(endDateName, moment());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption]);
 
   useEffect(() => {
     if (selectedOption) {
       const unit = selectedOption;
       if (
-        !moment(formik.values.startDate).isSame(
+        !moment(formik.values[startDateName]).isSame(
           moment().subtract(1, unit),
           "day"
         ) ||
-        !moment(formik.values.endDate).isSame(moment(), "day")
+        !moment(formik.values[endDateName]).isSame(moment(), "day")
       ) {
         setSelectedOption(undefined);
       }
     }
     // forcibly run formik validation on startDate and endDate
-    formik.setFieldTouched("startDate", true);
+    formik.setFieldTouched(startDateName, true);
+    formik.setFieldTouched(endDateName, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formik.values.startDate, formik.values.endDate]);
+  }, [formik.values[startDateName], formik.values[endDateName]]);
 
   // return null or date
   const getDate = (date) => {
@@ -59,26 +59,26 @@ const RangePickerWithSelector = ({ formik }) => {
         extraStyles={{ mb: 2 }}
       />
       <CustomRangePicker
-        startDate={getDate(formik.values.startDate)}
-        endDate={getDate(formik.values.endDate)}
+        startDate={getDate(formik.values[startDateName])}
+        endDate={getDate(formik.values[endDateName])}
         setStartDate={(value) =>
-          formik.setFieldValue("startDate", value.format("DD/MM/YYYY HH:mm"))
+          formik.setFieldValue(startDateName, value.format("DD/MM/YYYY HH:mm"))
         }
         setEndDate={(value) =>
-          formik.setFieldValue("endDate", value.format("DD/MM/YYYY HH:mm"))
+          formik.setFieldValue(endDateName, value.format("DD/MM/YYYY HH:mm"))
         }
         startDateLabel="Start Date"
         endDateLabel="End Date"
         handleBlur={() => {
-          formik.setFieldTouched("startDate", true);
-          formik.setFieldTouched("endDate", true);
+          formik.setFieldTouched(startDateName, true);
+          formik.setFieldTouched(endDateName, true);
         }}
       />
-      {(formik.errors.endDate || formik.values.startDate) &&
-        formik.touched.startDate &&
-        formik.touched.endDate && (
+      {(formik.errors[endDateName] || formik.errors[startDateName]) &&
+        formik.touched[startDateName] &&
+        formik.touched[endDateName] && (
           <ValidationError
-            message={formik.errors.startDate || formik.errors.endDate}
+            message={formik.errors[startDateName] || formik.errors[endDateName]}
           />
         )}
     </LocalizationProvider>
