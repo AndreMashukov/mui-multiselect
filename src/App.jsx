@@ -15,8 +15,8 @@ function App() {
         <Grid item xs={10} sx={{position: "relative", bottom: "300px"}}>
           {/* <MultiSelectTestView /> */}
           {/* <ModalContainerTestView /> */}
-          {/* <DatepickerView /> */}
-          <RangePickerView />
+          <DatepickerView />
+          {/* <RangePickerView /> */}
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>
