@@ -3,17 +3,17 @@ import CustomSelect from "../components/CustomSelect/CustomSelect";
 import StoreIcon from "@mui/icons-material/Store";
 
 const OPTIONS = [
-  { id: "1", label: "Option 1" },
-  { id: "2", label: "Option 2" },
+  { id: 1133, label: "Option 1" },
+  { id: 991, label: "Option 2" },
 ];
 
 export const CustomSelectView = () => {
-  const [value, setValue] = useState("1");
+  const [value, setValue] = useState(1133);
 
   return (
     <CustomSelect
       value={value}
-      handleChange={(e) => setValue(e.target.value)}
+      handleChange={setValue}
       options={OPTIONS}
       icon={<StoreIcon />}
       replaceChevron
