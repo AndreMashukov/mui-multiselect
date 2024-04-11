@@ -37,7 +37,7 @@ export default function CustomSelect({
           return "";
         }
         return (
-          <Grid container justifyContent="flex-start" alignItems="center">
+          <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap">
             <Grid item>{icon}</Grid>
             <Grid item sx={{position: "relative", width: `${maxCharLength || "25"}ch`}}>
               <ListItemText

@@ -29,7 +29,7 @@ export const CustomSelectView = () => {
       }}
       icon={<StoreIcon />}
       replaceChevron={!isMobile}
-      maxCharLength={isMobile ? "35" : "20"}
+      maxCharLength={isMobile ? "35" : "10"}
     />
   );
 };
