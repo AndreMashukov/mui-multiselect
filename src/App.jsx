@@ -7,6 +7,7 @@ import { ModalContainerTestView } from "./views/ModalContainerTestView";
 import { DatepickerView } from "./views/DatepickerView";
 import { RangePickerView } from "./views/RangePickerView";
 import { CustomSelectView } from "./views/CustomSelectView";
+import LineChartView from "./views/LineChartView";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           {/* <ModalContainerTestView /> */}
           {/* <DatepickerView /> */}
           {/* <RangePickerView /> */}
-          <CustomSelectView />
+          {/* <CustomSelectView /> */}
+          <LineChartView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>
