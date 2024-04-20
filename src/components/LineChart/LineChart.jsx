@@ -16,40 +16,47 @@ const WIDTH = 600;
 const LineChart = () => {
   const svgRef = useRef();
 
-  const initChart = () => {
+  const parseData = (data) => {
     const parseDate = d3.timeParse("%d %b %Y");
     data.forEach((d) => {
       d.date = parseDate(d.date);
     });
+    return data;
+  };
 
-    // Set the dimensions and margins of the graph
-    const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      width = WIDTH - margin.left - margin.right,
-      height = HEIGHT - margin.top - margin.bottom;
-
-    // Append the svg object to the body of the page
-    const svg = d3
-      .select(svgRef.current)
-      .attr("width", WIDTH)
-      .attr("height", HEIGHT)
+  const createSvg = (ref, width, height) => {
+    const margin = { top: 10, right: 30, bottom: 30, left: 60 };
+  
+    return d3
+      .select(ref)
+      .attr("width", width)
+      .attr("height", height)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  };
 
-    // Add X axis
+  const addXAxis = (svg, data, width, height) => {
+    const margin = { top: 10, right: 30, bottom: 30, left: 60 };
+    const innerHeight = height - margin.top - margin.bottom;
+  
     const x = d3
       .scaleTime()
       .domain(d3.extent(data, (d) => d.date))
       .range([0, width]);
     svg
       .append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%d %b")));
+      .attr("transform", "translate(0," + innerHeight + ")")
+      .call(d3.axisBottom(x).ticks(5).tickFormat(d3.timeFormat("%d %b")));
+    return x;
+  };
 
-    // Add Y axis
+  const addYAxis = (svg, height) => {
     const y = d3.scaleLinear().domain([0, 200]).range([height, 0]);
     svg.append("g").call(d3.axisLeft(y));
+    return y;
+  };
 
-    // Add the line
+  const addLine = (svg, data, x, y) => {
     svg
       .append("path")
       .datum(data)
@@ -63,6 +70,34 @@ const LineChart = () => {
           .x((d) => x(d.date))
           .y((d) => y(d.value))
       );
+  };
+
+  const addCursor = (svg, width, height) => {
+    const cursor = svg
+      .append("line")
+      .attr("stroke", "black")
+      .attr("y1", 0)
+      .attr("y2", height);
+
+    svg
+      .append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "none")
+      .attr("pointer-events", "all")
+      .on("mousemove", function(event) {
+        const mouseX = d3.pointer(event, this)[0];
+        cursor.attr("x1", mouseX).attr("x2", mouseX);
+      });
+  };
+
+  const initChart = () => {
+    const parsedData = parseData(data);
+    const svg = createSvg(svgRef.current, WIDTH, HEIGHT);
+    const x = addXAxis(svg, parsedData, WIDTH, HEIGHT);
+    const y = addYAxis(svg, HEIGHT);
+    addLine(svg, parsedData, x, y);
+    addCursor(svg, WIDTH, HEIGHT);
   };
 
   useEffect(() => {
