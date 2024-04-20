@@ -73,15 +73,16 @@ const LineChart = () => {
           .y((d) => y(d.value))
       );
   
-    svg
-      .selectAll("circle")
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("cx", (d) => x(d.date))
-      .attr("cy", (d) => y(d.value))
-      .attr("r", 5)
-      .attr("fill", "red");
+    data.forEach((d) => {
+      if (!isNaN(x(d.date))) {
+        svg
+          .append("circle")
+          .attr("cx", x(d.date))
+          .attr("cy", y(d.value))
+          .attr("r", 5)
+          .attr("fill", "red");
+      }
+    });
   };
 
   const addCursor = (svg, width, height) => {
