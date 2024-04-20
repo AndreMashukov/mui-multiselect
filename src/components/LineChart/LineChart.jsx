@@ -26,7 +26,7 @@ const LineChart = () => {
 
   const createSvg = (ref, width, height) => {
     const margin = { top: 10, right: 30, bottom: 30, left: 60 };
-  
+
     return d3
       .select(ref)
       .attr("width", width)
@@ -38,15 +38,17 @@ const LineChart = () => {
   const addXAxis = (svg, data, width, height) => {
     const margin = { top: 10, right: 30, bottom: 30, left: 60 };
     const innerHeight = height - margin.top - margin.bottom;
+    const innerWidth = width - margin.left - margin.right;
   
     const x = d3
       .scaleTime()
       .domain(d3.extent(data, (d) => d.date))
-      .range([0, width]);
+      .range([0, innerWidth])
+      .nice(); // add padding to the scale
     svg
       .append("g")
       .attr("transform", "translate(0," + innerHeight + ")")
-      .call(d3.axisBottom(x).ticks(5).tickFormat(d3.timeFormat("%d %b")));
+      .call(d3.axisBottom(x).ticks(data.length).tickFormat(d3.timeFormat("%d %b")));
     return x;
   };
 
@@ -70,6 +72,16 @@ const LineChart = () => {
           .x((d) => x(d.date))
           .y((d) => y(d.value))
       );
+  
+    svg
+      .selectAll("circle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("cx", (d) => x(d.date))
+      .attr("cy", (d) => y(d.value))
+      .attr("r", 5)
+      .attr("fill", "red");
   };
 
   const addCursor = (svg, width, height) => {
@@ -85,7 +97,7 @@ const LineChart = () => {
       .attr("height", height)
       .attr("fill", "none")
       .attr("pointer-events", "all")
-      .on("mousemove", function(event) {
+      .on("mousemove", function (event) {
         const mouseX = d3.pointer(event, this)[0];
         cursor.attr("x1", mouseX).attr("x2", mouseX);
       });
