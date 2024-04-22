@@ -69,7 +69,7 @@ const LineChart = () => {
         "d",
         d3
           .line()
-          .x((d) => x(d.date))
+          .x((d) => !isNaN(x(d.date)) ? x(d.date) : 0)
           .y((d) => y(d.value))
       );
   
