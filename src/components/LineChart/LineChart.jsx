@@ -80,7 +80,9 @@ const LineChart = () => {
           .attr("cx", x(d.date))
           .attr("cy", y(d.value))
           .attr("r", 5)
-          .attr("fill", "red");
+          .attr("fill", "white") // set the fill color to white
+          .attr("stroke", "blue") // set the stroke color to blue
+          .attr("stroke-width", 2); // set the stroke width to 2
       }
     });
   };
