@@ -75,10 +75,11 @@ const LineChart = ({ data }) => {
           .y((d) => y(d.value))
       );
 
-    data.forEach((d) => {
+    data.forEach((d, i) => {
       if (!isNaN(x(d.date))) {
         svg
           .append("circle")
+          .attr("class", `point-${i}`) // add a unique class
           .attr("cx", x(d.date))
           .attr("cy", y(d.value))
           .attr("r", 5)
@@ -109,7 +110,7 @@ const LineChart = ({ data }) => {
           const validData = parsedData.filter((d) => {
             // console.log(d.date);
             return !isNaN(xScale(d.date));
-          }); 
+          });
           // console.log(validData.length, data.length);
           const closestPoint = d3.least(validData, (d) =>
             Math.abs(xScale(d.date) - mouseX)
@@ -117,6 +118,13 @@ const LineChart = ({ data }) => {
           if (closestPoint) {
             const closestX = xScale(closestPoint.date);
             cursor.attr("x1", closestX).attr("x2", closestX);
+            // Reset all points to white
+            svg.selectAll("circle").attr("fill", "white");
+            // Find the index of the closest point
+            const closestIndex = parsedData.indexOf(closestPoint);
+
+            // Change the fill color of the closest point
+            svg.select(`.point-${closestIndex}`).attr("fill", "blue");
           }
         }
       });
