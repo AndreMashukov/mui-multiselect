@@ -39,7 +39,7 @@ const LineChart = () => {
     const margin = { top: 10, right: 30, bottom: 30, left: 60 };
     const innerHeight = height - margin.top - margin.bottom;
     const innerWidth = width - margin.left - margin.right;
-  
+
     const x = d3
       .scaleTime()
       .domain(d3.extent(data, (d) => d.date))
@@ -48,7 +48,9 @@ const LineChart = () => {
     svg
       .append("g")
       .attr("transform", "translate(0," + innerHeight + ")")
-      .call(d3.axisBottom(x).ticks(data.length).tickFormat(d3.timeFormat("%d %b")));
+      .call(
+        d3.axisBottom(x).ticks(data.length).tickFormat(d3.timeFormat("%d %b"))
+      );
     return x;
   };
 
@@ -69,10 +71,10 @@ const LineChart = () => {
         "d",
         d3
           .line()
-          .x((d) => !isNaN(x(d.date)) ? x(d.date) : 0)
+          .x((d) => (!isNaN(x(d.date)) ? x(d.date) : 0))
           .y((d) => y(d.value))
       );
-  
+
     data.forEach((d) => {
       if (!isNaN(x(d.date))) {
         svg
@@ -87,14 +89,16 @@ const LineChart = () => {
     });
   };
 
-  const addCursor = (svg, width, height) => {
+  const addCursor = (svg, width, height, xScale) => {
     const cursor = svg
       .append("line")
       .attr("stroke", "black")
       .attr("stroke-dasharray", "5,5") // make the line dashed
       .attr("y1", 0)
       .attr("y2", height);
-  
+
+    const xValues = data.map((d) => xScale(d.date));
+
     svg
       .append("rect")
       .attr("width", width)
@@ -103,7 +107,12 @@ const LineChart = () => {
       .attr("pointer-events", "all")
       .on("mousemove", function (event) {
         const mouseX = d3.pointer(event, this)[0];
-        cursor.attr("x1", mouseX).attr("x2", mouseX);
+        const closest = d3.least(xValues, (d) => Math.abs(d - mouseX));
+        if (closest) {
+          cursor.attr("x1", closest).attr("x2", closest);
+        } else {
+          cursor.attr("x1", mouseX).attr("x2", mouseX);
+        }
       });
   };
 
@@ -113,7 +122,7 @@ const LineChart = () => {
     const x = addXAxis(svg, parsedData, WIDTH, HEIGHT);
     const y = addYAxis(svg, HEIGHT);
     addLine(svg, parsedData, x, y);
-    addCursor(svg, WIDTH, HEIGHT);
+    addCursor(svg, WIDTH, HEIGHT, x);
   };
 
   useEffect(() => {
