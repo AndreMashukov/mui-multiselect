@@ -1,27 +1,27 @@
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
-
-// Sample data
-const data = [
-  { date: "1 Jan 2000", value: 100 },
-  { date: "1 Feb 2000", value: 120 },
-  { date: "1 Mar 2000", value: 140 },
-  { date: "1 Apr 2000", value: 130 },
-  { date: "1 May 2000", value: 150 },
-];
+import PropTypes from "prop-types";
 
 const HEIGHT = 600;
 const WIDTH = 600;
 
-const LineChart = () => {
+// [
+//   { date: "1 Jan 2000", value: 100 },
+//   { date: "1 Feb 2000", value: 120 },
+//   { date: "1 Mar 2000", value: 140 },
+//   { date: "1 Apr 2000", value: 130 },
+//   { date: "1 May 2000", value: 150 },
+// ]
+
+const LineChart = ({ data }) => {
   const svgRef = useRef();
 
   const parseData = (data) => {
     const parseDate = d3.timeParse("%d %b %Y");
-    data.forEach((d) => {
-      d.date = parseDate(d.date);
-    });
-    return data;
+    return data.map((d) => ({
+      ...d,
+      date: parseDate(d.date),
+    }));
   };
 
   const createSvg = (ref, width, height) => {
@@ -89,15 +89,13 @@ const LineChart = () => {
     });
   };
 
-  const addCursor = (svg, width, height, xScale) => {
+  const addCursor = (svg, width, height, parsedData, xScale) => {
     const cursor = svg
       .append("line")
       .attr("stroke", "black")
       .attr("stroke-dasharray", "5,5") // make the line dashed
       .attr("y1", 0)
       .attr("y2", height);
-
-    const xValues = data.map((d) => xScale(d.date));
 
     svg
       .append("rect")
@@ -106,23 +104,32 @@ const LineChart = () => {
       .attr("fill", "none")
       .attr("pointer-events", "all")
       .on("mousemove", function (event) {
-        const mouseX = d3.pointer(event, this)[0];
-        const closest = d3.least(xValues, (d) => Math.abs(d - mouseX));
-        if (closest) {
-          cursor.attr("x1", closest).attr("x2", closest);
-        } else {
-          cursor.attr("x1", mouseX).attr("x2", mouseX);
+        if (data && data.length > 0) {
+          const mouseX = d3.pointer(event, this)[0];
+          const validData = parsedData.filter((d) => {
+            // console.log(d.date);
+            return !isNaN(xScale(d.date));
+          }); 
+          // console.log(validData.length, data.length);
+          const closestPoint = d3.least(validData, (d) =>
+            Math.abs(xScale(d.date) - mouseX)
+          );
+          if (closestPoint) {
+            const closestX = xScale(closestPoint.date);
+            cursor.attr("x1", closestX).attr("x2", closestX);
+          }
         }
       });
   };
 
   const initChart = () => {
     const parsedData = parseData(data);
+    // console.log({ parsedData })
     const svg = createSvg(svgRef.current, WIDTH, HEIGHT);
     const x = addXAxis(svg, parsedData, WIDTH, HEIGHT);
     const y = addYAxis(svg, HEIGHT);
     addLine(svg, parsedData, x, y);
-    addCursor(svg, WIDTH, HEIGHT, x);
+    addCursor(svg, WIDTH, HEIGHT, parsedData, x);
   };
 
   useEffect(() => {
@@ -133,3 +140,12 @@ const LineChart = () => {
 };
 
 export default LineChart;
+
+LineChart.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      date: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+};
