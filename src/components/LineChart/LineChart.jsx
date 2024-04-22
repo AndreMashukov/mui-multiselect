@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 const HEIGHT = 600;
 const WIDTH = 600;
@@ -15,8 +16,16 @@ const WIDTH = 600;
 
 const LineChart = ({ data }) => {
   const svgRef = useRef();
+  const tooltipRef = useRef();
 
-  const handleMouseMove = ({ event, svg, data, xScale, cursor, parsedData }) => {
+  const handleMouseMove = ({
+    event,
+    svg,
+    data,
+    xScale,
+    cursor,
+    parsedData,
+  }) => {
     if (data && data.length > 0) {
       const mouseX = d3.pointer(event, this)[0];
       const validData = parsedData.filter((d) => {
@@ -37,6 +46,13 @@ const LineChart = ({ data }) => {
 
         // Change the fill color of the closest point
         svg.select(`.point-${closestIndex}`).attr("fill", "blue");
+        // Update the tooltip
+        const tooltip = d3.select(tooltipRef.current);
+        tooltip
+          .style("left", `${event.pageX + 10}px`)
+          .style("top", `${event.pageY - 100}px`)
+          .style("opacity", 1)
+          .text(`Date: ${moment(closestPoint.date).format("DD/MM/YYYY")}, Value: ${closestPoint.value}`);
       }
     }
   };
@@ -155,7 +171,22 @@ const LineChart = ({ data }) => {
     initChart();
   }, []);
 
-  return <svg ref={svgRef}></svg>;
+  return (
+    <>
+      <svg ref={svgRef}></svg>
+      <div
+        ref={tooltipRef}
+        style={{
+          position: "absolute",
+          backgroundColor: "white",
+          padding: "5px",
+          borderRadius: "5px",
+          pointerEvents: "none",
+          opacity: 0,
+        }}
+      ></div>
+    </>
+  );
 };
 
 export default LineChart;
