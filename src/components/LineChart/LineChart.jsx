@@ -16,6 +16,31 @@ const WIDTH = 600;
 const LineChart = ({ data }) => {
   const svgRef = useRef();
 
+  const handleMouseMove = ({ event, svg, data, xScale, cursor, parsedData }) => {
+    if (data && data.length > 0) {
+      const mouseX = d3.pointer(event, this)[0];
+      const validData = parsedData.filter((d) => {
+        // console.log(d.date);
+        return !isNaN(xScale(d.date));
+      });
+      // console.log(validData.length, data.length);
+      const closestPoint = d3.least(validData, (d) =>
+        Math.abs(xScale(d.date) - mouseX)
+      );
+      if (closestPoint) {
+        const closestX = xScale(closestPoint.date);
+        cursor.attr("x1", closestX).attr("x2", closestX);
+        // Reset all points to white
+        svg.selectAll("circle").attr("fill", "white");
+        // Find the index of the closest point
+        const closestIndex = parsedData.indexOf(closestPoint);
+
+        // Change the fill color of the closest point
+        svg.select(`.point-${closestIndex}`).attr("fill", "blue");
+      }
+    }
+  };
+
   const parseData = (data) => {
     const parseDate = d3.timeParse("%d %b %Y");
     return data.map((d) => ({
@@ -104,30 +129,16 @@ const LineChart = ({ data }) => {
       .attr("height", height)
       .attr("fill", "none")
       .attr("pointer-events", "all")
-      .on("mousemove", function (event) {
-        if (data && data.length > 0) {
-          const mouseX = d3.pointer(event, this)[0];
-          const validData = parsedData.filter((d) => {
-            // console.log(d.date);
-            return !isNaN(xScale(d.date));
-          });
-          // console.log(validData.length, data.length);
-          const closestPoint = d3.least(validData, (d) =>
-            Math.abs(xScale(d.date) - mouseX)
-          );
-          if (closestPoint) {
-            const closestX = xScale(closestPoint.date);
-            cursor.attr("x1", closestX).attr("x2", closestX);
-            // Reset all points to white
-            svg.selectAll("circle").attr("fill", "white");
-            // Find the index of the closest point
-            const closestIndex = parsedData.indexOf(closestPoint);
-
-            // Change the fill color of the closest point
-            svg.select(`.point-${closestIndex}`).attr("fill", "blue");
-          }
-        }
-      });
+      .on("mousemove", (event) =>
+        handleMouseMove({
+          event,
+          svg,
+          data: parsedData,
+          xScale,
+          cursor,
+          parsedData,
+        })
+      );
   };
 
   const initChart = () => {
