@@ -89,9 +89,10 @@ const LineChart = () => {
     const cursor = svg
       .append("line")
       .attr("stroke", "black")
+      .attr("stroke-dasharray", "5,5") // make the line dashed
       .attr("y1", 0)
       .attr("y2", height);
-
+  
     svg
       .append("rect")
       .attr("width", width)
