@@ -1,7 +1,9 @@
 import * as d3 from "d3";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { Paper } from "@mui/material";
+import TooltipContent from "./TootipContent/TooltipContent";
 
 const HEIGHT = 600;
 const WIDTH = 600;
@@ -17,6 +19,7 @@ const WIDTH = 600;
 const LineChart = ({ data }) => {
   const svgRef = useRef();
   const tooltipRef = useRef();
+  const [currentPoint, setCurrentPoint] = useState(null);
 
   const handleMouseMove = ({
     event,
@@ -53,13 +56,17 @@ const LineChart = ({ data }) => {
         tooltip;
         tooltip
           .style("left", `${closestX}px`)
-          .style("top", `${closestY}px`)
-          .style("opacity", 1)
-          .text(
-            `Date: ${moment(closestPoint.date).format("DD/MM/YYYY")}, Value: ${
-              closestPoint.value
-            }`
-          );
+          .style("top", `${closestY - 100}px`)
+          .style("opacity", 1);
+        // .text(
+        //   `Date: ${moment(closestPoint.date).format("DD/MM/YYYY")}, Value: ${
+        //     closestPoint.value
+        //   }`
+        // );
+        setCurrentPoint({
+          date: moment(closestPoint.date).format("DD/MM/YYYY"),
+          value: closestPoint.value,
+        });
       }
     }
   };
@@ -153,15 +160,15 @@ const LineChart = ({ data }) => {
       .attr("fill", "none")
       .attr("pointer-events", "all")
       .on("mousemove", (event) =>
-      handleMouseMove({
-        event,
-        svg,
-        data: parsedData,
-        xScale,
-        yScale,
-        cursor,
-        parsedData,
-      })
+        handleMouseMove({
+          event,
+          svg,
+          data: parsedData,
+          xScale,
+          yScale,
+          cursor,
+          parsedData,
+        })
       );
   };
 
@@ -192,7 +199,9 @@ const LineChart = ({ data }) => {
           pointerEvents: "none",
           opacity: 0,
         }}
-      ></div>
+      >
+        <TooltipContent currentPoint={currentPoint} />
+      </div>
     </>
   );
 };
