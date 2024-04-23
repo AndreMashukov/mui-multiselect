@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Paper } from "@mui/material";
+
 import TooltipContent from "./TootipContent/TooltipContent";
 
 const HEIGHT = 600;
@@ -72,10 +72,9 @@ const LineChart = ({ data }) => {
   };
 
   const parseData = (data) => {
-    const parseDate = d3.timeParse("%d %b %Y");
     return data.map((d) => ({
       ...d,
-      date: parseDate(d.date),
+      date: new Date(d.date), // convert the Unix timestamp to a JavaScript Date object
     }));
   };
 
@@ -94,21 +93,22 @@ const LineChart = ({ data }) => {
     const margin = { top: 10, right: 30, bottom: 30, left: 60 };
     const innerHeight = height - margin.top - margin.bottom;
     const innerWidth = width - margin.left - margin.right;
-
+  
     const x = d3
       .scaleTime()
       .domain(d3.extent(data, (d) => d.date))
       .range([0, innerWidth])
       .nice(); // add padding to the scale
+  
     svg
       .append("g")
       .attr("transform", "translate(0," + innerHeight + ")")
       .call(
         d3.axisBottom(x).ticks(data.length).tickFormat(d3.timeFormat("%d %b"))
       );
+  
     return x;
   };
-
   const addYAxis = (svg, height) => {
     const y = d3.scaleLinear().domain([0, 200]).range([height, 0]);
     svg.append("g").call(d3.axisLeft(y));
