@@ -23,6 +23,7 @@ const LineChart = ({ data }) => {
     svg,
     data,
     xScale,
+    yScale,
     cursor,
     parsedData,
   }) => {
@@ -38,6 +39,7 @@ const LineChart = ({ data }) => {
       );
       if (closestPoint) {
         const closestX = xScale(closestPoint.date);
+        const closestY = yScale(closestPoint.value);
         cursor.attr("x1", closestX).attr("x2", closestX);
         // Reset all points to white
         svg.selectAll("circle").attr("fill", "white");
@@ -48,11 +50,16 @@ const LineChart = ({ data }) => {
         svg.select(`.point-${closestIndex}`).attr("fill", "blue");
         // Update the tooltip
         const tooltip = d3.select(tooltipRef.current);
+        tooltip;
         tooltip
-          .style("left", `${event.pageX + 10}px`)
-          .style("top", `${event.pageY - 100}px`)
+          .style("left", `${closestX}px`)
+          .style("top", `${closestY}px`)
           .style("opacity", 1)
-          .text(`Date: ${moment(closestPoint.date).format("DD/MM/YYYY")}, Value: ${closestPoint.value}`);
+          .text(
+            `Date: ${moment(closestPoint.date).format("DD/MM/YYYY")}, Value: ${
+              closestPoint.value
+            }`
+          );
       }
     }
   };
@@ -131,7 +138,7 @@ const LineChart = ({ data }) => {
     });
   };
 
-  const addCursor = (svg, width, height, parsedData, xScale) => {
+  const addCursor = (svg, width, height, parsedData, xScale, yScale) => {
     const cursor = svg
       .append("line")
       .attr("stroke", "black")
@@ -146,14 +153,15 @@ const LineChart = ({ data }) => {
       .attr("fill", "none")
       .attr("pointer-events", "all")
       .on("mousemove", (event) =>
-        handleMouseMove({
-          event,
-          svg,
-          data: parsedData,
-          xScale,
-          cursor,
-          parsedData,
-        })
+      handleMouseMove({
+        event,
+        svg,
+        data: parsedData,
+        xScale,
+        yScale,
+        cursor,
+        parsedData,
+      })
       );
   };
 
@@ -164,7 +172,7 @@ const LineChart = ({ data }) => {
     const x = addXAxis(svg, parsedData, WIDTH, HEIGHT);
     const y = addYAxis(svg, HEIGHT);
     addLine(svg, parsedData, x, y);
-    addCursor(svg, WIDTH, HEIGHT, parsedData, x);
+    addCursor(svg, WIDTH, HEIGHT, parsedData, x, y);
   };
 
   useEffect(() => {
