@@ -22,77 +22,102 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
   const dimensions = useResizeObserver(wrapperRef);
   const [currentZoomState, setCurrentZoomState] = useState();
 
+  // ...
+
+// scales + line generator
+const createScales = (data, dimensions, currentZoomState) => {
+  const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
+  let xScale = scaleLinear()
+    .domain([0, data.length - 1])
+    .range([10, width - 10]);
+
+  if (currentZoomState) {
+    const newXScale = currentZoomState.rescaleX(xScale);
+    xScale.domain(newXScale.domain());
+  }
+
+  const yScale = scaleLinear()
+    .domain([0, max(data)])
+    .range([height - 10, 10]);
+
+  return { xScale, yScale };
+};
+
+const createLineGenerator = (xScale, yScale) => {
+  return line()
+    .x((d, index) => xScale(index))
+    .y((d) => yScale(d))
+    .curve(curveCardinal);
+};
+
+const renderLine = (svgContent, data, lineGenerator) => {
+  svgContent
+    .selectAll(".myLine")
+    .data([data])
+    .join("path")
+    .attr("class", "myLine")
+    .attr("stroke", "black")
+    .attr("fill", "none")
+    .attr("d", lineGenerator);
+};
+
+const renderDots = (svgContent, data, xScale, yScale) => {
+  svgContent
+    .selectAll(".myDot")
+    .data(data)
+    .join("circle")
+    .attr("class", "myDot")
+    .attr("stroke", "black")
+    .attr("r", 4)
+    .attr("fill", "orange")
+    .attr("cx", (value, index) => xScale(index))
+    .attr("cy", yScale);
+};
+
+const createAxes = (svg, xScale, yScale, height) => {
+  const xAxis = axisBottom(xScale);
+  svg
+    .select(".x-axis")
+    .attr("transform", `translate(0, ${height})`)
+    .call(xAxis);
+
+  const yAxis = axisLeft(yScale);
+  svg.select(".y-axis").call(yAxis);
+};
+
+const createZoomBehavior = (svg, xScale, width, height, setCurrentZoomState) => {
+  const zoomBehavior = zoom()
+    .scaleExtent([0.5, 5])
+    .translateExtent([
+      [0, 0],
+      [width, height],
+    ])
+    .on("zoom", (event) => {
+      const zoomState = event.transform;
+      setCurrentZoomState(zoomState);
+    });
+
+  svg.call(zoomBehavior);
+};
+
+// ...
   // will be called initially and on every data change
-  useEffect(() => {
-    const svg = select(svgRef.current);
-    const svgContent = svg.select(".content");
-    const { width, height } =
-      dimensions || wrapperRef.current.getBoundingClientRect();
+useEffect(() => {
+  if (!dimensions) return;
+  const svg = select(svgRef.current);
+  const svgContent = svg.select(".content");
 
-    // scales + line generator
-    const xScale = scaleLinear()
-      .domain([0, data.length - 1])
-      .range([10, width - 10]);
+  const { xScale, yScale } = createScales(data, dimensions, currentZoomState);
+  const lineGenerator = createLineGenerator(xScale, yScale);
 
-    if (currentZoomState) {
-      const newXScale = currentZoomState.rescaleX(xScale);
-      xScale.domain(newXScale.domain());
-    }
+  renderLine(svgContent, data, lineGenerator);
+  renderDots(svgContent, data, xScale, yScale);
+  createAxes(svg, xScale, yScale, dimensions.height);
+  createZoomBehavior(svg, xScale, dimensions.width, dimensions.height, setCurrentZoomState);
+}, [currentZoomState, data, dimensions]);
 
-    const yScale = scaleLinear()
-      .domain([0, max(data)])
-      .range([height - 10, 10]);
 
-    const lineGenerator = line()
-      .x((d, index) => xScale(index))
-      .y((d) => yScale(d))
-      .curve(curveCardinal);
 
-    // render the line
-    svgContent
-      .selectAll(".myLine")
-      .data([data])
-      .join("path")
-      .attr("class", "myLine")
-      .attr("stroke", "black")
-      .attr("fill", "none")
-      .attr("d", lineGenerator);
-
-    svgContent
-      .selectAll(".myDot")
-      .data(data)
-      .join("circle")
-      .attr("class", "myDot")
-      .attr("stroke", "black")
-      .attr("r", 4)
-      .attr("fill", "orange")
-      .attr("cx", (value, index) => xScale(index))
-      .attr("cy", yScale);
-
-    // axes
-    const xAxis = axisBottom(xScale);
-    svg
-      .select(".x-axis")
-      .attr("transform", `translate(0, ${height})`)
-      .call(xAxis);
-
-    const yAxis = axisLeft(yScale);
-    svg.select(".y-axis").call(yAxis);
-
-    // zoom
-    const zoomBehavior = zoom()
-      .scaleExtent([0.5, 5])
-      .translateExtent([
-        [0, 0],
-        [width, height],
-      ])
-      .on("zoom", (event) => {
-        const zoomState = event.transform;
-        setCurrentZoomState(zoomState);
-      });
-
-    svg.call(zoomBehavior);
-  }, [currentZoomState, data, dimensions]);
 
   return (
     <React.Fragment>
