@@ -8,6 +8,7 @@ import { DatepickerView } from "./views/DatepickerView";
 import { RangePickerView } from "./views/RangePickerView";
 import { CustomSelectView } from "./views/CustomSelectView";
 import LineChartView from "./views/LineChartView";
+import ZoomableLineChartView from "./views/ZoomableLineChartView";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
           {/* <DatepickerView /> */}
           {/* <RangePickerView /> */}
           {/* <CustomSelectView /> */}
-          <LineChartView />
+          {/* <LineChartView /> */}
+          <ZoomableLineChartView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>

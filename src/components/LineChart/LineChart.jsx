@@ -20,6 +20,7 @@ const LineChart = ({ data }) => {
   const svgRef = useRef();
   const tooltipRef = useRef();
   const [currentPoint, setCurrentPoint] = useState(null);
+  const [currentZoomState, setCurrentZoomState] = useState();
 
   const handleMouseMove = ({
     event,
@@ -93,20 +94,20 @@ const LineChart = ({ data }) => {
     const margin = { top: 10, right: 30, bottom: 30, left: 60 };
     const innerHeight = height - margin.top - margin.bottom;
     const innerWidth = width - margin.left - margin.right;
-  
+
     const x = d3
       .scaleTime()
       .domain(d3.extent(data, (d) => d.date))
       .range([0, innerWidth])
       .nice(); // add padding to the scale
-  
+
     svg
       .append("g")
       .attr("transform", "translate(0," + innerHeight + ")")
       .call(
         d3.axisBottom(x).ticks(data.length).tickFormat(d3.timeFormat("%d %b"))
       );
-  
+
     return x;
   };
   const addYAxis = (svg, height) => {
@@ -180,11 +181,43 @@ const LineChart = ({ data }) => {
     const y = addYAxis(svg, HEIGHT);
     addLine(svg, parsedData, x, y);
     addCursor(svg, WIDTH, HEIGHT, parsedData, x, y);
+
+    const zoom = d3
+      .zoom()
+      .scaleExtent([1, 10]) // limit the zoom scale between 1x and 10x
+      .translateExtent([
+        [0, 0],
+        [WIDTH, HEIGHT],
+      ]) // limit the panning to the size of the SVG
+      .on("zoom", () => {
+        // console.log("zoom")
+        // apply the zoom transformation to the SVG group
+        const zoomState = d3.zoomTransform(svg.node());
+        setCurrentZoomState(zoomState);
+        // console.log(zoomState);
+
+        // g.attr("transform", zoomState);
+      });
+
+      if (currentZoomState) {
+        const newScaleX = currentZoomState.rescaleX(x);
+        // console.log(x.domain(), newScaleX.domain());
+        x.domain(newScaleX.domain());
+      }
+
+    // Apply the zoom behavior to the group
+    svg.call(zoom);
   };
 
   useEffect(() => {
     initChart();
-  }, []);
+  }, [currentZoomState]);
+
+  // useEffect(() => {
+  //   if (currentZoomState) {
+
+  //   }
+  // }, [currentZoomState]);
 
   return (
     <>
