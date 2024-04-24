@@ -55,6 +55,18 @@ const ZoomableLineChart = () => {
     return { x, y, xAxis, yAxis };
   };
 
+  const addClipping = (svg) => {
+    svg
+      .append("defs")
+      .append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("x", 0)
+      .attr("y", 0);
+  };
+
   useEffect(() => {
     d3.select(ref.current).selectAll("*").remove();
 
@@ -67,15 +79,7 @@ const ZoomableLineChart = () => {
       }
     ).then(function (data) {
       const { x, y, xAxis } = createAxes(svg, data);
-      const clip = svg
-        .append("defs")
-        .append("svg:clipPath")
-        .attr("id", "clip")
-        .append("svg:rect")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("x", 0)
-        .attr("y", 0);
+      addClipping(svg);
 
       const brush = d3
         .brushX()
