@@ -3,6 +3,9 @@ import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import useResizeObserver from "../../hooks/useResizeObserver";
 
+const HEIGHT = 400;
+const WIDTH = 600;
+
 function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
@@ -10,8 +13,15 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
   const [currentZoomState, setCurrentZoomState] = useState();
 
   const selectSvgContent = (svgRef) => {
-    const svg = d3.select(svgRef.current);
+    const margin = { top: 10, right: 30, bottom: 30, left: 60 };
+    const svg = d3
+      .select(svgRef.current)
+      .attr("width", WIDTH)
+      .attr("height", HEIGHT)
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
     const svgContent = svg.select(".content");
+
     return { svg, svgContent };
   };
 
