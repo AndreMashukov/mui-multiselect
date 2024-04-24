@@ -6,13 +6,11 @@ const HEIGHT = 400;
 
 const ZoomableLineChart = () => {
   const ref = useRef();
+  const margin = { top: 10, right: 30, bottom: 30, left: 60 };
+  const width = WIDTH - margin.left - margin.right;
+  const height = HEIGHT - margin.top - margin.bottom;
 
-  useEffect(() => {
-    d3.select(ref.current).selectAll("*").remove();
-    const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      width = WIDTH - margin.left - margin.right,
-      height = HEIGHT - margin.top - margin.bottom;
-
+  const createSvg = (ref) => {
     const svg = d3
       .select(ref.current)
       .append("svg")
@@ -21,6 +19,16 @@ const ZoomableLineChart = () => {
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+    return svg;
+  };
+
+  const svg = createSvg(ref, WIDTH, HEIGHT);
+
+  useEffect(() => {
+    d3.select(ref.current).selectAll("*").remove();
+
+    const svg = createSvg(ref);
+    
     d3.csv(
       "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
       function (d) {
