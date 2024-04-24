@@ -19,7 +19,7 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
       .attr("width", WIDTH)
       .attr("height", HEIGHT)
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
+
     const svgContent = svg.select(".content");
 
     return { svg, svgContent };
@@ -42,7 +42,7 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
     const yScale = d3
       .scaleLinear()
       .domain([0, d3.max(data)])
-      .range([height - 10, 10]);
+      .range([height - 60, 10]); // adjust the range here
 
     return { xScale, yScale };
   };
@@ -87,8 +87,7 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
       .call(xAxis);
 
     const yAxis = d3.axisLeft(yScale);
-    svg.select(".y-axis")
-    .call(yAxis);
+    svg.select(".y-axis").call(yAxis);
   };
 
   const createZoomBehavior = (
