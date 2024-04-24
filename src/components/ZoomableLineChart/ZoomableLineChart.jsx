@@ -32,7 +32,7 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
     let xScale = d3
       .scaleLinear()
       .domain([0, data.length - 1])
-      .range([10, width - 10]);
+      .range([60, width - 10]); // start range from 60
 
     if (currentZoomState) {
       const newXScale = currentZoomState.rescaleX(xScale);
@@ -42,11 +42,10 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
     const yScale = d3
       .scaleLinear()
       .domain([0, d3.max(data)])
-      .range([height - 60, 10]); // adjust the range here
+      .range([height - 60, 10]);
 
     return { xScale, yScale };
   };
-
   const createLineGenerator = (xScale, yScale) => {
     return d3
       .line()
@@ -85,9 +84,12 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
       .select(".x-axis")
       .attr("transform", `translate(0, ${HEIGHT - 50})`)
       .call(xAxis);
-
+  
     const yAxis = d3.axisLeft(yScale);
-    svg.select(".y-axis").call(yAxis);
+    svg
+      .select(".y-axis")
+      .attr("transform", `translate(60, 0)`) // translate y-axis to the right by the left margin
+      .call(yAxis);
   };
 
   const createZoomBehavior = (
@@ -101,17 +103,16 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
       .zoom()
       .scaleExtent([0.5, 5])
       .translateExtent([
-        [0, 0],
-        [width, height],
+        [0, -Infinity], // minimum x is 0, minimum y is negative infinity
+        [width, Infinity], // maximum x is width, maximum y is infinity
       ])
       .on("zoom", (event) => {
         const zoomState = event.transform;
         setCurrentZoomState(zoomState);
       });
-
+  
     svg.call(zoomBehavior);
   };
-
   // ...
   // will be called initially and on every data change
   useEffect(() => {
