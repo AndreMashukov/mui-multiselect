@@ -9,9 +9,13 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
   const dimensions = useResizeObserver(wrapperRef);
   const [currentZoomState, setCurrentZoomState] = useState();
 
-  // ...
+  const selectSvgContent = (svgRef) => {
+    const svg = d3.select(svgRef.current);
+    const svgContent = svg.select(".content");
+    return { svg, svgContent };
+  };
 
-  // scales + line generator
+  // scales
   const createScales = (data, dimensions, currentZoomState) => {
     const { width, height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
@@ -102,8 +106,7 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
   // will be called initially and on every data change
   useEffect(() => {
     if (!dimensions) return;
-    const svg = d3.select(svgRef.current);
-    const svgContent = svg.select(".content");
+    const { svg, svgContent } = selectSvgContent(svgRef);
 
     const { xScale, yScale } = createScales(data, dimensions, currentZoomState);
     const lineGenerator = createLineGenerator(xScale, yScale);
