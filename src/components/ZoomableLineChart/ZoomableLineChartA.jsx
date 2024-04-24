@@ -71,6 +71,60 @@ const ZoomableLineChart = () => {
       .attr("y", 0);
   };
 
+  const createLine = (svg, data, x, y) => {
+    const line = svg.append("g").attr("clip-path", "url(#clip)");
+
+    line
+      .append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x(d.date);
+          })
+          .y(function (d) {
+            return y(d.value);
+          })
+      );
+
+    return line;
+  };
+
+  function updateChart(event, x, y, xAxis, line, brush) {
+    const extent = event.selection;
+
+    if (!extent) {
+      if (!idleTimeout) return (idleTimeout = setTimeout(idled, 350));
+      x.domain([4, 8]);
+    } else {
+      x.domain([x.invert(extent[0]), x.invert(extent[1])]);
+      line.select(".brush").call(brush.move, null);
+    }
+
+    xAxis.transition().duration(1000).call(d3.axisBottom(x));
+    line
+      .select(".line")
+      .transition()
+      .duration(1000)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x(d.date);
+          })
+          .y(function (d) {
+            return y(d.value);
+          })
+      );
+  }
+
   useEffect(() => {
     d3.select(ref.current).selectAll("*").remove();
 
@@ -85,65 +139,16 @@ const ZoomableLineChart = () => {
       const { x, y, xAxis } = createAxes(svg, data);
       addClipping(svg);
 
-      const brush = d3
-        .brushX()
-        .extent([
-          [0, 0],
-          [width, height],
-        ])
-        .on("end", updateChart);
+      const brush = d3.brushX().extent([
+        [0, 0],
+        [width, height],
+      ]);
 
-      const line = svg.append("g").attr("clip-path", "url(#clip)");
-
-      line
-        .append("path")
-        .datum(data)
-        .attr("class", "line")
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr(
-          "d",
-          d3
-            .line()
-            .x(function (d) {
-              return x(d.date);
-            })
-            .y(function (d) {
-              return y(d.value);
-            })
-        );
+      brush.on("end", (event) => updateChart(event, x, y, xAxis, line, brush));
+      
+      const line = createLine(svg, data, x, y);
 
       line.append("g").attr("class", "brush").call(brush);
-
-      function updateChart(event, d) {
-        const extent = event.selection;
-
-        if (!extent) {
-          if (!idleTimeout) return (idleTimeout = setTimeout(idled, 350));
-          x.domain([4, 8]);
-        } else {
-          x.domain([x.invert(extent[0]), x.invert(extent[1])]);
-          line.select(".brush").call(brush.move, null);
-        }
-
-        xAxis.transition().duration(1000).call(d3.axisBottom(x));
-        line
-          .select(".line")
-          .transition()
-          .duration(1000)
-          .attr(
-            "d",
-            d3
-              .line()
-              .x(function (d) {
-                return x(d.date);
-              })
-              .y(function (d) {
-                return y(d.value);
-              })
-          );
-      }
 
       svg.on("dblclick", function () {
         x.domain(
