@@ -72,7 +72,7 @@ const ZoomableLineChart = () => {
       .attr("y", 0);
   };
 
-  const handleChartDobleClick = (data, x, y, xAxis, line) => {
+  const handleChartDoubleClick = (data, x, y, xAxis, line) => {
     x.domain(
       d3.extent(data, function (d) {
         return d.date;
@@ -95,7 +95,7 @@ const ZoomableLineChart = () => {
       );
   };
 
-  const updateChart = (event, d, x, y, svg, brush) => {
+  const handleBrushEnd = (event, d, x, y, svg, brush) => {
     const extent = event.selection;
 
     if (!extent) {
@@ -131,7 +131,7 @@ const ZoomableLineChart = () => {
         [0, 0],
         [width, height],
       ])
-      .on("end", (e, d) => updateChart(e, d, x, y, svg, brush));
+      .on("end", (e, d) => handleBrushEnd(e, d, x, y, svg, brush));
 
     line.append("g").attr("class", "brush").call(brush);
   };
@@ -159,7 +159,7 @@ const ZoomableLineChart = () => {
       );
 
     createBrush(x, y, svg, line);
-    svg.on("dblclick", () => handleChartDobleClick(data, x, y, xAxis, line));
+    svg.on("dblclick", () => handleChartDoubleClick(data, x, y, xAxis, line));
   };
 
   useEffect(() => {
