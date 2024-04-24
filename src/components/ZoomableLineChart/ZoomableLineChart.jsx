@@ -1,20 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useEffect, useState } from "react";
-import {
-  select,
-  scaleLinear,
-  line,
-  max,
-  curveCardinal,
-  axisBottom,
-  axisLeft,
-  zoom,
-} from "d3";
+import * as d3 from "d3";
 import useResizeObserver from "../../hooks/useResizeObserver";
-
-/**
- * Component that renders a ZoomableLineChart
- */
 
 function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
   const svgRef = useRef();
@@ -24,100 +11,114 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
 
   // ...
 
-// scales + line generator
-const createScales = (data, dimensions, currentZoomState) => {
-  const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
-  let xScale = scaleLinear()
-    .domain([0, data.length - 1])
-    .range([10, width - 10]);
+  // scales + line generator
+  const createScales = (data, dimensions, currentZoomState) => {
+    const { width, height } =
+      dimensions || wrapperRef.current.getBoundingClientRect();
+    let xScale = d3
+      .scaleLinear()
+      .domain([0, data.length - 1])
+      .range([10, width - 10]);
 
-  if (currentZoomState) {
-    const newXScale = currentZoomState.rescaleX(xScale);
-    xScale.domain(newXScale.domain());
-  }
+    if (currentZoomState) {
+      const newXScale = currentZoomState.rescaleX(xScale);
+      xScale.domain(newXScale.domain());
+    }
 
-  const yScale = scaleLinear()
-    .domain([0, max(data)])
-    .range([height - 10, 10]);
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(data)])
+      .range([height - 10, 10]);
 
-  return { xScale, yScale };
-};
+    return { xScale, yScale };
+  };
 
-const createLineGenerator = (xScale, yScale) => {
-  return line()
-    .x((d, index) => xScale(index))
-    .y((d) => yScale(d))
-    .curve(curveCardinal);
-};
+  const createLineGenerator = (xScale, yScale) => {
+    return d3
+      .line()
+      .x((d, index) => xScale(index))
+      .y((d) => yScale(d))
+      .curve(d3.curveCardinal);
+  };
 
-const renderLine = (svgContent, data, lineGenerator) => {
-  svgContent
-    .selectAll(".myLine")
-    .data([data])
-    .join("path")
-    .attr("class", "myLine")
-    .attr("stroke", "black")
-    .attr("fill", "none")
-    .attr("d", lineGenerator);
-};
+  const renderLine = (svgContent, data, lineGenerator) => {
+    svgContent
+      .selectAll(".myLine")
+      .data([data])
+      .join("path")
+      .attr("class", "myLine")
+      .attr("stroke", "black")
+      .attr("fill", "none")
+      .attr("d", lineGenerator);
+  };
 
-const renderDots = (svgContent, data, xScale, yScale) => {
-  svgContent
-    .selectAll(".myDot")
-    .data(data)
-    .join("circle")
-    .attr("class", "myDot")
-    .attr("stroke", "black")
-    .attr("r", 4)
-    .attr("fill", "orange")
-    .attr("cx", (value, index) => xScale(index))
-    .attr("cy", yScale);
-};
+  const renderDots = (svgContent, data, xScale, yScale) => {
+    svgContent
+      .selectAll(".myDot")
+      .data(data)
+      .join("circle")
+      .attr("class", "myDot")
+      .attr("stroke", "black")
+      .attr("r", 4)
+      .attr("fill", "orange")
+      .attr("cx", (value, index) => xScale(index))
+      .attr("cy", yScale);
+  };
 
-const createAxes = (svg, xScale, yScale, height) => {
-  const xAxis = axisBottom(xScale);
-  svg
-    .select(".x-axis")
-    .attr("transform", `translate(0, ${height})`)
-    .call(xAxis);
+  const createAxes = (svg, xScale, yScale, height) => {
+    const xAxis = d3.axisBottom(xScale);
+    svg
+      .select(".x-axis")
+      .attr("transform", `translate(0, ${height})`)
+      .call(xAxis);
 
-  const yAxis = axisLeft(yScale);
-  svg.select(".y-axis").call(yAxis);
-};
+    const yAxis = d3.axisLeft(yScale);
+    svg.select(".y-axis").call(yAxis);
+  };
 
-const createZoomBehavior = (svg, xScale, width, height, setCurrentZoomState) => {
-  const zoomBehavior = zoom()
-    .scaleExtent([0.5, 5])
-    .translateExtent([
-      [0, 0],
-      [width, height],
-    ])
-    .on("zoom", (event) => {
-      const zoomState = event.transform;
-      setCurrentZoomState(zoomState);
-    });
+  const createZoomBehavior = (
+    svg,
+    xScale,
+    width,
+    height,
+    setCurrentZoomState
+  ) => {
+    const zoomBehavior = d3
+      .zoom()
+      .scaleExtent([0.5, 5])
+      .translateExtent([
+        [0, 0],
+        [width, height],
+      ])
+      .on("zoom", (event) => {
+        const zoomState = event.transform;
+        setCurrentZoomState(zoomState);
+      });
 
-  svg.call(zoomBehavior);
-};
+    svg.call(zoomBehavior);
+  };
 
-// ...
+  // ...
   // will be called initially and on every data change
-useEffect(() => {
-  if (!dimensions) return;
-  const svg = select(svgRef.current);
-  const svgContent = svg.select(".content");
+  useEffect(() => {
+    if (!dimensions) return;
+    const svg = d3.select(svgRef.current);
+    const svgContent = svg.select(".content");
 
-  const { xScale, yScale } = createScales(data, dimensions, currentZoomState);
-  const lineGenerator = createLineGenerator(xScale, yScale);
+    const { xScale, yScale } = createScales(data, dimensions, currentZoomState);
+    const lineGenerator = createLineGenerator(xScale, yScale);
 
-  renderLine(svgContent, data, lineGenerator);
-  renderDots(svgContent, data, xScale, yScale);
-  createAxes(svg, xScale, yScale, dimensions.height);
-  createZoomBehavior(svg, xScale, dimensions.width, dimensions.height, setCurrentZoomState);
-}, [currentZoomState, data, dimensions]);
-
-
-
+    renderLine(svgContent, data, lineGenerator);
+    renderDots(svgContent, data, xScale, yScale);
+    createAxes(svg, xScale, yScale, dimensions.height);
+    createZoomBehavior(
+      svg,
+      xScale,
+      dimensions.width,
+      dimensions.height,
+      setCurrentZoomState
+    );
+  }, [currentZoomState, data, dimensions]);
 
   return (
     <React.Fragment>
