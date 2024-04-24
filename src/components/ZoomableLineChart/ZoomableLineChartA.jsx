@@ -125,6 +125,36 @@ const ZoomableLineChart = () => {
       );
   }
 
+  const handleChartDoubleClick = (data, x, y, xAxis, line) => {
+    x.domain(
+      d3.extent(data, function (d) {
+        return d.date;
+      })
+    );
+    xAxis.transition().call(d3.axisBottom(x));
+    line
+      .select(".line")
+      .transition()
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x(d.date);
+          })
+          .y(function (d) {
+            return y(d.value);
+          })
+      );
+  };
+
+  const createBrush = () => {
+    return d3.brushX().extent([
+      [0, 0],
+      [width, height],
+    ]);
+  };
+
   useEffect(() => {
     d3.select(ref.current).selectAll("*").remove();
 
@@ -139,39 +169,12 @@ const ZoomableLineChart = () => {
       const { x, y, xAxis } = createAxes(svg, data);
       addClipping(svg);
 
-      const brush = d3.brushX().extent([
-        [0, 0],
-        [width, height],
-      ]);
-
       const line = createLine(svg, data, x, y);
+      const brush = createBrush();
 
       brush.on("end", (event) => updateChart(event, x, y, xAxis, line, brush));
-
       line.append("g").attr("class", "brush").call(brush);
-
-      svg.on("dblclick", function () {
-        x.domain(
-          d3.extent(data, function (d) {
-            return d.date;
-          })
-        );
-        xAxis.transition().call(d3.axisBottom(x));
-        line
-          .select(".line")
-          .transition()
-          .attr(
-            "d",
-            d3
-              .line()
-              .x(function (d) {
-                return x(d.date);
-              })
-              .y(function (d) {
-                return y(d.value);
-              })
-          );
-      });
+      svg.on("dblclick", () => handleChartDoubleClick(data, x, y, xAxis, line));
     });
   }, []);
 
