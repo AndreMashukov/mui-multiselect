@@ -9,6 +9,10 @@ const ZoomableLineChart = () => {
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const width = WIDTH - margin.left - margin.right;
   const height = HEIGHT - margin.top - margin.bottom;
+  let idleTimeout;
+  function idled() {
+    idleTimeout = null;
+  }
 
   const createSvg = (ref) => {
     const svg = d3
@@ -111,11 +115,6 @@ const ZoomableLineChart = () => {
         );
 
       line.append("g").attr("class", "brush").call(brush);
-
-      let idleTimeout;
-      function idled() {
-        idleTimeout = null;
-      }
 
       function updateChart(event, d) {
         const extent = event.selection;
