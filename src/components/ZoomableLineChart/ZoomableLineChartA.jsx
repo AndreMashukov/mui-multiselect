@@ -144,9 +144,9 @@ const ZoomableLineChart = () => {
         [width, height],
       ]);
 
-      brush.on("end", (event) => updateChart(event, x, y, xAxis, line, brush));
-      
       const line = createLine(svg, data, x, y);
+
+      brush.on("end", (event) => updateChart(event, x, y, xAxis, line, brush));
 
       line.append("g").attr("class", "brush").call(brush);
 
