@@ -79,15 +79,16 @@ function ZoomableLineChart({ data, id = "myZoomableLineChart" }) {
       .attr("cy", yScale);
   };
 
-  const createAxes = (svg, xScale, yScale, height) => {
+  const createAxes = (svg, xScale, yScale) => {
     const xAxis = d3.axisBottom(xScale);
     svg
       .select(".x-axis")
-      .attr("transform", `translate(0, ${height})`)
+      .attr("transform", `translate(0, ${HEIGHT - 50})`)
       .call(xAxis);
 
     const yAxis = d3.axisLeft(yScale);
-    svg.select(".y-axis").call(yAxis);
+    svg.select(".y-axis")
+    .call(yAxis);
   };
 
   const createZoomBehavior = (
