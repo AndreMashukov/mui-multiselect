@@ -201,7 +201,7 @@ const ZoomableLineChart = ({ data }) => {
     focusText
       .html(
         "x:" +
-          moment(selectedData.date).format("DD/MM/YYYY") +
+          moment(selectedData.date).format("DD/MM/YYYY HH:mm") +
           "  -  " +
           "y:" +
           selectedData.value

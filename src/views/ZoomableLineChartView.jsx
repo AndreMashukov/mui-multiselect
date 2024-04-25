@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ZoomableLineChartA from "../components/ZoomableLineChart/ZoomableLineChartA";
 import SelectorSecondary from "../components/SelectorSecondary/SelectorSecondary";
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
+import moment from "moment";
 
 const TIME_SCALE_STEPS_MS = [
   { name: "1 hour", value: 3600000 },
@@ -29,10 +30,10 @@ const ZoomableLineChartView = () => {
   const [selectedOption, setSelectedOption] = useState();
 
   const selectorOptions = [
-    { id: "day", label: "1 day" },
-    { id: "week", label: "1 week" },
-    { id: "month", label: "1 month" },
-    { id: "year", label: "1 year" },
+    { id: "day", label: "1 day", value: 86400000 },
+    { id: "week", label: "1 week", value: 604800000 },
+    { id: "month", label: "1 month", value: 2628000000 },
+    { id: "year", label: "1 year", value: 31540000000 },
   ];
 
   const [timeScaleStep, setTimeScaleStep] = useState(
@@ -45,21 +46,33 @@ const ZoomableLineChartView = () => {
     setTimeScaleStep(event.target.value);
   };
 
-  // const getData = () => {
-  //   d3.csv(
-  //     "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
-  //     function (d) {
-  //       return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value };
-  //     }
-  //   ).then(function (data) {
-  //     setData(data);
-  //     console.log(generateData());
-  //   });
-  // };
   const getData = () => {
     const newData = generateData(timeScaleStep);
     // console.log(timeScaleStep, newData.length);
     setData(newData);
+  };
+
+  // data format:
+  // date:  Thu Feb 29 2024 20:30:22 GMT+0800 (Hong Kong Standard Time) {}
+  // value:  62
+  const filterBySelectorOption = (data) => {
+    if (!selectedOption) return data;
+
+    const selected = selectorOptions.find(
+      (option) => option.id === selectedOption
+    );
+    // console.log(selected);
+    if (!selected) return data;
+    // now in unix fromat
+    const now = new Date().getTime();
+    const startDate = moment(now - selected.value);
+    // console.log(selectedOption.value, startDate.format("DD/MM/YYYY HH:mm"));
+
+    const newData = data.filter((d) => {
+      return moment.utc(d.date).isAfter(startDate);
+    });
+    // console.log(newData);
+    return newData;
   };
 
   useEffect(() => {
@@ -69,7 +82,7 @@ const ZoomableLineChartView = () => {
   return (
     <div style={{ padding: "20px", width: 800 }}>
       <Grid container justifyContent="center">
-        <Typography variant="h4">Random Data (2 hour interval)</Typography>
+        <Typography variant="h4">Random Data</Typography>
       </Grid>
       <Grid container justifyContent="space-between">
         <Grid item>
@@ -100,7 +113,11 @@ const ZoomableLineChartView = () => {
           />
         </Grid>
       </Grid>
-      <div>{data && data.length && <ZoomableLineChartA data={data} />}</div>
+      <div>
+        {data && data.length && (
+          <ZoomableLineChartA data={filterBySelectorOption(data)} />
+        )}
+      </div>
     </div>
   );
 };
