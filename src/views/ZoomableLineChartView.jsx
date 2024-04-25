@@ -2,7 +2,7 @@ import { useState } from "react";
 import ZoomableLineChartA from "../components/ZoomableLineChart/ZoomableLineChartA";
 import ZoomableLineChart from "../components/ZoomableLineChart/ZoomableLineChart";
 import SelectorSecondary from "../components/SelectorSecondary/SelectorSecondary";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const ZoomableLineChartView = () => {
   const [data, setData] = useState(
@@ -18,14 +18,19 @@ const ZoomableLineChartView = () => {
   ];
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Grid container justifyContent="flex-end">
-        <SelectorSecondary
-          options={selectorOptions}
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-          extraStyles={{ mb: 2 }}
-        />
+    <div style={{ padding: "20px", width: 800 }}>
+      <Grid container justifyContent="space-between">
+        <Grid item>
+          <Typography variant="h4">Bitcoin Price</Typography>
+        </Grid>
+        <Grid item>
+          <SelectorSecondary
+            options={selectorOptions}
+            setSelectedOption={setSelectedOption}
+            selectedOption={selectedOption}
+            extraStyles={{ mb: 2 }}
+          />
+        </Grid>
       </Grid>
       <div>
         <ZoomableLineChartA />

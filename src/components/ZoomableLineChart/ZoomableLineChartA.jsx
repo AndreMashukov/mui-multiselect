@@ -207,7 +207,7 @@ const ZoomableLineChart = () => {
         return y(d.value);
       })
       .attr("r", 5)
-      .attr("fill", "#ff0000");
+      .attr("fill", "indigo");
   };
 
   useEffect(() => {
@@ -244,6 +244,8 @@ const ZoomableLineChart = () => {
           focus.style("opacity", 0);
           focusText.style("opacity", 0);
         });
+
+        addDots(svg, data, x, y);
     });
   }, []);
 
