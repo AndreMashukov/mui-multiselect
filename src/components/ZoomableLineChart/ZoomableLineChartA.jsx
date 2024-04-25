@@ -126,6 +126,7 @@ const ZoomableLineChart = ({ data }) => {
           })
       );
     dots
+      .selectAll(".dot")
       .attr("cx", function (d) {
         return x(d.date);
       })
@@ -156,6 +157,7 @@ const ZoomableLineChart = ({ data }) => {
           })
       );
     dots
+      .selectAll(".dot")
       .attr("cx", function (d) {
         return x(d.date);
       })
@@ -209,7 +211,9 @@ const ZoomableLineChart = ({ data }) => {
   };
 
   const addDots = (svg, data, x, y) => {
-    const dots = svg
+    const dotsGroup = svg.append("g").attr("clip-path", "url(#clip)");
+
+    dotsGroup
       .selectAll(".dot")
       .data(data)
       .enter()
@@ -224,9 +228,8 @@ const ZoomableLineChart = ({ data }) => {
       .attr("r", 1.5)
       .attr("fill", "indigo");
 
-    return dots;
+    return dotsGroup;
   };
-
   useEffect(() => {
     d3.select(ref.current).selectAll("*").remove();
 
