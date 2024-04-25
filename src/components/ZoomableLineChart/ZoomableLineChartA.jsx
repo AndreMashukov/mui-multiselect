@@ -245,7 +245,7 @@ const ZoomableLineChart = () => {
           focusText.style("opacity", 0);
         });
 
-        addDots(svg, data, x, y);
+        // addDots(svg, data, x, y);
     });
   }, []);
 
