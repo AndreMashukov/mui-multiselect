@@ -134,7 +134,7 @@ const ZoomableLineChart = ({ data }) => {
       });
   }
 
-  const handleChartDoubleClick = (data, x, y, xAxis, line) => {
+  const handleChartDoubleClick = (data, x, y, xAxis, line, dots) => {
     x.domain(
       d3.extent(data, function (d) {
         return d.date;
@@ -155,6 +155,13 @@ const ZoomableLineChart = ({ data }) => {
             return y(d.value);
           })
       );
+    dots
+      .attr("cx", function (d) {
+        return x(d.date);
+      })
+      .attr("cy", function (d) {
+        return y(d.value);
+      });
   };
 
   const createBrush = () => {
@@ -236,7 +243,9 @@ const ZoomableLineChart = ({ data }) => {
       updateChart(event, x, y, xAxis, line, brush, dots)
     );
     line.append("g").attr("class", "brush").call(brush);
-    svg.on("dblclick", () => handleChartDoubleClick(data, x, y, xAxis, line));
+    svg.on("dblclick", () =>
+      handleChartDoubleClick(data, x, y, xAxis, line, dots)
+    );
     const { focus, focusText } = createCursor(svg);
 
     svg
