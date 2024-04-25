@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import moment from "moment";
 
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = () => {
+const ZoomableLineChart = ({ data }) => {
   const ref = useRef();
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const width = WIDTH - margin.left - margin.right;
@@ -97,7 +98,7 @@ const ZoomableLineChart = () => {
     return line;
   };
 
-  function updateChart(event, x, y, xAxis, line, brush) {
+  function updateChart(event, x, y, xAxis, line, brush, dots) {
     const extent = event.selection;
 
     if (!extent) {
@@ -124,6 +125,13 @@ const ZoomableLineChart = () => {
             return y(d.value);
           })
       );
+    dots
+      .attr("cx", function (d) {
+        return x(d.date);
+      })
+      .attr("cy", function (d) {
+        return y(d.value);
+      });
   }
 
   const handleChartDoubleClick = (data, x, y, xAxis, line) => {
@@ -194,7 +202,7 @@ const ZoomableLineChart = () => {
   };
 
   const addDots = (svg, data, x, y) => {
-    svg
+    const dots = svg
       .selectAll(".dot")
       .data(data)
       .enter()
@@ -206,8 +214,10 @@ const ZoomableLineChart = () => {
       .attr("cy", function (d) {
         return y(d.value);
       })
-      .attr("r", 5)
+      .attr("r", 1.5)
       .attr("fill", "indigo");
+
+    return dots;
   };
 
   useEffect(() => {
@@ -215,39 +225,33 @@ const ZoomableLineChart = () => {
 
     const svg = createSvg(ref);
 
-    d3.csv(
-      "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
-      function (d) {
-        return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value };
-      }
-    ).then(function (data) {
-      const { x, y, xAxis } = createAxes(svg, data);
-      addClipping(svg);
+    const { x, y, xAxis } = createAxes(svg, data);
+    addClipping(svg);
 
-      const line = createLine(svg, data, x, y);
-      const brush = createBrush();
+    const line = createLine(svg, data, x, y);
+    const brush = createBrush();
+    const dots = addDots(svg, data, x, y);
 
-      brush.on("end", (event) => updateChart(event, x, y, xAxis, line, brush));
-      line.append("g").attr("class", "brush").call(brush);
-      svg.on("dblclick", () => handleChartDoubleClick(data, x, y, xAxis, line));
-      const { focus, focusText } = createCursor(svg);
+    brush.on("end", (event) =>
+      updateChart(event, x, y, xAxis, line, brush, dots)
+    );
+    line.append("g").attr("class", "brush").call(brush);
+    svg.on("dblclick", () => handleChartDoubleClick(data, x, y, xAxis, line));
+    const { focus, focusText } = createCursor(svg);
 
-      svg
-        .on("mouseover", function () {
-          focus.style("opacity", 1);
-          focusText.style("opacity", 1);
-        })
-        .on("mousemove", (event) =>
-          handleMoveCursor(event, data, x, y, focus, focusText)
-        )
-        .on("mouseout", function () {
-          focus.style("opacity", 0);
-          focusText.style("opacity", 0);
-        });
-
-        // addDots(svg, data, x, y);
-    });
-  }, []);
+    svg
+      .on("mouseover", function () {
+        focus.style("opacity", 1);
+        focusText.style("opacity", 1);
+      })
+      .on("mousemove", (event) =>
+        handleMoveCursor(event, data, x, y, focus, focusText)
+      )
+      .on("mouseout", function () {
+        focus.style("opacity", 0);
+        focusText.style("opacity", 0);
+      });
+  }, [data]);
 
   return <div ref={ref}></div>;
 };
