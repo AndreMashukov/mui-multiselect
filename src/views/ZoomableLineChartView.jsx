@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ZoomableLineChartA from "../components/ZoomableLineChart/ZoomableLineChartA";
+import ZoomableLineChartA from "../components/ZoomableLineChart/ZoomableLineChart";
 import SelectorSecondary from "../components/SelectorSecondary/SelectorSecondary";
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import moment from "moment";
