@@ -99,6 +99,7 @@ const ZoomableLineChart = ({ data, width, height}) => {
   };
 
   function updateChart(event, x, y, xAxis, line, brush, dots) {
+    // extent - the selected area
     const extent = event.selection;
     dots.selectAll(".dot").style("opacity", 0);
 
@@ -110,7 +111,10 @@ const ZoomableLineChart = ({ data, width, height}) => {
       line.select(".brush").call(brush.move, null);
     }
 
+    // update x axis with the new scale 
     xAxis.transition().duration(1000).call(d3.axisBottom(x));
+
+    // generate a new line path with the new x axis 
     line
       .select(".line")
       .transition()
@@ -160,7 +164,10 @@ const ZoomableLineChart = ({ data, width, height}) => {
           .y(function (d) {
             return y(d.value);
           })
-      );
+      )
+      .on("end", () => {
+        dots.selectAll(".dot").style("opacity", 1);
+      });
     dots
       .selectAll(".dot")
       .attr("cx", function (d) {
