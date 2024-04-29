@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import moment from "moment";
+import utils from "./utils";
 
 const WIDTH = 800;
 const HEIGHT = 400;
@@ -15,26 +16,6 @@ const ZoomableLineChart = ({ data, width, height }) => {
   function idled() {
     idleTimeout = null;
   }
-
-  const updateDots = (dots, x, y,) => {
-    dots
-      .selectAll(".dot")
-      .attr("cx", (d) => x(d.date))
-      .attr("cy", (d) => y(d.value))
-      // .style("opacity", opacity);
-  };
-
-  const createSvg = (ref) => {
-    const svg = d3
-      .select(ref.current)
-      .append("svg")
-      .attr("width", _width + margin.left + margin.right)
-      .attr("height", _height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-    return svg;
-  };
 
   const createAxes = (svg, data) => {
     // scale X
@@ -142,7 +123,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
         // Show dots
         dots.selectAll(".dot").style("opacity", 1);
       });
-      updateDots(dots, x, y);
+    utils.updateDots(dots, x, y);
   }
 
   const handleChartDoubleClick = (data, x, y, xAxis, line, dots) => {
@@ -169,7 +150,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
       .on("end", () => {
         dots.selectAll(".dot").style("opacity", 1);
       });
-    updateDots(dots, x, y);
+    utils.updateDots(dots, x, y);
   };
 
   const createBrush = () => {
@@ -239,7 +220,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
   useEffect(() => {
     d3.select(ref.current).selectAll("*").remove();
 
-    const svg = createSvg(ref);
+    const svg = utils.createSvg(ref, _width, _height, margin);
 
     const { x, y, xAxis } = createAxes(svg, data);
     addClipping(svg);
