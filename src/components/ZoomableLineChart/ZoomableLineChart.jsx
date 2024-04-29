@@ -100,6 +100,7 @@ const ZoomableLineChart = ({ data, width, height}) => {
 
   function updateChart(event, x, y, xAxis, line, brush, dots) {
     const extent = event.selection;
+    dots.selectAll(".dot").style("opacity", 0);
 
     if (!extent) {
       if (!idleTimeout) return (idleTimeout = setTimeout(idled, 350));
@@ -124,7 +125,11 @@ const ZoomableLineChart = ({ data, width, height}) => {
           .y(function (d) {
             return y(d.value);
           })
-      );
+      )
+      .on("end", () => {
+        // Show dots
+        dots.selectAll(".dot").style("opacity", 1);
+      });
     dots
       .selectAll(".dot")
       .attr("cx", function (d) {
