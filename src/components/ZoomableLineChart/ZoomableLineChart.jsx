@@ -1,46 +1,40 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import moment from "moment";
-import utils from "./utils";
+import { useZoomableLineChart } from "./useZoomableLineChart";
 
 const WIDTH = 800;
 const HEIGHT = 400;
 
 const ZoomableLineChart = ({ data, width, height }) => {
   const ref = useRef();
+  const [svg, setSvg] = useState(null);
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
+
+  const props = {
+    data,
+    _width,
+    _height,
+    margin,
+  };
+
+  const {
+    createSvg,
+    createAxes,
+    addClipping,
+    createLine,
+    addDots,
+    updateDots,
+    createBrush,
+  } = useZoomableLineChart(svg, props);
+
   let idleTimeout;
   function idled() {
     idleTimeout = null;
   }
-
-  const createLine = (svg, data, x, y) => {
-    const line = svg.append("g").attr("clip-path", "url(#clip)");
-
-    line
-      .append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr(
-        "d",
-        d3
-          .line()
-          .x(function (d) {
-            return x(d.date);
-          })
-          .y(function (d) {
-            return y(d.value);
-          })
-      );
-
-    return line;
-  };
 
   function updateChart(event, x, y, xAxis, line, brush, dots) {
     // extent - the selected area
@@ -78,7 +72,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
         // Show dots
         dots.selectAll(".dot").style("opacity", 1);
       });
-    utils.updateDots(dots, x, y);
+    updateDots(dots, x, y);
   }
 
   const handleChartDoubleClick = (data, x, y, xAxis, line, dots) => {
@@ -105,14 +99,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
       .on("end", () => {
         dots.selectAll(".dot").style("opacity", 1);
       });
-    utils.updateDots(dots, x, y);
-  };
-
-  const createBrush = () => {
-    return d3.brushX().extent([
-      [0, 0],
-      [_width, _height],
-    ]);
+    updateDots(dots, x, y);
   };
 
   const createCursor = (svg) => {
@@ -152,37 +139,21 @@ const ZoomableLineChart = ({ data, width, height }) => {
       .attr("y", y(selectedData.value));
   };
 
-  const addDots = (svg, data, x, y) => {
-    const dotsGroup = svg.append("g").attr("clip-path", "url(#clip)");
-
-    dotsGroup
-      .selectAll(".dot")
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("class", "dot")
-      .attr("cx", function (d) {
-        return x(d.date);
-      })
-      .attr("cy", function (d) {
-        return y(d.value);
-      })
-      .attr("r", 1.5)
-      .attr("fill", "indigo");
-
-    return dotsGroup;
-  };
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (!data || !data.length) return;
     d3.select(ref.current).selectAll("*").remove();
+    setSvg(createSvg(ref));
+  }, [_width, _height, data]);
 
-    const svg = utils.createSvg(ref, _width, _height, margin);
+  useEffect(() => {
+    if (!svg) return;
 
-    const { x, y, xAxis } = utils.createAxes(svg, data, _width, _height);
-    utils.addClipping(svg, _width, _height);
+    const { x, y, xAxis } = createAxes();
+    addClipping();
 
-    const line = createLine(svg, data, x, y);
+    const line = createLine(x, y);
     const brush = createBrush();
-    const dots = addDots(svg, data, x, y);
+    const dots = addDots(x, y);
 
     brush.on("end", (event) =>
       updateChart(event, x, y, xAxis, line, brush, dots)
@@ -205,7 +176,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
         focus.style("opacity", 0);
         focusText.style("opacity", 0);
       });
-  }, [data]);
+  }, [svg]);
 
   return <div ref={ref}></div>;
 };
