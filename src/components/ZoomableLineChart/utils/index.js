@@ -5,6 +5,7 @@ import { addClipping } from "./addClipping";
 import { createLine } from "./createLine";
 import { addDots } from "./addDots";
 import { createBrush } from "./createBrush";
+import { updateChart } from "./updateChart"
 
 const utils = {
   createSvg,
@@ -14,6 +15,7 @@ const utils = {
   createLine,
   addDots,
   createBrush,
+  updateChart
 };
 
 export default utils;
