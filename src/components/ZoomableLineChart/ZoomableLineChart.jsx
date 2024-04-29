@@ -6,11 +6,11 @@ import moment from "moment";
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = ({ data }) => {
+const ZoomableLineChart = ({ data, width, height}) => {
   const ref = useRef();
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
-  const width = WIDTH - margin.left - margin.right;
-  const height = HEIGHT - margin.top - margin.bottom;
+  const _width = (width || WIDTH) - margin.left - margin.right;
+  const _height = (height || HEIGHT) - margin.top - margin.bottom;
   let idleTimeout;
   function idled() {
     idleTimeout = null;
@@ -20,8 +20,8 @@ const ZoomableLineChart = ({ data }) => {
     const svg = d3
       .select(ref.current)
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("width", _width + margin.left + margin.right)
+      .attr("height", _height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -37,12 +37,12 @@ const ZoomableLineChart = ({ data }) => {
           return d.date;
         })
       )
-      .range([0, width]);
+      .range([0, _width]);
 
     // axis X
     const xAxis = svg
       .append("g")
-      .attr("transform", `translate(0, ${height})`)
+      .attr("transform", `translate(0, ${_height})`)
       .call(d3.axisBottom(x));
 
     // scale Y
@@ -54,7 +54,7 @@ const ZoomableLineChart = ({ data }) => {
           return +d.value;
         }),
       ])
-      .range([height, 0]);
+      .range([_height, 0]);
 
     // axis Y
     const yAxis = svg.append("g").call(d3.axisLeft(y));
@@ -67,8 +67,8 @@ const ZoomableLineChart = ({ data }) => {
       .append("svg:clipPath")
       .attr("id", "clip")
       .append("svg:rect")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", _width)
+      .attr("height", _height)
       .attr("x", 0)
       .attr("y", 0);
   };
@@ -169,7 +169,7 @@ const ZoomableLineChart = ({ data }) => {
   const createBrush = () => {
     return d3.brushX().extent([
       [0, 0],
-      [width, height],
+      [_width, _height],
     ]);
   };
 
