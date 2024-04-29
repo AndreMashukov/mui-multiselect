@@ -6,7 +6,7 @@ import moment from "moment";
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = ({ data, width, height}) => {
+const ZoomableLineChart = ({ data, width, height }) => {
   const ref = useRef();
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
@@ -15,6 +15,14 @@ const ZoomableLineChart = ({ data, width, height}) => {
   function idled() {
     idleTimeout = null;
   }
+
+  const updateDots = (dots, x, y,) => {
+    dots
+      .selectAll(".dot")
+      .attr("cx", (d) => x(d.date))
+      .attr("cy", (d) => y(d.value))
+      // .style("opacity", opacity);
+  };
 
   const createSvg = (ref) => {
     const svg = d3
@@ -111,10 +119,10 @@ const ZoomableLineChart = ({ data, width, height}) => {
       line.select(".brush").call(brush.move, null);
     }
 
-    // update x axis with the new scale 
+    // update x axis with the new scale
     xAxis.transition().duration(1000).call(d3.axisBottom(x));
 
-    // generate a new line path with the new x axis 
+    // generate a new line path with the new x axis
     line
       .select(".line")
       .transition()
@@ -134,14 +142,7 @@ const ZoomableLineChart = ({ data, width, height}) => {
         // Show dots
         dots.selectAll(".dot").style("opacity", 1);
       });
-    dots
-      .selectAll(".dot")
-      .attr("cx", function (d) {
-        return x(d.date);
-      })
-      .attr("cy", function (d) {
-        return y(d.value);
-      });
+      updateDots(dots, x, y);
   }
 
   const handleChartDoubleClick = (data, x, y, xAxis, line, dots) => {
@@ -168,14 +169,7 @@ const ZoomableLineChart = ({ data, width, height}) => {
       .on("end", () => {
         dots.selectAll(".dot").style("opacity", 1);
       });
-    dots
-      .selectAll(".dot")
-      .attr("cx", function (d) {
-        return x(d.date);
-      })
-      .attr("cy", function (d) {
-        return y(d.value);
-      });
+    updateDots(dots, x, y);
   };
 
   const createBrush = () => {
