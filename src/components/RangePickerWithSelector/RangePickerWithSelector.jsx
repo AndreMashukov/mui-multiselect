@@ -6,6 +6,7 @@ import CustomRangePicker from "../CustomRangePicker/CustomRangePicker";
 import ValidationError from "../ValidationError/ValidationError";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { Grid } from "@mui/material";
 
 const RangePickerWithSelector = ({ formik, startDateName, endDateName }) => {
   const [selectedOption, setSelectedOption] = useState();
@@ -54,35 +55,41 @@ const RangePickerWithSelector = ({ formik, startDateName, endDateName }) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
-      <SelectorSecondary
-        options={selectorOptions}
-        setSelectedOption={setSelectedOption}
-        selectedOption={selectedOption}
-        extraStyles={{ mb: 2 }}
-      />
-      <CustomRangePicker
-        startDate={getDate(formik.values[startDateName])}
-        endDate={getDate(formik.values[endDateName])}
-        setStartDate={(value) =>
-          formik.setFieldValue(startDateName, value)
-        }
-        setEndDate={(value) =>
-          formik.setFieldValue(endDateName, value)
-        }
-        startDateLabel="Start Date"
-        endDateLabel="End Date"
-        handleBlur={() => {
-          formik.setFieldTouched(startDateName, true);
-          formik.setFieldTouched(endDateName, true);
-        }}
-      />
-      {(formik.errors[endDateName] || formik.errors[startDateName]) &&
-        formik.touched[startDateName] &&
-        formik.touched[endDateName] && (
-          <ValidationError
-            message={formik.errors[startDateName] || formik.errors[endDateName]}
+      <Grid container flexDirection="column" justifyContent="flex-start">
+        <Grid item>
+          <Grid container justifyContent="flex-end">
+            <SelectorSecondary
+              options={selectorOptions}
+              setSelectedOption={setSelectedOption}
+              selectedOption={selectedOption}
+              extraStyles={{ mb: 2 }}
+            />
+          </Grid>
+        </Grid>
+        <Grid item>
+          <CustomRangePicker
+            startDate={getDate(formik.values[startDateName])}
+            endDate={getDate(formik.values[endDateName])}
+            setStartDate={(value) => formik.setFieldValue(startDateName, value)}
+            setEndDate={(value) => formik.setFieldValue(endDateName, value)}
+            startDateLabel="Start Date"
+            endDateLabel="End Date"
+            handleBlur={() => {
+              formik.setFieldTouched(startDateName, true);
+              formik.setFieldTouched(endDateName, true);
+            }}
           />
-        )}
+          {(formik.errors[endDateName] || formik.errors[startDateName]) &&
+            formik.touched[startDateName] &&
+            formik.touched[endDateName] && (
+              <ValidationError
+                message={
+                  formik.errors[startDateName] || formik.errors[endDateName]
+                }
+              />
+            )}
+        </Grid>
+      </Grid>
     </LocalizationProvider>
   );
 };
