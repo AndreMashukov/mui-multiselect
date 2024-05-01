@@ -130,9 +130,17 @@ const ZoomableLineChart = ({ data, width, height }) => {
       updateChart(event, x, y, xAxis, line, brush, dots)
     );
     line.append("g").attr("class", "brush").call(brush);
+
     svg.on("dblclick", () =>
       handleChartDoubleClick(data, x, y, xAxis, line, dots)
     );
+
+    svg.on("click", () => {
+      setTimeout(() => {
+        dots.selectAll(".dot").style("opacity", 1);
+      }, 500);
+    });
+
     const { focus, focusText } = createCursor(svg);
 
     svg
