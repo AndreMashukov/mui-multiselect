@@ -1,11 +1,11 @@
 import { Button } from "@mui/material";
 import RangePickerWithSelector from "../components/RangePickerWithSelector/RangePickerWithSelector";
-import { useDataRangeForm } from "../hooks/useDateRangeForm";
+import { useDateRangeForm } from "../hooks/useDateRangeForm";
 
 // https://mui.com/x/react-date-pickers/date-time-picker/
 
 export const RangePickerView = () => {
-  const formik = useDataRangeForm();
+  const formik = useDateRangeForm();
 
   return (
     <>

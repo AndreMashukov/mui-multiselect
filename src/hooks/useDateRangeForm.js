@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import * as yup from "yup";
 
-export const useDataRangeForm = () => {
+export const useDateRangeForm = () => {
   const validationSchema = yup.object({
     startDate: yup
       .string()

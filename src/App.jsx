@@ -19,10 +19,10 @@ function App() {
           {/* <MultiSelectTestView /> */}
           {/* <ModalContainerTestView /> */}
           {/* <DatepickerView /> */}
-          <RangePickerView />
+          {/* <RangePickerView /> */}
           {/* <CustomSelectView /> */}
           {/* <LineChartView /> */}
-          {/* <ZoomableLineChartView /> */}
+          <ZoomableLineChartView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>

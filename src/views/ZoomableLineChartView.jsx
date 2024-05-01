@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import ZoomableLineChartA from "../components/ZoomableLineChart/ZoomableLineChart";
-import SelectorSecondary from "../components/SelectorSecondary/SelectorSecondary";
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import moment from "moment";
+import RangePickerWithSelector from "../components/RangePickerWithSelector/RangePickerWithSelector";
+import { useDateRangeForm } from "../hooks/useDateRangeForm";
 
 const TIME_SCALE_STEPS_MS = [
   { name: "1 hour", value: 3600000 },
@@ -27,15 +28,7 @@ const generateData = (step) => {
 };
 
 const ZoomableLineChartView = () => {
-  const [selectedOption, setSelectedOption] = useState();
-
-  const selectorOptions = [
-    { id: "day", label: "1 day", value: 86400000 },
-    { id: "week", label: "1 week", value: 604800000 },
-    { id: "month", label: "1 month", value: 2628000000 },
-    { id: "year", label: "1 year", value: 31540000000 },
-  ];
-
+  const dateRangeForm = useDateRangeForm();
   const [timeScaleStep, setTimeScaleStep] = useState(
     TIME_SCALE_STEPS_MS[0].value
   );
@@ -55,23 +48,19 @@ const ZoomableLineChartView = () => {
   // data format:
   // date:  Thu Feb 29 2024 20:30:22 GMT+0800 (Hong Kong Standard Time) {}
   // value:  62
-  const filterBySelectorOption = (data) => {
-    if (!selectedOption) return data;
+  const filterByDateRange = (data) => {
+    const { startDate, endDate } = dateRangeForm.values;
 
-    const selected = selectorOptions.find(
-      (option) => option.id === selectedOption
-    );
-    // console.log(selected);
-    if (!selected) return data;
-    // now in unix fromat
-    const now = new Date().getTime();
-    const startDate = moment(now - selected.value);
-    // console.log(selectedOption.value, startDate.format("DD/MM/YYYY HH:mm"));
+    if (!startDate || !endDate) return data;
+
+    const start = moment(startDate);
+    const end = moment(endDate);
 
     const newData = data.filter((d) => {
-      return moment.utc(d.date).isAfter(startDate);
+      const date = moment.utc(d.date);
+      return date.isAfter(start) && date.isBefore(end);
     });
-    // console.log(newData);
+
     return newData;
   };
 
@@ -81,41 +70,44 @@ const ZoomableLineChartView = () => {
 
   return (
     <div style={{ padding: "20px", width: 800 }}>
-      <Grid container justifyContent="center">
-        <Typography variant="h4">Random Data</Typography>
-      </Grid>
       <Grid container justifyContent="space-between">
         <Grid item>
-          <Grid container justifyContent="flex-start" alignItems="center">
-            <Typography variant="body1" sx={{ mr: 1 }}>
-              Data aggregation
-            </Typography>
-            <Select
-              value={timeScaleStep}
-              onChange={handleTimeScaleChange}
-              displayEmpty
-              inputProps={{ "aria-label": "Without label" }}
-            >
-              {TIME_SCALE_STEPS_MS.map((step) => (
-                <MenuItem key={step.name} value={step.value}>
-                  {step.name}
-                </MenuItem>
-              ))}
-            </Select>
+          <Grid container flexDirection="column" justifyContent="space-between">
+            <Grid item sx={{mb: 2}}>
+              <Typography variant="h4">Random Data</Typography>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container justifyContent="flex-start" alignItems="center">
+              <Typography variant="body1" sx={{ mr: 1 }}>
+                Data aggregation
+              </Typography>
+              <Select
+                value={timeScaleStep}
+                onChange={handleTimeScaleChange}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+              >
+                {TIME_SCALE_STEPS_MS.map((step) => (
+                  <MenuItem key={step.name} value={step.value}>
+                    {step.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item>
-          <SelectorSecondary
-            options={selectorOptions}
-            setSelectedOption={setSelectedOption}
-            selectedOption={selectedOption}
-            extraStyles={{ mb: 2 }}
+          <RangePickerWithSelector
+            formik={dateRangeForm}
+            startDateName="startDate"
+            endDateName="endDate"
           />
         </Grid>
       </Grid>
       <div>
         {data && data.length && (
-          <ZoomableLineChartA data={filterBySelectorOption(data)} />
+          <ZoomableLineChartA data={filterByDateRange(data)} />
         )}
       </div>
     </div>
