@@ -33,11 +33,16 @@ const ZoomableLineChart = ({ data, width, height }) => {
   } = useZoomableLineChart(svg, props);
 
   const handleChartDoubleClick = (data, x, y, xAxis, line, dots) => {
-    x.domain(
-      d3.extent(data, function (d) {
-        return d.date;
-      })
+    const xExtent = d3.extent(data, function (d) {
+      return d.date;
+    });
+
+    // Subtract one day from the start of the xExtent
+    const xStart = new Date(
+      xExtent[0].getTime() - 0.05 * (xExtent[1] - xExtent[0])
     );
+
+    x.domain([xStart, xExtent[1]]);
     xAxis.transition().call(d3.axisBottom(x));
     line
       .select(".line")
