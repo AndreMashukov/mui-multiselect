@@ -2,13 +2,16 @@ import * as d3 from "d3";
 
 export const createAxes = (svg, data, _width, _height) => {
   // scale X
+  const xExtent = d3.extent(data, function (d) {
+    return d.date;
+  });
+
+  // Subtract one day from the start of the xExtent
+  const xStart = new Date(xExtent[0].getTime() - 0.05 * (xExtent[1] - xExtent[0]));
+
   const x = d3
     .scaleTime()
-    .domain(
-      d3.extent(data, function (d) {
-        return d.date;
-      })
-    )
+    .domain([xStart, xExtent[1]])
     .range([0, _width]);
 
   // axis X
