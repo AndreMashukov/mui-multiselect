@@ -50,6 +50,8 @@ const RangePickerWithSelector = ({ formik, startDateName, endDateName }) => {
     return date ? moment(date, "DD/MM/YYYY HH:mm") : null;
   };
 
+  // console.log(formik.values)
+
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <SelectorSecondary
@@ -62,10 +64,10 @@ const RangePickerWithSelector = ({ formik, startDateName, endDateName }) => {
         startDate={getDate(formik.values[startDateName])}
         endDate={getDate(formik.values[endDateName])}
         setStartDate={(value) =>
-          formik.setFieldValue(startDateName, value.format("DD/MM/YYYY HH:mm"))
+          formik.setFieldValue(startDateName, value)
         }
         setEndDate={(value) =>
-          formik.setFieldValue(endDateName, value.format("DD/MM/YYYY HH:mm"))
+          formik.setFieldValue(endDateName, value)
         }
         startDateLabel="Start Date"
         endDateLabel="End Date"
