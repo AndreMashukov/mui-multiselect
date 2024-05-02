@@ -6,7 +6,7 @@ export const useDateRangeForm = () => {
   const validationSchema = yup.object({
     startDate: yup
       .string()
-      .required()
+      .required(" ")
       .test("valid", "Start date is invalid", (value) => {
         return moment(value).isValid();
       }),
