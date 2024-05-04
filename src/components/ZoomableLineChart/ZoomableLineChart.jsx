@@ -5,12 +5,12 @@ import { useZoomableLineChart } from "./useZoomableLineChart";
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = ({ dataArray, width, height }) => {
+const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
 
-  const data = dataArray[0];
+  // const data = dataArray[0];
 
   const props = {
     dataArray,
@@ -36,41 +36,46 @@ const ZoomableLineChart = ({ dataArray, width, height }) => {
   useEffect(() => {
     if (!svg) return;
 
-    const { x, y, xAxis } = createAxes(data);
+    const { x, y, xAxis } = createAxes(dataArray[0]); // Use the first data array to create the axes
     addClipping();
 
-    const line = createLine(data, x, y);
     const brush = createBrush();
-    const dots = addDots(data, x, y);
 
-    brush.on("end", (event) =>
-      updateChart(event, x, y, xAxis, line, brush, dots)
-    );
-    line.append("g").attr("class", "brush").call(brush);
+    dataArray.forEach((data, index) => {
+      const line = createLine(data, x, y, colors[index]);
+      const dots = addDots(data, x, y);
 
-    svg.on("dblclick", () => handleChartDoubleClick(data, x, y, xAxis, line, dots));
+      brush.on("end", (event) =>
+        updateChart(event, x, y, xAxis, line, brush, dots)
+      );
+      line.append("g").attr("class", "brush").call(brush);
 
-    svg.on("click", () => {
-      setTimeout(() => {
-        dots.selectAll(".dot").style("opacity", 1);
-      }, 500);
-    });
+      svg.on("dblclick", () =>
+        handleChartDoubleClick(data, x, y, xAxis, line, dots)
+      );
 
-    const { focus, focusText } = createCursor();
-
-    svg
-      .on("mouseover", function () {
-        focus.style("opacity", 1);
-        focusText.style("opacity", 1);
-      })
-      .on("mousemove", (event) =>
-        handleMoveCursor(data, event, x, y, focus, focusText)
-      )
-      .on("mouseout", function () {
-        focus.style("opacity", 0);
-        focusText.style("opacity", 0);
+      svg.on("click", () => {
+        setTimeout(() => {
+          dots.selectAll(".dot").style("opacity", 1);
+        }, 500);
       });
-  }, [svg]);
+
+      const { focus, focusText } = createCursor();
+
+      svg
+        .on("mouseover", function () {
+          focus.style("opacity", 1);
+          focusText.style("opacity", 1);
+        })
+        .on("mousemove", (event) =>
+          handleMoveCursor(event, data, x, y, focus, focusText)
+        )
+        .on("mouseout", function () {
+          focus.style("opacity", 0);
+          focusText.style("opacity", 0);
+        });
+    });
+  }, [svg, dataArray]);
 
   return <div ref={ref}></div>;
 };

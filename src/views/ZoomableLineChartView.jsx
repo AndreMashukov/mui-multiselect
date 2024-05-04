@@ -7,6 +7,8 @@ import { useDateRangeForm } from "../hooks/useDateRangeForm";
 
 const NUM_LINES = 3;
 
+const COLORS = ["red", "green", "blue"];
+
 const TIME_SCALE_STEPS_MS = [
   { name: "1 hour", value: 3600000 },
   { name: "6 hours", value: 21600000 },
@@ -111,7 +113,10 @@ const ZoomableLineChartView = () => {
       <div>
         {data && data.length && (
           // <ZoomableLineChart data={filterByDateRange(data)} />
-          <ZoomableLineChart dataArray={data.map(filterByDateRange)} />
+          <ZoomableLineChart
+            dataArray={data.map(filterByDateRange)}
+            colors={COLORS}
+          />
         )}
       </div>
     </div>

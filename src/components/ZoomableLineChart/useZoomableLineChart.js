@@ -21,7 +21,7 @@ export const useZoomableLineChart = (props) => {
   const createSvg = (ref) => utils.createSvg(ref, _width, _height, margin);
   const createAxes = (data) => utils.createAxes(svg, data, _width, _height);
   const addClipping = () => utils.addClipping(svg, _width, _height);
-  const createLine = (data, x, y) => utils.createLine(svg, data, x, y);
+  const createLine = (data, x, y, color) => utils.createLine(svg, data, x, y, color);
   const addDots = (data, x, y) => utils.addDots(svg, data, x, y);
   const updateDots = (dots, x, y) => utils.updateDots(dots, x, y);
   const createBrush = () => utils.createBrush(_width, _height);
@@ -40,7 +40,7 @@ export const useZoomableLineChart = (props) => {
   const handleChartDoubleClick = (data, x, y, xAxis, line, dots) =>
     utils.handleChartDoubleClick(data, x, y, xAxis, line, dots);
   const createCursor = () => utils.createCursor(svg);
-  const handleMoveCursor = (data, event, x, y, focus, focusText) =>
+  const handleMoveCursor = (event, data, x, y, focus, focusText) =>
     utils.handleMoveCursor(event, data, x, y, focus, focusText);
 
   return {
