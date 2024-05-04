@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import * as d3 from "d3";
+import { useEffect} from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
 
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = ({ data, width, height }) => {
+const ZoomableLineChart = ({ dataArray, width, height }) => {
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
+
+  const data = dataArray[0];
 
   const props = {
     data,

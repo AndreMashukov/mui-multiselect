@@ -5,6 +5,8 @@ import moment from "moment";
 import RangePickerWithSelector from "../components/RangePickerWithSelector/RangePickerWithSelector";
 import { useDateRangeForm } from "../hooks/useDateRangeForm";
 
+const NUM_LINES = 3;
+
 const TIME_SCALE_STEPS_MS = [
   { name: "1 hour", value: 3600000 },
   { name: "6 hours", value: 21600000 },
@@ -40,8 +42,9 @@ const ZoomableLineChartView = () => {
   };
 
   const getData = () => {
-    const newData = generateData(timeScaleStep);
-    // console.log(timeScaleStep, newData.length);
+    const newData = Array.from({ length: NUM_LINES }, () =>
+      generateData(timeScaleStep)
+    );
     setData(newData);
   };
 
@@ -73,7 +76,7 @@ const ZoomableLineChartView = () => {
       <Grid container justifyContent="space-between">
         <Grid item>
           <Grid container flexDirection="column" justifyContent="space-between">
-            <Grid item sx={{mb: 2}}>
+            <Grid item sx={{ mb: 2 }}>
               <Typography variant="h4">Random Data</Typography>
             </Grid>
           </Grid>
@@ -107,7 +110,8 @@ const ZoomableLineChartView = () => {
       </Grid>
       <div>
         {data && data.length && (
-          <ZoomableLineChart data={filterByDateRange(data)} />
+          // <ZoomableLineChart data={filterByDateRange(data)} />
+          <ZoomableLineChart dataArray={data.map(filterByDateRange)} />
         )}
       </div>
     </div>
