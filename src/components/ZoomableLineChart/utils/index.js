@@ -5,8 +5,10 @@ import { addClipping } from "./addClipping";
 import { createLine } from "./createLine";
 import { addDots } from "./addDots";
 import { createBrush } from "./createBrush";
-import { updateChart } from "./updateChart"
-import { handleChartDoubleClick } from "./handleChartDoubleClick"
+import { updateChart } from "./updateChart";
+import { handleChartDoubleClick } from "./handleChartDoubleClick";
+import { createCursor } from "./createCursor";
+import { handleMoveCursor } from "./handleMoveCursor";
 
 const utils = {
   createSvg,
@@ -17,7 +19,9 @@ const utils = {
   addDots,
   createBrush,
   updateChart,
-  handleChartDoubleClick
+  handleChartDoubleClick,
+  createCursor,
+  handleMoveCursor,
 };
 
 export default utils;

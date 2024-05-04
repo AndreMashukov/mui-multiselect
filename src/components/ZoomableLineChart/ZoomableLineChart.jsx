@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import moment from "moment";
 import { useZoomableLineChart } from "./useZoomableLineChart";
 
 const WIDTH = 800;
@@ -29,54 +28,10 @@ const ZoomableLineChart = ({ data, width, height }) => {
     addDots,
     createBrush,
     updateChart,
-    handleChartDoubleClick
+    handleChartDoubleClick,
+    createCursor,
+    handleMoveCursor,
   } = useZoomableLineChart(svg, props);
-
-  const createCursor = (svg) => {
-    const focus = svg
-      .append("g")
-      .append("circle")
-      .style("fill", "none")
-      .attr("stroke", "black")
-      .attr("r", 8.5)
-      .style("opacity", 0);
-
-    const focusText = svg
-      .append("g")
-      .append("text")
-      .style("opacity", 0)
-      .attr("text-anchor", "left")
-      .attr("alignment-baseline", "middle");
-
-    return { focus, focusText };
-  };
-
-  const handleMoveCursor = (event, data, x, y, focus, focusText) => {
-    const [x0] = d3.pointer(event);
-    const bisect = d3.bisector((d) => d.date).left;
-    // Get the index of the data point that the mouse is currently over
-    let i = bisect(data, x.invert(x0)); // Remove the `1` argumentw
-
-    // If the index is 0, check if the mouse is closer to the first point or the second point
-    if (i === 0) {
-      const d0 = data[0];
-      const d1 = data[1];
-      i = x.invert(x0) - d0.date > d1.date - x.invert(x0) ? 1 : 0;
-    }
-
-    const selectedData = data[i];
-    focus.attr("cx", x(selectedData.date)).attr("cy", y(selectedData.value));
-    focusText
-      .html(
-        "x:" +
-          moment(selectedData.date).format("DD/MM/YYYY HH:mm") +
-          "  -  " +
-          "y:" +
-          selectedData.value
-      )
-      .attr("x", x(selectedData.date) + 15)
-      .attr("y", y(selectedData.value));
-  };
 
   useLayoutEffect(() => {
     if (!data || !data.length) return;
@@ -109,7 +64,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
       }, 500);
     });
 
-    const { focus, focusText } = createCursor(svg);
+    const { focus, focusText } = createCursor();
 
     svg
       .on("mouseover", function () {
@@ -117,7 +72,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
         focusText.style("opacity", 1);
       })
       .on("mousemove", (event) =>
-        handleMoveCursor(event, data, x, y, focus, focusText)
+        handleMoveCursor(event, x, y, focus, focusText)
       )
       .on("mouseout", function () {
         focus.style("opacity", 0);

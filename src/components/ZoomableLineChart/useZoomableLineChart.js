@@ -29,6 +29,9 @@ export const useZoomableLineChart = (svg, props) => {
     );
   const handleChartDoubleClick = (x, y, xAxis, line, dots) =>
     utils.handleChartDoubleClick(data, x, y, xAxis, line, dots);
+  const createCursor = () => utils.createCursor(svg);
+  const handleMoveCursor = (event, x, y, focus, focusText) =>
+    utils.handleMoveCursor(event, data, x, y, focus, focusText);
 
   return {
     createSvg,
@@ -40,5 +43,7 @@ export const useZoomableLineChart = (svg, props) => {
     createBrush,
     updateChart,
     handleChartDoubleClick,
+    createCursor,
+    handleMoveCursor,
   };
 };
