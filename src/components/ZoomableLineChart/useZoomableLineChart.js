@@ -27,6 +27,8 @@ export const useZoomableLineChart = (svg, props) => {
       idleTimeout,
       idled
     );
+  const handleChartDoubleClick = (x, y, xAxis, line, dots) =>
+    utils.handleChartDoubleClick(data, x, y, xAxis, line, dots);
 
   return {
     createSvg,
@@ -37,5 +39,6 @@ export const useZoomableLineChart = (svg, props) => {
     updateDots,
     createBrush,
     updateChart,
+    handleChartDoubleClick,
   };
 };

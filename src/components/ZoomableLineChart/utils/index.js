@@ -6,6 +6,7 @@ import { createLine } from "./createLine";
 import { addDots } from "./addDots";
 import { createBrush } from "./createBrush";
 import { updateChart } from "./updateChart"
+import { handleChartDoubleClick } from "./handleChartDoubleClick"
 
 const utils = {
   createSvg,
@@ -15,7 +16,8 @@ const utils = {
   createLine,
   addDots,
   createBrush,
-  updateChart
+  updateChart,
+  handleChartDoubleClick
 };
 
 export default utils;

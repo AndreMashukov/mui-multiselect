@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ZoomableLineChartA from "../components/ZoomableLineChart/ZoomableLineChart";
+import ZoomableLineChart from "../components/ZoomableLineChart/ZoomableLineChart";
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
 import moment from "moment";
 import RangePickerWithSelector from "../components/RangePickerWithSelector/RangePickerWithSelector";
@@ -107,7 +107,7 @@ const ZoomableLineChartView = () => {
       </Grid>
       <div>
         {data && data.length && (
-          <ZoomableLineChartA data={filterByDateRange(data)} />
+          <ZoomableLineChart data={filterByDateRange(data)} />
         )}
       </div>
     </div>
