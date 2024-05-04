@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
+import * as d3 from "d3";
 
 const WIDTH = 800;
 const HEIGHT = 400;
@@ -36,12 +37,14 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   useEffect(() => {
     if (!svg) return;
 
-    const { x, y, xAxis } = createAxes(dataArray[0]); // Use the first data array to create the axes
-    addClipping();
-
     const brush = createBrush();
 
+    const { x, y, xAxis } = createAxes(dataArray[0]); // Use the first data array to create the axes
     dataArray.forEach((data, index) => {
+      addClipping();
+      // Update the domain of the scales for each dataset
+      x.domain(d3.extent(data, (d) => d.date));
+      y.domain([0, d3.max(data, (d) => +d.value)]);
       const line = createLine(data, x, y, colors[index]);
       const dots = addDots(data, x, y);
 
