@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
 
 const WIDTH = 800;
@@ -13,7 +13,7 @@ const ZoomableLineChart = ({ dataArray, width, height }) => {
   const data = dataArray[0];
 
   const props = {
-    data,
+    dataArray,
     _width,
     _height,
     margin,
@@ -36,21 +36,19 @@ const ZoomableLineChart = ({ dataArray, width, height }) => {
   useEffect(() => {
     if (!svg) return;
 
-    const { x, y, xAxis } = createAxes();
+    const { x, y, xAxis } = createAxes(data);
     addClipping();
 
-    const line = createLine(x, y);
+    const line = createLine(data, x, y);
     const brush = createBrush();
-    const dots = addDots(x, y);
+    const dots = addDots(data, x, y);
 
     brush.on("end", (event) =>
       updateChart(event, x, y, xAxis, line, brush, dots)
     );
     line.append("g").attr("class", "brush").call(brush);
 
-    svg.on("dblclick", () =>
-      handleChartDoubleClick(x, y, xAxis, line, dots)
-    );
+    svg.on("dblclick", () => handleChartDoubleClick(data, x, y, xAxis, line, dots));
 
     svg.on("click", () => {
       setTimeout(() => {
@@ -66,7 +64,7 @@ const ZoomableLineChart = ({ dataArray, width, height }) => {
         focusText.style("opacity", 1);
       })
       .on("mousemove", (event) =>
-        handleMoveCursor(event, x, y, focus, focusText)
+        handleMoveCursor(data, event, x, y, focus, focusText)
       )
       .on("mouseout", function () {
         focus.style("opacity", 0);
