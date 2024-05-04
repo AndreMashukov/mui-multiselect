@@ -7,8 +7,6 @@ const WIDTH = 800;
 const HEIGHT = 400;
 
 const ZoomableLineChart = ({ data, width, height }) => {
-  const ref = useRef();
-  const [svg, setSvg] = useState(null);
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
@@ -21,7 +19,8 @@ const ZoomableLineChart = ({ data, width, height }) => {
   };
 
   const {
-    createSvg,
+    ref,
+    svg,
     createAxes,
     addClipping,
     createLine,
@@ -31,13 +30,7 @@ const ZoomableLineChart = ({ data, width, height }) => {
     handleChartDoubleClick,
     createCursor,
     handleMoveCursor,
-  } = useZoomableLineChart(svg, props);
-
-  useLayoutEffect(() => {
-    if (!data || !data.length) return;
-    d3.select(ref.current).selectAll("*").remove();
-    setSvg(createSvg(ref));
-  }, [_width, _height, data]);
+  } = useZoomableLineChart(props);
 
   useEffect(() => {
     if (!svg) return;
