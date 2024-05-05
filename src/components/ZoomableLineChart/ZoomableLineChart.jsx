@@ -32,8 +32,8 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     handleChartDoubleClick,
     createCursor,
     handleMoveCursor,
-    scales,
     setCurrentZoomState,
+    scale,
   } = useZoomableLineChart(props);
 
   useEffect(() => {
@@ -41,11 +41,11 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
 
     const brush = createBrush();
 
+    const { xScale, yScale } = scale
+    const { xAxis } = createAxes(xScale, yScale);
+    addClipping();
+    
     dataArray.forEach((data, index) => {
-      // console.log(scales);
-      addClipping();
-      const { xScale, yScale } = scales[data.id];
-      const { xAxis } = createAxes(xScale, yScale);
       const line = createLine(data.data, xScale, yScale, colors[index]);
       const dots = addDots(data.data, xScale, yScale);
 
@@ -81,7 +81,7 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
           focusText.style("opacity", 0);
         });
     });
-  }, [svg, dataArray, scales]);
+  }, [svg, dataArray, scale]);
 
   return <div ref={ref}></div>;
 };
