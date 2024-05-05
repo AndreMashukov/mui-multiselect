@@ -4,10 +4,8 @@ import moment from "moment";
 export const handleMoveCursor = (event, data, x, y, focus, focusText) => {
   const [x0] = d3.pointer(event);
   const bisect = d3.bisector((d) => d.date).left;
-  // Get the index of the data point that the mouse is currently over
-  let i = bisect(data, x.invert(x0)); // Remove the `1` argumentw
+  let i = bisect(data, x.invert(x0));
 
-  // If the index is 0, check if the mouse is closer to the first point or the second point
   if (i === 0) {
     const d0 = data[0];
     const d1 = data[1];
@@ -15,7 +13,7 @@ export const handleMoveCursor = (event, data, x, y, focus, focusText) => {
   }
 
   const selectedData = data[i];
-  focus.attr("cx", x(selectedData.date)).attr("cy", y(selectedData.value));
+  focus.attr("x1", x(selectedData.date)).attr("x2", x(selectedData.date));
   focusText
     .html(
       "x:" +

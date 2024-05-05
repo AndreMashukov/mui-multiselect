@@ -1,10 +1,11 @@
-export const createCursor = (svg) => {
+export const createCursor = (svg, height) => {
   const focus = svg
     .append("g")
-    .append("circle")
-    .style("fill", "none")
-    .attr("stroke", "black")
-    .attr("r", 8.5)
+    .append("line")
+    .style("stroke", "black")
+    .attr("stroke-dasharray", "5,5") // make the line dashed
+    .attr("y1", 0)
+    .attr("y2", height)
     .style("opacity", 0);
 
   const focusText = svg
