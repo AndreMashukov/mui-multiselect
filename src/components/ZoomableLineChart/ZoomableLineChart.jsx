@@ -40,11 +40,22 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     if (!svg) return;
 
     const brush = createBrush();
-
-    const { xScale, yScale } = scale
+    const { xScale, yScale } = scale;
     const { xAxis } = createAxes(xScale, yScale);
     addClipping();
-    
+
+    const { focus, focusText } = createCursor();
+
+    svg
+      .on("mouseover", function () {
+        focus.style("opacity", 1);
+        focusText.style("opacity", 1);
+      })
+      .on("mouseout", function () {
+        focus.style("opacity", 0);
+        focusText.style("opacity", 0);
+      });
+
     dataArray.forEach((data, index) => {
       const line = createLine(data.data, xScale, yScale, colors[index]);
       const dots = addDots(data.data, xScale, yScale);
@@ -66,20 +77,9 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
         }, 500);
       });
 
-      const { focus, focusText } = createCursor();
-
-      svg
-        .on("mouseover", function () {
-          focus.style("opacity", 1);
-          focusText.style("opacity", 1);
-        })
-        .on("mousemove", (event) =>
-          handleMoveCursor(event, data.data, xScale, yScale, focus, focusText)
-        )
-        .on("mouseout", function () {
-          focus.style("opacity", 0);
-          focusText.style("opacity", 0);
-        });
+      svg.on("mousemove", (event) =>
+        handleMoveCursor(event, data.data, xScale, yScale, focus, focusText)
+      );
     });
   }, [svg, dataArray, scale]);
 
