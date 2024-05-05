@@ -44,7 +44,7 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     dataArray.forEach((data, index) => {
       addClipping();
       const { xScale, yScale } = createScales(data, currentZoomState); 
-      const { xAxis, yAxis } = createAxes(xScale, yScale); 
+      const { xAxis } = createAxes(xScale, yScale); 
       const line = createLine(data, xScale, yScale, colors[index]);
       const dots = addDots(data, xScale, yScale);
 

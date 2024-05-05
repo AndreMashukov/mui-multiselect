@@ -15,10 +15,10 @@ export const createScales = (data, dimensions, currentZoomState) => {
 
   const xScale = d3.scaleTime().domain([xStart, xExtent[1]]).range([0, width]);
 
-  // if (currentZoomState) {
-  //   const newXScale = currentZoomState.rescaleX(xScale);
-  //   xScale.domain(newXScale.domain());
-  // }
+  if (currentZoomState) {
+    const newXScale = currentZoomState.rescaleX(xScale);
+    xScale.domain(newXScale.domain());
+  }
 
   // scale Y
   const yScale = d3
