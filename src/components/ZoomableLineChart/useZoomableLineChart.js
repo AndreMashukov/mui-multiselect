@@ -9,10 +9,12 @@ export const useZoomableLineChart = (props) => {
   const [currentZoomState, setCurrentZoomState] = useState(d3.zoomIdentity);
   const [scale, setScale] = useState({});
 
+  const dimensions = { width: _width, height: _height };
+
   useLayoutEffect(() => {
     d3.select(ref.current).selectAll("*").remove();
     setSvg(createSvg(ref));
-    const newScale  = utils.createScale(dataArray, { width: _width, height: _height }, currentZoomState);
+    const newScale = utils.createScale(dataArray, dimensions, currentZoomState);
     setScale(newScale);
   }, [_width, _height, dataArray]);
 
@@ -21,11 +23,7 @@ export const useZoomableLineChart = (props) => {
     idleTimeout = null;
   }
 
-  const dimensions = { width: _width, height: _height };
-
   const createSvg = (ref) => utils.createSvg(ref, _width, _height, margin);
-  const createScales = (data, currentZoomState) =>
-    utils.createScales(data, dimensions, currentZoomState);
   const createAxes = (xScale, yScale) =>
     utils.createAxes({ svg, xScale, yScale, dimensions });
   const addClipping = () => utils.addClipping(svg, _width, _height);
@@ -56,7 +54,6 @@ export const useZoomableLineChart = (props) => {
     ref,
     svg,
     createSvg,
-    createScales,
     createAxes,
     addClipping,
     createLine,
@@ -68,6 +65,6 @@ export const useZoomableLineChart = (props) => {
     createCursor,
     handleMoveCursor,
     setCurrentZoomState,
-    scale
+    scale,
   };
 };
