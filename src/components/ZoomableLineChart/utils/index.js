@@ -9,6 +9,7 @@ import { updateChart } from "./updateChart";
 import { handleChartDoubleClick } from "./handleChartDoubleClick";
 import { createCursor } from "./createCursor";
 import { handleMoveCursor } from "./handleMoveCursor";
+import { createScales } from "./createScales"
 
 const utils = {
   createSvg,
@@ -22,6 +23,7 @@ const utils = {
   handleChartDoubleClick,
   createCursor,
   handleMoveCursor,
+  createScales,
 };
 
 export default utils;

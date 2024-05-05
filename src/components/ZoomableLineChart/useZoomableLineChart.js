@@ -18,10 +18,16 @@ export const useZoomableLineChart = (props) => {
     idleTimeout = null;
   }
 
+  const dimensions = { width: _width, height: _height };
+
   const createSvg = (ref) => utils.createSvg(ref, _width, _height, margin);
-  const createAxes = (data) => utils.createAxes(svg, data, _width, _height);
+  const createScales = (data, currentZoomState) =>
+    utils.createScales(data, dimensions, currentZoomState);
+  const createAxes = (xScale, yScale) =>
+    utils.createAxes({ svg, xScale, yScale, dimensions });
   const addClipping = () => utils.addClipping(svg, _width, _height);
-  const createLine = (data, x, y, color) => utils.createLine(svg, data, x, y, color);
+  const createLine = (data, x, y, color) =>
+    utils.createLine(svg, data, x, y, color);
   const addDots = (data, x, y) => utils.addDots(svg, data, x, y);
   const updateDots = (dots, x, y) => utils.updateDots(dots, x, y);
   const createBrush = () => utils.createBrush(_width, _height);
@@ -47,6 +53,7 @@ export const useZoomableLineChart = (props) => {
     ref,
     svg,
     createSvg,
+    createScales,
     createAxes,
     addClipping,
     createLine,
