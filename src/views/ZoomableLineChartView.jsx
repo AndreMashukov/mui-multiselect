@@ -5,7 +5,7 @@ import moment from "moment";
 import RangePickerWithSelector from "../components/RangePickerWithSelector/RangePickerWithSelector";
 import { useDateRangeForm } from "../hooks/useDateRangeForm";
 
-const NUM_LINES = 3;
+const NUM_LINES = 2;
 
 const COLORS = ["red", "green", "blue"];
 

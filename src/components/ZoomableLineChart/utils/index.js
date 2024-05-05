@@ -9,7 +9,6 @@ import { updateChart } from "./updateChart";
 import { handleChartDoubleClick } from "./handleChartDoubleClick";
 import { createCursor } from "./createCursor";
 import { handleMoveCursor } from "./handleMoveCursor";
-import { createScales } from "./createScales"
 import { createScale } from "./createScale"
 
 const utils = {
@@ -24,7 +23,6 @@ const utils = {
   handleChartDoubleClick,
   createCursor,
   handleMoveCursor,
-  createScales,
   createScale
 };
 

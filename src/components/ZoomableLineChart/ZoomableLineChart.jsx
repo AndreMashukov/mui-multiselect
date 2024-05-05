@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
-import * as d3 from "d3";
 
 const WIDTH = 800;
 const HEIGHT = 400;
