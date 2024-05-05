@@ -56,19 +56,16 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
         focusText.style("opacity", 0);
       });
 
+    const linesArray = [];
+    const dotsArray = [];
     dataArray.forEach((data, index) => {
-      const line = createLine(data.data, xScale, yScale, colors[index]);
-      const dots = addDots(data.data, xScale, yScale);
-
-      brush.on("end", (event) => {
-        setCurrentZoomState(event.transform);
-        updateChart(event, xScale, yScale, xAxis, line, brush, dots);
-      });
+      const line = createLine(data, xScale, yScale, colors[index]);
+      const dots = addDots(data, xScale, yScale);
 
       line.append("g").attr("class", "brush").call(brush);
 
       svg.on("dblclick", () =>
-        handleChartDoubleClick(data.data, xScale, yScale, xAxis, line, dots)
+        handleChartDoubleClick(data, xScale, yScale, xAxis, line, dots)
       );
 
       svg.on("click", () => {
@@ -78,8 +75,15 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
       });
 
       svg.on("mousemove", (event) =>
-        handleMoveCursor(event, data.data, xScale, yScale, focus, focusText)
+        handleMoveCursor(event, data, xScale, yScale, focus, focusText)
       );
+      linesArray.push(line);
+      dotsArray.push(dots);
+    });
+
+    brush.on("end", (event) => {
+      setCurrentZoomState(event.transform);
+      updateChart(event, xScale, yScale, xAxis, linesArray, brush, dotsArray);
     });
   }, [svg, dataArray, scale]);
 

@@ -34,13 +34,13 @@ export const useZoomableLineChart = (props) => {
   const addDots = (data, x, y) => utils.addDots(svg, data, x, y);
   const updateDots = (dots, x, y) => utils.updateDots(dots, x, y);
   const createBrush = () => utils.createBrush(_width, _height);
-  const updateChart = (event, x, y, xAxis, line, brush, dots) =>
+  const updateChart = (event, x, y, xAxis, lines, brush, dots) =>
     utils.updateChart(
       event,
       x,
       y,
       xAxis,
-      line,
+      lines,
       brush,
       dots,
       idleTimeout,

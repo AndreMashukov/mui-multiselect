@@ -5,7 +5,7 @@ export const createScale = (dataArray, dimensions, currentZoomState) => {
 
   // Find the minimum and maximum date across all datasets
   const xExtent = d3.extent(
-    dataArray.flatMap((data) => (data.data ? data.data : [])),
+    dataArray.flatMap((data) => (data ? data : [])),
     (d) => (d && d.date ? d.date : new Date())
   );
 
@@ -28,7 +28,7 @@ export const createScale = (dataArray, dimensions, currentZoomState) => {
 
   // Find the maximum value across all datasets
   const yMax = d3.max(
-    dataArray.flatMap((data) => (data.data ? data.data : [])),
+    dataArray.flatMap((data) => (data ? data : [])),
     (d) => (d && d.value ? d.value : 0)
   );
 

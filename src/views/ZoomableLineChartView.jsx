@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import ZoomableLineChart from "../components/ZoomableLineChart/ZoomableLineChart";
 import { Grid, MenuItem, Select, Typography } from "@mui/material";
@@ -45,12 +44,12 @@ const ZoomableLineChartView = () => {
   };
 
   const getData = () => {
-    const newData = Array.from({ length: NUM_LINES }, () => ({
-      id: uuidv4(),
-      data: generateData(timeScaleStep),
-    }));
+    const newData = Array.from({ length: NUM_LINES }, () =>
+      generateData(timeScaleStep)
+    );
     setData(newData);
   };
+
   // data format:
   // date:  Thu Feb 29 2024 20:30:22 GMT+0800 (Hong Kong Standard Time) {}
   // value:  62
@@ -115,10 +114,7 @@ const ZoomableLineChartView = () => {
         {data && data.length && (
           // <ZoomableLineChart data={filterByDateRange(data)} />
           <ZoomableLineChart
-            dataArray={data.map((line) => ({
-              id: line.id,
-              data: filterByDateRange(line.data),
-            }))}
+            dataArray={data.map(filterByDateRange)}
             colors={COLORS}
           />
         )}
