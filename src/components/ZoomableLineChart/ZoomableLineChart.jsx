@@ -43,10 +43,10 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
 
     dataArray.forEach((data, index) => {
       addClipping();
-      const { xScale, yScale } = createScales(data, currentZoomState); 
+      const { xScale, yScale } = createScales(data.data, currentZoomState); 
       const { xAxis } = createAxes(xScale, yScale); 
-      const line = createLine(data, xScale, yScale, colors[index]);
-      const dots = addDots(data, xScale, yScale);
+      const line = createLine(data.data, xScale, yScale, colors[index]);
+      const dots = addDots(data.data, xScale, yScale);
 
       brush.on("end", (event) => {
         setCurrentZoomState(event.transform);
@@ -56,7 +56,7 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
       line.append("g").attr("class", "brush").call(brush);
 
       svg.on("dblclick", () =>
-        handleChartDoubleClick(data, xScale, yScale, xAxis, line, dots)
+        handleChartDoubleClick(data.data, xScale, yScale, xAxis, line, dots)
       );
 
       svg.on("click", () => {
@@ -73,7 +73,7 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
           focusText.style("opacity", 1);
         })
         .on("mousemove", (event) =>
-          handleMoveCursor(event, data, xScale, yScale, focus, focusText)
+          handleMoveCursor(event, data.data, xScale, yScale, focus, focusText)
         )
         .on("mouseout", function () {
           focus.style("opacity", 0);

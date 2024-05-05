@@ -9,9 +9,14 @@ export const createScales = (data, dimensions, currentZoomState) => {
   });
 
   // Subtract one day from the start of the xExtent
-  const xStart = new Date(
-    xExtent[0].getTime() - 0.05 * (xExtent[1] - xExtent[0])
-  );
+  let xStart;
+  if (xExtent[0]) {
+    xStart = new Date(
+      xExtent[0].getTime() - 0.05 * (xExtent[1] - xExtent[0])
+    );
+  } else {
+    xStart = new Date();
+  }
 
   const xScale = d3.scaleTime().domain([xStart, xExtent[1]]).range([0, width]);
 
