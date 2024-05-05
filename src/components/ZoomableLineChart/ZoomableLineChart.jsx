@@ -7,7 +7,6 @@ const WIDTH = 800;
 const HEIGHT = 400;
 
 const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
-  const [currentZoomState, setCurrentZoomState] = useState(d3.zoomIdentity);
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
@@ -33,7 +32,8 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     handleChartDoubleClick,
     createCursor,
     handleMoveCursor,
-    createScales,
+    scales,
+    setCurrentZoomState,
   } = useZoomableLineChart(props);
 
   useEffect(() => {
@@ -42,9 +42,10 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     const brush = createBrush();
 
     dataArray.forEach((data, index) => {
+      // console.log(scales);
       addClipping();
-      const { xScale, yScale } = createScales(data.data, currentZoomState); 
-      const { xAxis } = createAxes(xScale, yScale); 
+      const { xScale, yScale } = scales[data.id];
+      const { xAxis } = createAxes(xScale, yScale);
       const line = createLine(data.data, xScale, yScale, colors[index]);
       const dots = addDots(data.data, xScale, yScale);
 
@@ -80,7 +81,7 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
           focusText.style("opacity", 0);
         });
     });
-  }, [svg, dataArray]);
+  }, [svg, dataArray, scales]);
 
   return <div ref={ref}></div>;
 };
