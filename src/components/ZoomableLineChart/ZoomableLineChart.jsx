@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
 import * as d3 from "d3";
 
@@ -10,8 +10,6 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
-
-  // const data = dataArray[0];
 
   const props = {
     dataArray,
@@ -64,10 +62,6 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
 
       line.append("g").attr("class", "brush").call(brush);
 
-      svg.on("dblclick", () =>
-        handleChartDoubleClick(data, xScale, yScale, xAxis, line, dots)
-      );
-
       svg.on("click", () => {
         setTimeout(() => {
           dots.selectAll(".dot").style("opacity", 1);
@@ -80,7 +74,17 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
       linesArray.push(line);
       dotsArray.push(dots);
     });
-
+  
+    svg.on("dblclick", () =>
+      handleChartDoubleClick(
+        dataArray,
+        xScale,
+        yScale,
+        xAxis,
+        linesArray,
+        dotsArray
+      )
+    );
     brush.on("end", (event) => {
       setCurrentZoomState(event.transform);
       updateChart(event, xScale, yScale, xAxis, linesArray, brush, dotsArray);
