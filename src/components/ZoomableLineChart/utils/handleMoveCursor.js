@@ -17,17 +17,18 @@ export const handleMoveCursor = (event, dataArray, x, y, focus, focusText) => {
     return data[i];
   });
 
-  focus.attr("x1", x(selectedDataArray[0].date)).attr("x2", x(selectedDataArray[0].date));
+  focus
+    .attr("x1", x(selectedDataArray[0].date))
+    .attr("x2", x(selectedDataArray[0].date));
   focusText
     .attr("x", x(selectedDataArray[0].date) + 15)
     .attr("y", y(selectedDataArray[0].value));
 
   // Create a JSON object from the selectedDataArray
   const selectedDataJson = selectedDataArray.reduce((json, data, index) => {
-    json[`line${index + 1}`] = {
-      value: data.value,
-    };
     json.date = moment(data.date).format("YYYY-MM-DD HH:mm");
+    json[`line${index + 1}`] = data.value;
+
     return json;
   }, {});
 
@@ -38,3 +39,17 @@ export const handleMoveCursor = (event, dataArray, x, y, focus, focusText) => {
 
   return selectedDataJson;
 };
+
+// focusText
+// .html(
+//   selectedDataArray
+//     .map(
+//       (selectedData) =>
+//         "x:" +
+//         moment(selectedData.date).format("DD/MM/YYYY HH:mm") +
+//         "  -  " +
+//         "y:" +
+//         selectedData.value
+//     )
+//     .join("<br>")
+// )
