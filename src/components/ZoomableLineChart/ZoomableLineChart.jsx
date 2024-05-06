@@ -1,14 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
-import {
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Grid, Tooltip, Typography } from "@mui/material";
 
 const WIDTH = 800;
 const HEIGHT = 400;
@@ -116,19 +109,44 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     <Tooltip
       title={
         <Box>
-          <Typography variant="body2" color="text.secondary">
-            {currentPoint.date}
-          </Typography>
-          <Divider />
-          {currentPoint.values.map((value, index) => (
-            <Typography key={index} variant="body2" color="text.secondary">
-              {value}
-            </Typography>
-          ))}
+          {currentPoint && (
+            <>
+              <Typography variant="body2" color="text.secondary">
+                {currentPoint.date}
+              </Typography>
+              <Divider sx={{mb: 1}} />
+              {currentPoint.values.map((value, index) => (
+                <Grid container justifyContent="flex-start" key={value}>
+                  <Grid item>
+                    <Box
+                      component="span"
+                      sx={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        backgroundColor: colors[index],
+                        display: "inline-block",
+                        marginRight: 1,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Typography
+                      key={index}
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      {value}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              ))}
+            </>
+          )}
         </Box>
       }
       followCursor
-      sx={{ backgroundColor: "white" }} 
+      sx={{ backgroundColor: "white" }}
     >
       <Box>
         <div ref={ref}></div>
