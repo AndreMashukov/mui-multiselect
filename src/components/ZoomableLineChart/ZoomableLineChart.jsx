@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
 
 const WIDTH = 800;
@@ -32,6 +32,8 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     setCurrentZoomState,
     scale,
   } = useZoomableLineChart(props);
+
+  const [currentPoint, setCurrentPoint] = useState(null);
 
   useEffect(() => {
     if (!svg) return;
@@ -71,9 +73,17 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
       dotsArray.push(dots);
     });
 
-    svg.on("mousemove", (event) =>
-      handleMoveCursor(event, dataArray, xScale, yScale, focus, focusText)
-    );
+    svg.on("mousemove", (event) => {
+      const point = handleMoveCursor(
+        event,
+        dataArray,
+        xScale,
+        yScale,
+        focus,
+        focusText
+      );
+      setCurrentPoint(point);
+    });
 
     svg.on("dblclick", () =>
       handleChartDoubleClick(

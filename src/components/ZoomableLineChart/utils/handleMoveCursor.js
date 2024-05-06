@@ -33,4 +33,15 @@ export const handleMoveCursor = (event, dataArray, x, y, focus, focusText) => {
     )
     .attr("x", x(selectedDataArray[0].date) + 15)
     .attr("y", y(selectedDataArray[0].value));
+
+  // Create a JSON object from the selectedDataArray
+  const selectedDataJson = selectedDataArray.reduce((json, data, index) => {
+    json[`line${index + 1}`] = {
+      date: moment(data.date).format("DD/MM/YYYY HH:mm"),
+      value: data.value,
+    };
+    return json;
+  }, {});
+
+  return selectedDataJson;
 };
