@@ -116,7 +116,7 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
               </Typography>
               <Divider sx={{mb: 1}} />
               {currentPoint.values.map((value, index) => (
-                <Grid container justifyContent="flex-start" key={value}>
+                <Grid container justifyContent="flex-start" key={index}>
                   <Grid item>
                     <Box
                       component="span"
