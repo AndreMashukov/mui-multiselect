@@ -67,13 +67,14 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
         }, 500);
       });
 
-      svg.on("mousemove", (event) =>
-        handleMoveCursor(event, data, xScale, yScale, focus, focusText)
-      );
       linesArray.push(line);
       dotsArray.push(dots);
     });
-  
+
+    svg.on("mousemove", (event) =>
+      handleMoveCursor(event, dataArray, xScale, yScale, focus, focusText)
+    );
+
     svg.on("dblclick", () =>
       handleChartDoubleClick(
         dataArray,
