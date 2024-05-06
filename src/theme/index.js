@@ -1,9 +1,9 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const COLORS = {
-  flushOrange: '#ff7a00',
-  navyBlue: '#010028',
-  blue: '#050283',
+  flushOrange: "#ff7a00",
+  navyBlue: "#010028",
+  blue: "#050283",
 };
 
 const theme = createTheme({
@@ -18,28 +18,35 @@ const theme = createTheme({
       main: COLORS.navyBlue,
       light: COLORS.blue,
       // dark: will be calculated from palette.secondary.main,
-      contrastText: '#47008F', // Pigment Indigo
+      contrastText: "#47008F", // Pigment Indigo
     },
   },
   components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "rgba(255, 255, 255, 0.7)",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         contained: {
-          color: 'white',
-          fontWeight: 'bold',
+          color: "white",
+          fontWeight: "bold",
           backgroundColor: COLORS.flushOrange,
         },
         outlined: {
           color: COLORS.flushOrange,
           border: `2px solid ${COLORS.flushOrange}`,
-          fontWeight: 'bold',
-          '&:hover': {
-            border: '2px solid',
+          fontWeight: "bold",
+          "&:hover": {
+            border: "2px solid",
           },
         },
         text: {
           // borderRadius: "2px",
-          fontWeight: 'bold',
+          fontWeight: "bold",
           border: `2px solid ${COLORS.navyBlue}`,
         },
       },
