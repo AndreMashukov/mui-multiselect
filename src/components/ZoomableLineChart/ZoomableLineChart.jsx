@@ -35,6 +35,20 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
 
   const [currentPoint, setCurrentPoint] = useState(null);
 
+  // console.log(currentPoint);
+  // {
+  //   "line1": {
+  //       "value": 59
+  //   },
+  //   "date": "2024-05-06",
+  //   "line2": {
+  //       "value": 52
+  //   },
+  //   "line3": {
+  //       "value": 62
+  //   }
+  // }
+
   useEffect(() => {
     if (!svg) return;
 
@@ -105,3 +119,17 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
 };
 
 export default ZoomableLineChart;
+
+// focusText
+// .html(
+//   selectedDataArray
+//     .map(
+//       (selectedData) =>
+//         "x:" +
+//         moment(selectedData.date).format("DD/MM/YYYY HH:mm") +
+//         "  -  " +
+//         "y:" +
+//         selectedData.value
+//     )
+//     .join("<br>")
+// )
