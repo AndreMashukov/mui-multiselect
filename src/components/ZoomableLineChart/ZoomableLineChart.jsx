@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
+import { Box, Tooltip } from "@mui/material";
 
 const WIDTH = 800;
 const HEIGHT = 400;
@@ -115,7 +116,13 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
     });
   }, [svg, dataArray, scale]);
 
-  return <div ref={ref}></div>;
+  return (
+    <Tooltip title={JSON.stringify(currentPoint)}>
+      <Box>
+        <div ref={ref}></div>;
+      </Box>
+    </Tooltip>
+  );
 };
 
 export default ZoomableLineChart;

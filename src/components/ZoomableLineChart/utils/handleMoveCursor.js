@@ -27,7 +27,7 @@ export const handleMoveCursor = (event, dataArray, x, y, focus, focusText) => {
     json[`line${index + 1}`] = {
       value: data.value,
     };
-    json.date = moment(data.date).format("YYYY-MM-DD");
+    json.date = moment(data.date).format("YYYY-MM-DD HH:mm");
     return json;
   }, {});
 
