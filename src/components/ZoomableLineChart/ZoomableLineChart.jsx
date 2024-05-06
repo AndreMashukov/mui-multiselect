@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
-import { Box, Tooltip } from "@mui/material";
+import { Box, Card, CardContent, Tooltip, Typography } from "@mui/material";
 
 const WIDTH = 800;
 const HEIGHT = 400;
@@ -37,8 +37,8 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   const [currentPoint, setCurrentPoint] = useState(null);
 
   // console.log(currentPoint);
-  // {"date":"2024-05-05 22:20","line1":23,"line2":9,"line3":9}
-  
+  // {"values":[44,4,60],"date":"2024-05-05 19:33"}
+
   useEffect(() => {
     if (!svg) return;
 
@@ -106,9 +106,19 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   }, [svg, dataArray, scale]);
 
   return (
-    <Tooltip title={JSON.stringify(currentPoint)}>
+    <Tooltip 
+      title={
+        <Card sx={{ border: "1px solid black" }}>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {JSON.stringify(currentPoint)}
+            </Typography>
+          </CardContent>
+        </Card>
+      }
+    >
       <Box>
-        <div ref={ref}></div>;
+        <div ref={ref}></div>
       </Box>
     </Tooltip>
   );

@@ -27,10 +27,10 @@ export const handleMoveCursor = (event, dataArray, x, y, focus, focusText) => {
   // Create a JSON object from the selectedDataArray
   const selectedDataJson = selectedDataArray.reduce((json, data, index) => {
     json.date = moment(data.date).format("YYYY-MM-DD HH:mm");
-    json[`line${index + 1}`] = data.value;
+    json.values.push(data.value);
 
     return json;
-  }, {});
+  }, {values: []});
 
   // Format the selectedDataJson object as a string with the x coordinate on top and the y coordinates below it
   // const tooltipContent = Object.entries(selectedDataJson)
