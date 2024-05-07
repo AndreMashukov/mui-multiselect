@@ -67,15 +67,18 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
 
       line.append("g").attr("class", "brush").call(brush);
 
-      svg.on("click", () => {
-        setTimeout(() => {
-          dots.selectAll(".dot").style("opacity", 1);
-        }, 500);
-      });
-
       linesArray.push(line);
       dotsArray.push(dots);
     });
+
+    svg.on("click", () => {
+      setTimeout(() => {
+        dotsArray.forEach((dots) => {
+          dots.selectAll(".dot").style("opacity", 1);
+        })
+      }, 500);
+    });
+
 
     svg.on("mousemove", (event) => {
       const point = handleMoveCursor(
