@@ -109,7 +109,7 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   }, [svg, dataArray, scale]);
 
   return (
-    <CurrentPointTooltip currentPoint={currentPoint}>
+    <CurrentPointTooltip currentPoint={currentPoint} colors={colors}>
       <div ref={ref}></div>
     </CurrentPointTooltip>
   );

@@ -1,7 +1,7 @@
 import { Box, Divider, Grid, Tooltip, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 
-export const CurrentPointTooltip = ({ children, currentPoint }) => {
+export const CurrentPointTooltip = ({ children, currentPoint, colors }) => {
   return (
     <Tooltip
       title={
@@ -52,10 +52,9 @@ export const CurrentPointTooltip = ({ children, currentPoint }) => {
 
 CurrentPointTooltip.propTypes = {
   children: PropTypes.node.isRequired,
-  currentPoint: PropTypes.object(
-    PropTypes.shape({
-      date: PropTypes.string.isRequired,
-      values: PropTypes.arrayOf(PropTypes.number).isRequired,
-    })
-  ),
+  currentPoint: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    values: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }),
+  colors: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
