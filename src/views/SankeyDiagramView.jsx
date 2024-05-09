@@ -27,6 +27,7 @@ const sankeyData = {
     { source: 6, target: 8, value: 3 },
     { source: 7, target: 8, value: 3 },
     { source: 8, target: 9, value: 6 },
+    // { source: 0, target: 9, value: 2 },
   ],
 };
 export const SankeyDiagramView = () => {

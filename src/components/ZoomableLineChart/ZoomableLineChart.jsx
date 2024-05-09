@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
-import { Box, Divider, Grid, Tooltip, Typography } from "@mui/material";
 import { CurrentPointTooltip } from "./CurrentPointTooltip/CurrentPointTooltip";
+import ChartLegend from "./ChartLegend/ChartLegend";
 
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
+const ZoomableLineChart = ({ dataArray, width, height, colors, labels }) => {
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
@@ -109,9 +109,12 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   }, [svg, dataArray, scale]);
 
   return (
-    <CurrentPointTooltip currentPoint={currentPoint} colors={colors}>
-      <div ref={ref}></div>
-    </CurrentPointTooltip>
+    <>
+      <CurrentPointTooltip currentPoint={currentPoint} colors={colors}>
+        <div ref={ref}></div>
+      </CurrentPointTooltip>
+      <ChartLegend colors={colors} labels={labels} />
+    </>
   );
 };
 

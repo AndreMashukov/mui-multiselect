@@ -9,6 +9,12 @@ const NUM_LINES = 3;
 
 const COLORS = ["red", "green", "blue"];
 
+const LABELS = [
+  "Line 1",
+  "Line 2",
+  "Line 3",
+]
+
 const TIME_SCALE_STEPS_MS = [
   { name: "1 hour", value: 3600000 },
   { name: "6 hours", value: 21600000 },
@@ -116,6 +122,7 @@ const ZoomableLineChartView = () => {
           <ZoomableLineChart
             dataArray={data.map(filterByDateRange)}
             colors={COLORS}
+            labels={LABELS}
           />
         )}
       </div>
