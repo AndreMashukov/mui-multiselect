@@ -23,8 +23,8 @@ function App() {
           {/* <RangePickerView /> */}
           {/* <CustomSelectView /> */}
           {/* <LineChartView /> */}
-          <ZoomableLineChartView />
-          {/* <SankeyDiagramView /> */}
+          {/* <ZoomableLineChartView /> */}
+          <SankeyDiagramView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>
