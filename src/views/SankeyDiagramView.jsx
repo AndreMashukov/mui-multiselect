@@ -1,20 +1,14 @@
 import { Typography } from "@mui/material";
 import SankeyDiagram from "../components/SankeyDiagram/SankeyDiagram";
 
-const sankeyData = {
-  nodes: [
-    { id: 0, name: "node0" },
-    { id: 1, name: "node1" },
-    { id: 2, name: "node2" },
-    { id: 3, name: "node3" },
-    { id: 4, name: "node4" },
-    { id: 5, name: "node5" },
-    { id: 6, name: "node6" },
-    { id: 7, name: "node7" },
-    { id: 8, name: "node8" },
-    { id: 9, name: "node9" },
-  ],
-  links: [
+
+function generateSankeyData() {
+  const nodes = Array.from({ length: 21 }, (_, i) => ({
+    id: i,
+    name: `node${i}`
+  }));
+
+  const links = [
     { source: 0, target: 2, value: 2 },
     { source: 1, target: 2, value: 2 },
     { source: 1, target: 3, value: 2 },
@@ -28,8 +22,55 @@ const sankeyData = {
     { source: 7, target: 8, value: 3 },
     { source: 8, target: 9, value: 6 },
     { source: 0, target: 9, value: 2 },
-  ],
-};
+    { source: 10, target: 7, value: 2 },
+    { source: 11, target: 7, value: 2 },
+    { source: 12, target: 7, value: 2 },
+    { source: 13, target: 7, value: 2 },
+    { source: 14, target: 7, value: 2 },
+    { source: 15, target: 7, value: 2 },
+    { source: 16, target: 7, value: 2 },
+    { source: 17, target: 7, value: 2 },
+    { source: 18, target: 7, value: 2 },
+    { source: 19, target: 7, value: 2 },
+    { source: 20, target: 7, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 9, value: 2 },
+  ];
+
+  return { nodes, links };
+}
+
+// Usage:
+const sankeyData = generateSankeyData();
+
+// function generateSankeyData(numNodes, numLinks) {
+//   const nodes = Array.from({ length: numNodes }, (_, i) => ({
+//     id: i,
+//     name: `node${i}`
+//   }));
+
+//   const links = Array.from({ length: numLinks }, () => ({
+//     source: Math.floor(Math.random() * numNodes),
+//     target: Math.floor(Math.random() * numNodes),
+//     value: Math.floor(Math.random() * 10) + 1
+//   }));
+
+//   return { nodes, links };
+// }
+
+// const sankeyData = generateSankeyData(2, 4);
+
+console.log(sankeyData)
+
 export const SankeyDiagramView = () => {
   return (
     <div style={{ padding: "20px", width: 800 }}>
