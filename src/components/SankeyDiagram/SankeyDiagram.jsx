@@ -17,22 +17,7 @@ const SankeyDiagram = ({ sankeyData }) => {
   const svgRef = useRef();
   const [currentPoint, setCurrentPoint] = useState(null);
 
-  useEffect(() => {
-    const svg = d3.select(svgRef.current);
-    const { width, height } = svg.node().getBoundingClientRect();
-
-    const sankeyGenerator = sankey()
-      .nodeWidth(15)
-      .nodePadding(10)
-      .extent([
-        [1, 1],
-        [width - 1, height - 5],
-      ])
-      .nodeId((d) => d.id)
-      .nodeAlign(sankeyCenter);
-
-    const { nodes, links } = sankeyGenerator(sankeyData);
-
+  const drawNodes = (svg, nodes) => {
     svg
       .append("g")
       .selectAll("rect")
@@ -43,7 +28,9 @@ const SankeyDiagram = ({ sankeyData }) => {
       .attr("height", (d) => d.y1 - d.y0)
       .attr("width", (d) => d.x1 - d.x0)
       .attr("fill", (d) => (d.depth == 1 ? "#FF7A00" : getRandomColor()));
+  };
 
+  const addLabels = (svg, nodes, width) => {
     svg
       .append("g")
       .style("font", "10px sans-serif")
@@ -55,7 +42,9 @@ const SankeyDiagram = ({ sankeyData }) => {
       .attr("dy", "0.35em")
       .attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
       .text((d) => d.name);
+  };
 
+  const drawLinks = (svg, links) => {
     svg
       .append("g")
       .attr("fill", "none")
@@ -74,9 +63,30 @@ const SankeyDiagram = ({ sankeyData }) => {
           value: d.value,
         });
       })
-      .on("mouseout", function (d) {
+      .on("mouseout", function () {
         d3.select(this).attr("stroke", "#D7D7D7"); // Reset the color back to original on mouseout
       });
+  };
+
+  useEffect(() => {
+    const svg = d3.select(svgRef.current);
+    const { width, height } = svg.node().getBoundingClientRect();
+
+    const sankeyGenerator = sankey()
+      .nodeWidth(15)
+      .nodePadding(10)
+      .extent([
+        [1, 1],
+        [width - 1, height - 5],
+      ])
+      .nodeId((d) => d.id)
+      .nodeAlign(sankeyCenter);
+
+    const { nodes, links } = sankeyGenerator(sankeyData);
+
+    drawNodes(svg, nodes);
+    addLabels(svg, nodes, width);
+    drawLinks(svg, links);
   }, [sankeyData]);
 
   return (

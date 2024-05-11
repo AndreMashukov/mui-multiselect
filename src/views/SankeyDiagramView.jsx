@@ -52,23 +52,6 @@ function generateSankeyData() {
 // Usage:
 const sankeyData = generateSankeyData();
 
-// function generateSankeyData(numNodes, numLinks) {
-//   const nodes = Array.from({ length: numNodes }, (_, i) => ({
-//     id: i,
-//     name: `node${i}`
-//   }));
-
-//   const links = Array.from({ length: numLinks }, () => ({
-//     source: Math.floor(Math.random() * numNodes),
-//     target: Math.floor(Math.random() * numNodes),
-//     value: Math.floor(Math.random() * 10) + 1
-//   }));
-
-//   return { nodes, links };
-// }
-
-// const sankeyData = generateSankeyData(2, 4);
-
 console.log(sankeyData)
 
 export const SankeyDiagramView = () => {
