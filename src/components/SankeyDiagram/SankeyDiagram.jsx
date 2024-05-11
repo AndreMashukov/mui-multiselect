@@ -18,7 +18,7 @@ const SankeyDiagram = ({ sankeyData }) => {
   // const gRef = useRef(); // Add a new ref for the group element
 
   const [currentPoint, setCurrentPoint] = useState(null);
-  const zoom = d3.zoom().scaleExtent([0.5, 2]); // Def
+  const zoom = d3.zoom().scaleExtent([1, 3]); // Def
 
   const drawNodes = (svg, nodes) => {
     svg
