@@ -49,10 +49,7 @@ function generateSankeyData() {
   return { nodes, links };
 }
 
-// Usage:
 const sankeyData = generateSankeyData();
-
-console.log(sankeyData)
 
 export const SankeyDiagramView = () => {
   return (

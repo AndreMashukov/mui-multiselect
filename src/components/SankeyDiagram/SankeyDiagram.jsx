@@ -100,11 +100,6 @@ const SankeyDiagram = ({ sankeyData }) => {
     svg.call(zoom);
   }, [sankeyData]);
 
-  // useEffect(() => {
-  //   const svg = d3.select(svgRef.current);
-  //   svg.call(d3.zoom().transform, d3.zoomIdentity.scale(zoomLevel));
-  // }, [zoomLevel]); //
-
   return (
     <div>
       <CurrentPointTooltip currentPoint={currentPoint}>
