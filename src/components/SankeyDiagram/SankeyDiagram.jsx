@@ -15,7 +15,10 @@ function getRandomColor() {
 
 const SankeyDiagram = ({ sankeyData }) => {
   const svgRef = useRef();
+  // const gRef = useRef(); // Add a new ref for the group element
+
   const [currentPoint, setCurrentPoint] = useState(null);
+  const zoom = d3.zoom().scaleExtent([0.5, 2]); // Def
 
   const drawNodes = (svg, nodes) => {
     svg
@@ -70,6 +73,8 @@ const SankeyDiagram = ({ sankeyData }) => {
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
+    const g = svg.append("g");
+    // gRef.current = g; // Set the group ref
     const { width, height } = svg.node().getBoundingClientRect();
 
     const sankeyGenerator = sankey()
@@ -87,12 +92,26 @@ const SankeyDiagram = ({ sankeyData }) => {
     drawNodes(svg, nodes);
     addLabels(svg, nodes, width);
     drawLinks(svg, links);
+    zoom.on("zoom", (event) => {
+      // console.log("Zoom event: ", event);
+      svg.attr("transform", event.transform);
+      // zoomIn();
+    });
+  
+    svg.call(zoom);
   }, [sankeyData]);
 
+  // useEffect(() => {
+  //   const svg = d3.select(svgRef.current);
+  //   svg.call(d3.zoom().transform, d3.zoomIdentity.scale(zoomLevel));
+  // }, [zoomLevel]); //
+
   return (
-    <CurrentPointTooltip currentPoint={currentPoint}>
-      <svg ref={svgRef} style={{ width: "100%", height: "400px" }}></svg>
-    </CurrentPointTooltip>
+    <div>
+      <CurrentPointTooltip currentPoint={currentPoint}>
+        <svg ref={svgRef} style={{ width: "100%", height: "400px" }}></svg>
+      </CurrentPointTooltip>
+    </div>
   );
 };
 
