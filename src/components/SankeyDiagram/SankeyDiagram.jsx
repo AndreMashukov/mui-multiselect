@@ -73,10 +73,10 @@ const SankeyDiagram = ({ sankeyData }) => {
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
-    const g = svg.append("g");
-    // gRef.current = g; // Set the group ref
+    svg.selectAll("*").remove();
+    const g = svg.append("g"); // Add a group element to the SVG
     const { width, height } = svg.node().getBoundingClientRect();
-
+  
     const sankeyGenerator = sankey()
       .nodeWidth(15)
       .nodePadding(10)
@@ -86,16 +86,15 @@ const SankeyDiagram = ({ sankeyData }) => {
       ])
       .nodeId((d) => d.id)
       .nodeAlign(sankeyCenter);
-
+  
     const { nodes, links } = sankeyGenerator(sankeyData);
-
-    drawNodes(svg, nodes);
-    addLabels(svg, nodes, width);
-    drawLinks(svg, links);
+  
+    drawNodes(g, nodes); // Draw the nodes and links on the group element
+    addLabels(g, nodes, width);
+    drawLinks(g, links);
+  
     zoom.on("zoom", (event) => {
-      // console.log("Zoom event: ", event);
-      svg.attr("transform", event.transform);
-      // zoomIn();
+      g.attr("transform", event.transform); // Apply the zoom transformations to the group element
     });
   
     svg.call(zoom);
