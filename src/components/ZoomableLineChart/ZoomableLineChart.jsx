@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useZoomableLineChart } from "./useZoomableLineChart";
-import { Box, Divider, Grid, Tooltip, Typography } from "@mui/material";
+import { CurrentPointTooltip } from "./CurrentPointTooltip/CurrentPointTooltip";
+import ChartLegend from "./ChartLegend/ChartLegend";
 
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
+const ZoomableLineChart = ({ dataArray, width, height, colors, labels }) => {
   const margin = { top: 10, right: 30, bottom: 30, left: 60 };
   const _width = (width || WIDTH) - margin.left - margin.right;
   const _height = (height || HEIGHT) - margin.top - margin.bottom;
@@ -67,14 +68,16 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
 
       line.append("g").attr("class", "brush").call(brush);
 
-      svg.on("click", () => {
-        setTimeout(() => {
-          dots.selectAll(".dot").style("opacity", 1);
-        }, 500);
-      });
-
       linesArray.push(line);
       dotsArray.push(dots);
+    });
+
+    svg.on("click", () => {
+      setTimeout(() => {
+        dotsArray.forEach((dots) => {
+          dots.selectAll(".dot").style("opacity", 1);
+        });
+      }, 500);
     });
 
     svg.on("mousemove", (event) => {
@@ -106,52 +109,12 @@ const ZoomableLineChart = ({ dataArray, width, height, colors }) => {
   }, [svg, dataArray, scale]);
 
   return (
-    <Tooltip
-      title={
-        <Box>
-          {currentPoint && (
-            <>
-              <Typography variant="body2" color="text.secondary">
-                {currentPoint.date}
-              </Typography>
-              <Divider sx={{mb: 1}} />
-              {currentPoint.values.map((value, index) => (
-                <Grid container justifyContent="flex-start" key={index}>
-                  <Grid item>
-                    <Box
-                      component="span"
-                      sx={{
-                        width: 10,
-                        height: 10,
-                        borderRadius: "50%",
-                        backgroundColor: colors[index],
-                        display: "inline-block",
-                        marginRight: 1,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      key={index}
-                      variant="body2"
-                      color="text.secondary"
-                    >
-                      {value}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              ))}
-            </>
-          )}
-        </Box>
-      }
-      followCursor
-      sx={{ backgroundColor: "white" }}
-    >
-      <Box>
+    <>
+      <CurrentPointTooltip currentPoint={currentPoint} colors={colors}>
         <div ref={ref}></div>
-      </Box>
-    </Tooltip>
+      </CurrentPointTooltip>
+      <ChartLegend colors={colors} labels={labels} />
+    </>
   );
 };
 

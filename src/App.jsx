@@ -9,6 +9,7 @@ import { RangePickerView } from "./views/RangePickerView";
 import { CustomSelectView } from "./views/CustomSelectView";
 import LineChartView from "./views/LineChartView";
 import ZoomableLineChartView from "./views/ZoomableLineChartView";
+import { SankeyDiagramView } from "./views/SankeyDiagramView";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           {/* <RangePickerView /> */}
           {/* <CustomSelectView /> */}
           {/* <LineChartView /> */}
-          <ZoomableLineChartView />
+          {/* <ZoomableLineChartView /> */}
+          <SankeyDiagramView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>
