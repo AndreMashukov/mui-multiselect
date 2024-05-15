@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const StackedBarChart = ({ width, height }) => {
+const StackedBarChart = ({ data, width, height }) => {
   const ref = useRef();
   // set the dimensions and margins of the graph
   const margin = { top: 10, right: 30, bottom: 20, left: 50 };
@@ -67,13 +67,9 @@ const StackedBarChart = ({ width, height }) => {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
     }
-    // Parse the Data
-    d3.csv(
-      "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_stacked.csv"
-    ).then(function (data) {
-      drawChart(svg, data, _width, _height);
-    });
-  }, []);
+
+    drawChart(svg, data, _width, _height);
+  }, [data]); 
 
   return <div ref={ref}></div>;
 };
