@@ -72,7 +72,6 @@ const StackedBarChart = ({ width, height }) => {
       "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_stacked.csv"
     ).then(function (data) {
       drawChart(svg, data, _width, _height);
-      s;
     });
   }, []);
 
