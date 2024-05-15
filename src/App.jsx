@@ -10,6 +10,7 @@ import { CustomSelectView } from "./views/CustomSelectView";
 import LineChartView from "./views/LineChartView";
 import ZoomableLineChartView from "./views/ZoomableLineChartView";
 import { SankeyDiagramView } from "./views/SankeyDiagramView";
+import { StackedBarChartView } from "./views/StackedBarChartView";
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
           {/* <CustomSelectView /> */}
           {/* <LineChartView /> */}
           {/* <ZoomableLineChartView /> */}
-          <SankeyDiagramView />
+          {/* <SankeyDiagramView /> */}
+          <StackedBarChartView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>
