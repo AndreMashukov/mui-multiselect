@@ -1,13 +1,14 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-const StackedBarChart = () => {
+const StackedBarChart = ({ width, height }) => {
   const ref = useRef();
   const [svg, setSvg] = useState(null);
   // set the dimensions and margins of the graph
-  const margin = { top: 10, right: 30, bottom: 20, left: 50 },
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+  const margin = { top: 10, right: 30, bottom: 20, left: 50 };
+  const _width = width || 460 - margin.left - margin.right;
+  const _height = height || 400 - margin.top - margin.bottom;
 
   useEffect(() => {
     if (!svg) {
@@ -15,8 +16,8 @@ const StackedBarChart = () => {
         d3
           .select(ref.current)
           .append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
+          .attr("width", _width + margin.left + margin.right)
+          .attr("height", _height + margin.top + margin.bottom)
           .append("g")
           .attr("transform", `translate(${margin.left},${margin.top})`)
       );
@@ -35,15 +36,15 @@ const StackedBarChart = () => {
         const x = d3
           .scaleBand()
           .domain(groups)
-          .range([0, width])
+          .range([0, _width])
           .padding([0.2]);
         svg
           .append("g")
-          .attr("transform", `translate(0, ${height})`)
+          .attr("transform", `translate(0, ${_height})`)
           .call(d3.axisBottom(x).tickSizeOuter(0));
 
         // Add Y axis
-        const y = d3.scaleLinear().domain([0, 60]).range([height, 0]);
+        const y = d3.scaleLinear().domain([0, 60]).range([_height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
         // color palette = one color per subgroup
