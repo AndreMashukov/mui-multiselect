@@ -72,7 +72,11 @@ const StackedBarChart = ({ data, width, height }) => {
       .attr("x", (d) => x(d.data.group))
       .attr("y", (d) => y(d[1]))
       .attr("height", (d) => y(d[0]) - y(d[1]))
-      .attr("width", x.bandwidth());
+      .attr("width", x.bandwidth())
+      .on("click", (event, d) => {
+        // When a bar is clicked, log the group elements
+        console.log(d.data);
+      });
 
     const zoom = d3
       .zoom()
