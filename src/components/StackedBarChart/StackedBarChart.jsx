@@ -10,6 +10,7 @@ const StackedBarChart = ({ data, width, height }) => {
   const _height = height || 400 - margin.top - margin.bottom;
 
   const drawChart = (svg, data, _width, _height) => {
+
     // List of subgroups = header of the csv files = soil condition here
     const subgroups = data.columns.slice(1);
 
@@ -25,7 +26,8 @@ const StackedBarChart = ({ data, width, height }) => {
 
     // Add Y axis
     const y = d3.scaleLinear().domain([0, 60]).range([_height, 0]);
-    svg.append("g").call(d3.axisLeft(y));
+    svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y));
+    // svg.append("g").call(d3.axisLeft(y));
 
     // color palette = one color per subgroup
     const color = d3
@@ -52,11 +54,28 @@ const StackedBarChart = ({ data, width, height }) => {
       .attr("y", (d) => y(d[1]))
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth());
+
+    const zoom = d3
+      .zoom()
+      .scaleExtent([1, 10])
+      .on("zoom", (event) => {
+        // When zoomed, update the bars and the Y axis
+        const newY = event.transform.rescaleY(y);
+        svg
+          .selectAll("rect")
+          .attr("y", (d) => newY(d[1]))
+          .attr("height", (d) => newY(d[0]) - newY(d[1]));
+        svg.select(".y-axis").call(d3.axisLeft(newY));
+      });
+
+    // Apply the zoom behavior to the SVG
+    svg.call(zoom);
   };
 
   useEffect(() => {
     d3.select(ref.current).selectAll("*").remove();
     let svg = d3.select(ref.current).select("svg");
+    svg.call(d3.zoom().on("zoom", null));
 
     if (svg.empty()) {
       svg = d3
@@ -69,7 +88,7 @@ const StackedBarChart = ({ data, width, height }) => {
     }
 
     drawChart(svg, data, _width, _height);
-  }, [data]); 
+  }, [data]);
 
   return <div ref={ref}></div>;
 };
