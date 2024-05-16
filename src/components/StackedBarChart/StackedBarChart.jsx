@@ -9,14 +9,7 @@ const StackedBarChart = ({ data, width, height }) => {
   const _width = width || 460 - margin.left - margin.right;
   const _height = height || 400 - margin.top - margin.bottom;
 
-  const drawChart = (svg, data, _width, _height) => {
-
-    // List of subgroups = header of the csv files = soil condition here
-    const subgroups = data.columns.slice(1);
-
-    // List of groups = species here = value of the first column called group -> I show them on the X axis
-    const groups = data.map((d) => d.group);
-
+  const createAxes = (svg, _width, _height, groups) => {
     // Add X axis
     const x = d3.scaleBand().domain(groups).range([0, _width]).padding([0.2]);
     svg
@@ -27,8 +20,18 @@ const StackedBarChart = ({ data, width, height }) => {
     // Add Y axis
     const y = d3.scaleLinear().domain([0, 60]).range([_height, 0]);
     svg.append("g").attr("class", "y-axis").call(d3.axisLeft(y));
-    // svg.append("g").call(d3.axisLeft(y));
 
+    return { x, y };
+  };
+
+  const drawChart = (svg, data, _width, _height) => {
+    // List of subgroups = header of the csv files = soil condition here
+    const subgroups = data.columns.slice(1);
+
+    // List of groups = species here = value of the first column called group -> I show them on the X axis
+    const groups = data.map((d) => d.group);
+
+    const { x, y } = createAxes(svg, _width, _height, groups);
     // color palette = one color per subgroup
     const color = d3
       .scaleOrdinal()
