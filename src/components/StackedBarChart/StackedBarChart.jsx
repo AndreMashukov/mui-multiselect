@@ -24,6 +24,21 @@ const StackedBarChart = ({ data, width, height }) => {
     return { x, y };
   };
 
+  const createClipPath = (svg, _width, _height) => {
+    // Define a clipPath: everything out of this area won't be drawn.
+    const clip = svg
+      .append("defs")
+      .append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", _width)
+      .attr("height", _height)
+      .attr("x", 0)
+      .attr("y", 0);
+
+    return clip;
+  };
+
   const drawChart = (svg, data, _width, _height) => {
     // List of subgroups = header of the csv files = soil condition here
     const subgroups = data.columns.slice(1);
@@ -40,10 +55,11 @@ const StackedBarChart = ({ data, width, height }) => {
 
     //stack the data? --> stack per subgroup
     const stackedData = d3.stack().keys(subgroups)(data);
-
+    createClipPath(svg, _width, _height);
     // Show the bars
-    svg
+    const bars = svg
       .append("g")
+      .attr("clip-path", "url(#clip)") // Apply the clip path to the bars only
       .selectAll("g")
       // Enter in the stack data = loop key per key = group per group
       .data(stackedData)
@@ -64,8 +80,7 @@ const StackedBarChart = ({ data, width, height }) => {
       .on("zoom", (event) => {
         // When zoomed, update the bars and the Y axis
         const newY = event.transform.rescaleY(y);
-        svg
-          .selectAll("rect")
+        bars
           .attr("y", (d) => newY(d[1]))
           .attr("height", (d) => newY(d[0]) - newY(d[1]));
         svg.select(".y-axis").call(d3.axisLeft(newY));
