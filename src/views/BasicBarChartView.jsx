@@ -12,6 +12,19 @@ export const BasicBarChartView = () => {
     { name: "Netherlands", value: 1167 },
     { name: "Italy", value: 660 },
     { name: "Israel", value: 1263 },
+
+    // {
+    //   name: "Nitrogen",
+    //   value: 11,
+    // },
+    // {
+    //   name: "normal",
+    //   value: 28,
+    // },
+    // {
+    //   name: "stress",
+    //   value: 12,
+    // },
   ];
   return (
     <>

@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const StackedBarChart = ({ data, width, height }) => {
+const StackedBarChart = ({ data, width, height, setSelectedData }) => {
   const ref = useRef();
   // set the dimensions and margins of the graph
   const margin = { top: 10, right: 30, bottom: 20, left: 50 };
@@ -74,8 +74,14 @@ const StackedBarChart = ({ data, width, height }) => {
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth())
       .on("click", (event, d) => {
-        // When a bar is clicked, log the group elements
-        console.log(d.data);
+        const selected = {
+          group: d.data.group,
+          data: Object.keys(d.data)
+            .slice(1)
+            .map((key) => ({ name: key, value: parseInt(d.data[key])})),
+        };
+        console.log(selected);
+        setSelectedData(selected);
       });
 
     const zoom = d3

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const BasicBarChart = ({ data }) => {
   const ref = useRef();
 
-  // console.log(str);
+  console.log(data);
 
   useEffect(() => {
     // Check if data is defined
@@ -64,8 +64,8 @@ const BasicBarChart = ({ data }) => {
       .selectAll("rect")
       .transition()
       .duration(800)
-      .attr("y", (d) => y(d.value))
-      .attr("height", (d) => height - y(d.value))
+      .attr("y", (d) => y(d.value || 0)) // Use 0 if d.value is not a number
+      .attr("height", (d) => height - y(d.value || 0)) // Use 0 if d.value is not a number
       .delay((d, i) => {
         // console.log(i);
         return i * 100;

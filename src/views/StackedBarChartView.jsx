@@ -1,4 +1,6 @@
+import { useState } from "react";
 import StackedBarChart from "../components/StackedBarChart/StackedBarChart";
+import BasicBarChart from "../components/BasicBarChart/BasicBarChart";
 
 const data = [
   {
@@ -30,5 +32,13 @@ const data = [
 data.columns = ["group", "Nitrogen", "normal", "stress"];
 
 export const StackedBarChartView = () => {
-  return <StackedBarChart data={data}/>;
+  const [selectedData, setSelectedData] = useState();
+  return (
+    <>
+      {!selectedData && (
+        <StackedBarChart data={data} setSelectedData={setSelectedData} />
+      )}
+      {selectedData && <BasicBarChart data={selectedData.data} />}
+    </>
+  );
 };
