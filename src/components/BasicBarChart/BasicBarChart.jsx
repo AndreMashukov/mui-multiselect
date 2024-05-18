@@ -33,7 +33,7 @@ const BasicBarChart = ({ data }) => {
     const x = d3
       .scaleBand()
       .range([0, width])
-      .domain(data.map((d) => d.Country))
+      .domain(data.map((d) => d.name))
       .padding(0.2);
     svg
       .append("g")
@@ -52,7 +52,7 @@ const BasicBarChart = ({ data }) => {
       .selectAll("mybar")
       .data(data)
       .join("rect")
-      .attr("x", (d) => x(d.Country))
+      .attr("x", (d) => x(d.name))
       .attr("width", x.bandwidth())
       .attr("fill", "#69b3a2")
       // no bar at the beginning thus:
@@ -64,8 +64,8 @@ const BasicBarChart = ({ data }) => {
       .selectAll("rect")
       .transition()
       .duration(800)
-      .attr("y", (d) => y(d.Value))
-      .attr("height", (d) => height - y(d.Value))
+      .attr("y", (d) => y(d.value))
+      .attr("height", (d) => height - y(d.value))
       .delay((d, i) => {
         // console.log(i);
         return i * 100;
