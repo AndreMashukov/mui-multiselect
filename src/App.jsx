@@ -27,8 +27,8 @@ function App() {
           {/* <LineChartView /> */}
           {/* <ZoomableLineChartView /> */}
           {/* <SankeyDiagramView /> */}
-          {/* <StackedBarChartView /> */}
-          <BasicBarChartView />
+          <StackedBarChartView />
+          {/* <BasicBarChartView /> */}
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>

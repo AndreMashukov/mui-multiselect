@@ -1,6 +1,8 @@
 import { useState } from "react";
 import StackedBarChart from "../components/StackedBarChart/StackedBarChart";
 import BasicBarChart from "../components/BasicBarChart/BasicBarChart";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const data = [
   {
@@ -35,6 +37,29 @@ export const StackedBarChartView = () => {
   const [selectedData, setSelectedData] = useState();
   return (
     <>
+      <Box>
+        <Grid container sx={{ minHeight: "50px" }}>
+          {selectedData && (
+            <Grid item>
+              <Grid container>
+                <Grid item>
+                  <IconButton onClick={() => setSelectedData(undefined)}>
+                    <ArrowBackIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Typography>{selectedData.group}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          )}
+          {!selectedData && (
+            <Grid item>
+              <Typography>Stacked Bar Chart</Typography>
+            </Grid>
+          )}
+        </Grid>
+      </Box>
       {!selectedData && (
         <StackedBarChart data={data} setSelectedData={setSelectedData} />
       )}

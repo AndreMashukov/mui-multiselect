@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const BasicBarChart = ({ data }) => {
   const ref = useRef();
 
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     // Check if data is defined
@@ -44,7 +44,10 @@ const BasicBarChart = ({ data }) => {
       .style("text-anchor", "end");
 
     // Add Y axis
-    const y = d3.scaleLinear().domain([0, 13000]).range([height, 0]);
+    const y = d3
+      .scaleLinear()
+      .domain([0, d3.max(data, (d) => d.value)])
+      .range([height, 0]);
     svg.append("g").call(d3.axisLeft(y));
 
     // Bars
