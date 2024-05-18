@@ -11,6 +11,7 @@ import LineChartView from "./views/LineChartView";
 import ZoomableLineChartView from "./views/ZoomableLineChartView";
 import { SankeyDiagramView } from "./views/SankeyDiagramView";
 import { StackedBarChartView } from "./views/StackedBarChartView";
+import { BasicBarChartView } from "./views/BasicBarChartView";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
           {/* <LineChartView /> */}
           {/* <ZoomableLineChartView /> */}
           {/* <SankeyDiagramView /> */}
-          <StackedBarChartView />
+          {/* <StackedBarChartView /> */}
+          <BasicBarChartView />
         </Grid>
         <Grid xs={4}></Grid>
       </Grid>
