@@ -80,7 +80,7 @@ const StackedBarChart = ({ data, width, height, setSelectedData }) => {
             .slice(1)
             .map((key) => ({ name: key, value: parseInt(d.data[key])})),
         };
-        console.log(selected);
+        // console.log(selected);
         setSelectedData(selected);
       });
 
