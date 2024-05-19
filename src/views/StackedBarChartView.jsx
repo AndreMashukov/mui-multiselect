@@ -50,14 +50,14 @@ export const StackedBarChartView = () => {
                     <ArrowBackIcon />
                   </IconButton>
                 </Grid>
-                <Grid item sx={{pl: 1}}>
+                <Grid item sx={{ pl: 1 }}>
                   <Typography>{selectedData.group}</Typography>
                 </Grid>
               </Grid>
             </Grid>
           )}
           {!selectedData && (
-            <Grid item sx={{ml: 5}}>
+            <Grid item sx={{ ml: 5 }}>
               <Typography>Stacked Bar Chart</Typography>
             </Grid>
           )}
