@@ -42,19 +42,22 @@ export const StackedBarChartView = () => {
           {selectedData && (
             <Grid item>
               <Grid container>
-                <Grid item>
-                  <IconButton onClick={() => setSelectedData(undefined)}>
+                <Grid item sx={{ position: "relative" }}>
+                  <IconButton
+                    sx={{ top: "-7px" }}
+                    onClick={() => setSelectedData(undefined)}
+                  >
                     <ArrowBackIcon />
                   </IconButton>
                 </Grid>
-                <Grid item>
+                <Grid item sx={{pl: 1}}>
                   <Typography>{selectedData.group}</Typography>
                 </Grid>
               </Grid>
             </Grid>
           )}
           {!selectedData && (
-            <Grid item>
+            <Grid item sx={{ml: 5}}>
               <Typography>Stacked Bar Chart</Typography>
             </Grid>
           )}
