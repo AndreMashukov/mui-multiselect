@@ -5,7 +5,30 @@ import PropTypes from "prop-types";
 const BasicBarChart = ({ data }) => {
   const ref = useRef();
 
-  // console.log(data);
+  const createAxes = (svg, data, width, height) => {
+    // X axis
+    const x = d3
+      .scaleBand()
+      .range([0, width])
+      .domain(data.map((d) => d.name))
+      .padding(0.2);
+    svg
+      .append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+
+    // Y axis
+    const y = d3
+      .scaleLinear()
+      .domain([0, d3.max(data, (d) => d.value)])
+      .range([height, 0]);
+    svg.append("g").call(d3.axisLeft(y));
+
+    return { x, y };
+  };
 
   useEffect(() => {
     // Check if data is defined
@@ -29,26 +52,7 @@ const BasicBarChart = ({ data }) => {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // X axis
-    const x = d3
-      .scaleBand()
-      .range([0, width])
-      .domain(data.map((d) => d.name))
-      .padding(0.2);
-    svg
-      .append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x))
-      .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
-
-    // Add Y axis
-    const y = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value)])
-      .range([height, 0]);
-    svg.append("g").call(d3.axisLeft(y));
+    const { x, y } = createAxes(svg, data, width, height);
 
     // Bars
     svg
