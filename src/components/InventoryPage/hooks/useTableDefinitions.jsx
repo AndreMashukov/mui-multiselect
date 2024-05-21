@@ -1,6 +1,7 @@
 import { IconButton, Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const DEFAULT_COLUMNS_SETTINGS = [
   {
@@ -18,7 +19,7 @@ const DEFAULT_COLUMNS_SETTINGS = [
     sortable: false,
     width: "250px",
     // omit: !isReseller,
-    omitIfReseller: true
+    omitIfReseller: true,
   },
   {
     name: "inventory.service_name",
@@ -103,6 +104,16 @@ export const useTableDefinitions = ({ threeDots }) => {
   const { t } = useTranslation();
   const isReseller = false;
 
+  const [threeDotsAnchorEl, setThreeDotsAnchorEl] = useState(null);
+
+  const threeDotsHandleClose = () => {
+    setThreeDotsAnchorEl(null);
+  };
+
+  const threeDotsHandleClick = (event, rawData) => {
+    setThreeDotsAnchorEl(event.currentTarget);
+  };
+
   const getTableColums = () => {
     const buttons = [];
 
@@ -115,7 +126,7 @@ export const useTableDefinitions = ({ threeDots }) => {
               data-cy="inventory-icon-button-77692"
               id={"long-button"}
               aria-haspopup="true"
-              onClick={(e) => threeDots.handleClick(e, row)}
+              onClick={(e) => threeDotsHandleClick(e, row)}
             >
               <MoreVertIcon />
             </IconButton>
@@ -166,5 +177,10 @@ export const useTableDefinitions = ({ threeDots }) => {
 
   return {
     getTableColums,
+    threeDots: {
+      anchorEl: threeDotsAnchorEl,
+      handleClose: threeDotsHandleClose,
+      handleClick: threeDotsHandleClick,
+    },
   };
 };
