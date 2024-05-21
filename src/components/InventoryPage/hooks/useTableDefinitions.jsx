@@ -6,34 +6,6 @@ export const useTableDefinitions = () => {
   const {t} = useTranslation();
   const isReseller = false
 
-  const PRODUCT_CATEGORY_OPTIONS = [
-    {label: t("inventory.Cabinets"), id: "CAB"},
-    {label: t("inventory.Power"), id: "POW0"},
-    {label: t("inventory.Cages"), id: "CAG"},
-    {label: t("inventory.Offices"), id: "OFC"},
-    {label: t("inventory.RemoteHand"), id: "RMH"},
-  ];
-
-  const INVENTORY_TABLE_FILTER_OPTIONS = [
-    {
-      value: "service_name",
-      name: t("inventory.service_name").toUpperCase(),
-      text: "",
-    },
-    {
-      value: "location_name",
-      name: t("inventory.location_name").toUpperCase(),
-      text: "",
-    },
-    {
-      value: "product_name",
-      name: t("inventory.product_name").toUpperCase(),
-      text: "",
-    },
-    {value: "status", name: t("inventory.status").toUpperCase(), text: ""},
-    {value: "category", name: t("inventory.category").toUpperCase(), text: ""},
-  ];
-
   const getTableColums = ({open, handleClick}) => [
     {
       button: true,
@@ -198,7 +170,5 @@ export const useTableDefinitions = () => {
 
   return {
     getTableColums,
-    INVENTORY_TABLE_FILTER_OPTIONS,
-    PRODUCT_CATEGORY_OPTIONS,
   };
 };
