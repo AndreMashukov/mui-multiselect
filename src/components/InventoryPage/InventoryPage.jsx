@@ -1,24 +1,23 @@
-import {useTranslation} from "react-i18next";
-import {useContext} from "react";
+import { useTranslation } from "react-i18next";
+import { useContext } from "react";
 import DataTable from "react-data-table-component";
 import Grid from "@mui/material/Grid";
-import {useTableDefinitions} from "./hooks/useTableDefinitions.jsx";
+import { useTableDefinitions } from "./hooks/useTableDefinitions.jsx";
 import InventoryPageContext from "./context/InventoryPageContext";
 // import TicketMenu from "./TicketMenu/TicketMenu.jsx";
 import InventoryDetail from "./InventoryDetail/InventoryDetail.jsx";
 
 const InventoryPage = () => {
-  const {t} = useTranslation();
-  const {state, actions} = useContext(InventoryPageContext);
+  const { t } = useTranslation();
+  const { state, actions } = useContext(InventoryPageContext);
 
-  const {
-    getTableColums,
-  } = useTableDefinitions();
-
-  const tableColumns = getTableColums({
-    open,
-    handleClick: () => {},
+  const { getTableColums } = useTableDefinitions({
+    threeDots: {
+      handleClick: () => {},
+    },
   });
+
+  const tableColumns = getTableColums();
 
   const subHeaderComponent = (
     <>
