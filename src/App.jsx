@@ -18,8 +18,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid container sx={{ position: "fixed", ml: 3 }}>
-        <Grid item xs={10} sx={{ position: "relative", bottom: "300px" }}>
+      <Grid container sx={{ position: "relative", ml: 3 }}>
+        <Grid item xs={10} sx={{ position: "relative", overflow: "auto" }}>
           {/* <MultiSelectTestView /> */}
           {/* <ModalContainerTestView /> */}
           {/* <DatepickerView /> */}

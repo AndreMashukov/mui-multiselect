@@ -6,6 +6,21 @@ import { useTableDefinitions } from "./hooks/useTableDefinitions.jsx";
 import InventoryPageContext from "./context/InventoryPageContext";
 // import TicketMenu from "./TicketMenu/TicketMenu.jsx";
 import InventoryDetail from "./InventoryDetail/InventoryDetail.jsx";
+import styled from "styled-components";
+
+const StyledDataTable = styled(DataTable)`
+  .rdt_TableHead {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    background: white;
+  }
+`;
+
+const Wrapper = styled.div`
+  height: 100vh; 
+  overflow: auto;
+`;
 
 const InventoryPage = () => {
   const { t } = useTranslation();
@@ -38,35 +53,37 @@ const InventoryPage = () => {
       /> */}
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <DataTable
-            columns={tableColumns}
-            data={state.tableRows}
-            progressPending={state.loading}
-            pagination
-            paginationServer
-            paginationTotalRows={state.totalRows}
-            onChangePage={actions.setPage}
-            onChangeRowsPerPage={actions.setItemsPerPage}
-            onColumnOrderChange={() => {}}
-            onSort={actions.setSort}
-            striped={true}
-            highlightOnHover={true}
-            enableColumnResizing
-            expandableRows
-            responsive={true}
-            pointerOnHover={true}
-            paginationRowsPerPageOptions={[10, 20, 50, 100, 200]}
-            expandableRowsComponent={InventoryDetail}
-            defaultColumn={{
-              maxSize: 400,
-              minSize: 80,
-              size: 150,
-            }}
-            subHeader
-            subHeaderComponent={subHeaderComponent}
-            subHeaderAlign="left"
-            subHeaderWrap
-          />
+          <Wrapper>
+            <StyledDataTable
+              columns={tableColumns}
+              data={state.tableRows}
+              progressPending={state.loading}
+              pagination
+              paginationServer
+              paginationTotalRows={state.totalRows}
+              onChangePage={actions.setPage}
+              onChangeRowsPerPage={actions.setItemsPerPage}
+              onColumnOrderChange={() => {}}
+              onSort={actions.setSort}
+              striped={true}
+              highlightOnHover={true}
+              enableColumnResizing
+              expandableRows
+              responsive={true}
+              pointerOnHover={true}
+              paginationRowsPerPageOptions={[10, 20, 50, 100, 200]}
+              expandableRowsComponent={InventoryDetail}
+              defaultColumn={{
+                maxSize: 400,
+                minSize: 80,
+                size: 150,
+              }}
+              subHeader
+              subHeaderComponent={subHeaderComponent}
+              subHeaderAlign="left"
+              subHeaderWrap
+            />
+          </Wrapper>
         </Grid>
       </Grid>
     </>

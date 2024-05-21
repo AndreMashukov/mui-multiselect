@@ -2,6 +2,103 @@ import { IconButton, Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTranslation } from "react-i18next";
 
+const DEFAULT_COLUMNS_SETTINGS = [
+  {
+    name: "inventory.space_id",
+    selector: "space_id",
+    tooltip: "space_other_name",
+    allowOverflow: true,
+    sortable: false,
+    width: "200px",
+  },
+  {
+    name: "inventory.end_customer",
+    selector: "end_customer",
+    allowOverflow: false,
+    sortable: false,
+    width: "250px",
+    // omit: !isReseller,
+    omitIfReseller: true
+  },
+  {
+    name: "inventory.service_name",
+    selector: "service_name",
+    allowOverflow: true,
+    sortable: true,
+    width: "200px",
+  },
+  {
+    name: "inventory.location_name",
+    selector: "location_name",
+    allowOverflow: true,
+    sortable: true,
+  },
+  {
+    name: "inventory.product_name",
+    selector: "product_name",
+    allowOverflow: true,
+    sortable: true,
+    width: "250px",
+  },
+  {
+    name: "inventory.product_attribute",
+    selector: "product_attribute",
+    allowOverflow: true,
+    sortable: false,
+    width: "200px",
+  },
+  {
+    name: "inventory.sales_order_name",
+    selector: "sales_order_name",
+    allowOverflow: true,
+    sortable: false,
+    width: "200px",
+  },
+  {
+    name: "inventory.qty",
+    selector: "qty",
+    sortable: true,
+    width: "200px",
+  },
+  {
+    name: "inventory.status",
+    selector: "status",
+    sortable: true,
+    width: "200px",
+  },
+  {
+    name: "inventory.created_by",
+    selector: "created_by",
+    sortable: true,
+    width: "200px",
+    omit: true,
+  },
+  {
+    name: "inventory.legacy_number",
+    selector: "legacy_number",
+    sortable: true,
+    width: "200px",
+  },
+  {
+    name: "inventory.cs_reference",
+    selector: "payment_state",
+    sortable: true,
+    width: "200px",
+  },
+  {
+    name: "inventory.installed_date",
+    selector: "installed_date",
+    sortable: true,
+    width: "200px",
+  },
+  {
+    name: "inventory.contract_end_date",
+    selector: "contract_end_date",
+    sortable: true,
+    width: "200px",
+  },
+];
+
 export const useTableDefinitions = ({ threeDots }) => {
   const { t } = useTranslation();
   const isReseller = false;
@@ -30,146 +127,40 @@ export const useTableDefinitions = ({ threeDots }) => {
 
     return [
       ...buttons,
-      {
-        name: t("inventory.space_id"),
-        selector: (row) => (
-          <Tooltip
-            title={row.space_other_name}
-            arrow
-            componentsProps={{
-              tooltip: {
-                sx: {
-                  // color: "purple",
-                  backgroundColor: "black",
-                  fontSize: "1em",
-                },
-              },
-            }}
-          >
-            <span>{row.space_id}</span>
-          </Tooltip>
-        ),
-        sortable: false,
-        reorder: true,
-        lable: "space_id",
-        allowOverflow: true,
-        width: "200px",
-      },
-      {
-        name: t("inventory.end_customer"),
-        selector: (row) => row.end_customer,
-        sortable: false,
-        reorder: true,
-        lable: "end_customer",
-        allowOverflow: false,
-        width: "250px",
-        omit: !isReseller,
-      },
-      {
-        name: t("inventory.service_name"),
-        selector: (row) => row.service_name,
-        sortable: true,
-        reorder: true,
-        lable: "service_name",
-        allowOverflow: true,
-        width: "200px",
-      },
-      {
-        name: t("inventory.location_name"),
-        selector: (row) => row.location_name,
-        sortable: true,
-        reorder: true,
-        lable: "location_name",
-      },
-      {
-        name: t("inventory.product_name"),
-        selector: (row) => row.product_name,
-        sortable: true,
-        reorder: true,
-        lable: "product_name",
-        allowOverflow: true,
-        width: "250px",
-      },
-      {
-        name: t("inventory.product_attribute"),
-        selector: (row) => row.product_attribute,
-        sortable: false,
-        reorder: true,
-        lable: "product_attribute",
-        allowOverflow: true,
-        width: "200px",
-      },
-      {
-        name: t("inventory.sales_order_name"),
-        selector: (row) => row.sales_order_name,
-        sortable: false,
-        reorder: true,
-        lable: "sales_order_name",
-        allowOverflow: true,
-        width: "200px",
-      },
-      {
-        name: t("inventory.qty"),
-        selector: (row) => row.qty,
-        sortable: true,
-        reorder: true,
-        lable: "qty",
-        width: "200px",
-      },
-      {
-        name: t("inventory.status"),
-        selector: (row) => row.status,
-        sortable: true,
-        reorder: true,
-        lable: "status",
-        width: "200px",
-      },
-      {
-        name: t("inventory.created_by"),
-        selector: (row) => row.created_by,
-        sortable: true,
-        reorder: true,
-        lable: "created_by",
-        width: "200px",
-        omit: true,
-      },
-      {
-        name: t("inventory.legacy_number"),
-        selector: (row) => row.legacy_number,
-        sortable: true,
-        reorder: true,
-        lable: "legacy_number",
-        allowOverflow: true,
-        width: "200px",
-      },
-      {
-        name: t("inventory.cs_reference"),
-        selector: (row) => row.payment_state,
-        sortable: true,
-        reorder: true,
-        lable: "cs_reference",
-        allowOverflow: true,
-        width: "200px",
-      },
-      {
-        name: t("inventory.installed_date"),
-        selector: (row) => row.installed_date,
-        sortable: true,
-        reorder: true,
-        lable: "installed_date",
-        allowOverflow: true,
-        width: "200px",
-      },
-      {
-        name: t("inventory.contract_end_date"),
-        selector: (row) => (
-          <span data-tag="allowRowEvents">{row.contract_end_date}</span>
-        ),
-        sortable: true,
-        reorder: true,
-        lable: "contract_end_date",
-        width: "200px",
-      },
+      ...DEFAULT_COLUMNS_SETTINGS.map((col) => {
+        return {
+          name: t(col.name),
+          selector: (row) => {
+            const value = row[col.selector];
+            if (col.tooltip) {
+              return (
+                <Tooltip
+                  title={row[col.tooltip]}
+                  arrow
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        // color: "purple",
+                        backgroundColor: "black",
+                        fontSize: "1em",
+                      },
+                    },
+                  }}
+                >
+                  <span>{value}</span>
+                </Tooltip>
+              );
+            }
+            return value;
+          },
+          allowOverflow: col.allowOverflow,
+          sortable: col.sortable,
+          width: col.width,
+          omit: !isReseller && col.omitIfReseller,
+          tooltip: col.tooltip,
+          reorder: true,
+        };
+      }),
     ];
   };
 
