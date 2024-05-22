@@ -71,10 +71,10 @@ const CustomTable = ({
             striped={true}
             highlightOnHover={true}
             enableColumnResizing
-            expandableRows
             responsive={true}
             pointerOnHover={true}
             paginationRowsPerPageOptions={[10, 20, 50, 100, 200]}
+            expandableRows={Boolean(detailComponent)}
             expandableRowsComponent={detailComponent}
             defaultColumn={{
               maxSize: 400,
