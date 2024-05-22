@@ -14,6 +14,8 @@ const InventoryPage = () => {
 
   const { getTableColums, threeDots } = useTableDefinitions({
     threeDots: true,
+    launchButton: true,
+    downloadButton: true,    
   });
 
   const tableColumns = getTableColums();

@@ -2,6 +2,8 @@ import { IconButton, Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import LaunchIcon from "@mui/icons-material/Launch";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const DEFAULT_COLUMNS_SETTINGS = [
   {
@@ -100,7 +102,11 @@ const DEFAULT_COLUMNS_SETTINGS = [
   },
 ];
 
-export const useTableDefinitions = ({ threeDots }) => {
+export const useTableDefinitions = ({
+  threeDots,
+  launchButton,
+  downloadButton,
+}) => {
   const { t } = useTranslation();
   const isReseller = false;
 
@@ -117,23 +123,52 @@ export const useTableDefinitions = ({ threeDots }) => {
   const getTableColums = () => {
     const buttons = [];
 
-    if (threeDots) {
-      buttons.push({
+    const getButton = ({ dataCy, handleClick, icon }) => {
+      return {
         button: true,
         cell: (row) => (
-          <div data-cy="inventory-div-24603">
+          <div data-cy={dataCy}>
             <IconButton
-              data-cy="inventory-icon-button-77692"
+              data-cy={dataCy}
               id={"long-button"}
               aria-haspopup="true"
-              onClick={(e) => threeDotsHandleClick(e, row)}
+              onClick={(e) => handleClick(e, row)}
             >
-              <MoreVertIcon />
+              {icon}
             </IconButton>
           </div>
         ),
         width: "50px",
-      });
+      };
+    };
+
+    if (threeDots) {
+      buttons.push(
+        getButton({
+          dataCy: "inventory-button-threeDots-24603",
+          handleClick: threeDotsHandleClick,
+          icon: <MoreVertIcon />,
+        })
+      );
+    }
+    if (launchButton) {
+      buttons.push(
+        getButton({
+          dataCy: "inventory-button-launch-24603",
+          handleClick: () => {},
+          icon: <LaunchIcon />,
+        })
+      );
+    }
+
+    if (downloadButton) {
+      buttons.push(
+        getButton({
+          dataCy: "inventory-button-download-24603",
+          handleClick: () => {},
+          icon: <DownloadIcon />,
+        })
+      );
     }
 
     return [

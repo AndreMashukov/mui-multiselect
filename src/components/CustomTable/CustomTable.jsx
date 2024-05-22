@@ -8,6 +8,7 @@ const StyledDataTable = styled(DataTable)`
   .rdt_TableHead {
     position: ${(props) => (props.stickyHeader ? "fixed" : "static")};
     top: 0;
+    left: 5px;
     z-index: 1;
     background: white;
   }
