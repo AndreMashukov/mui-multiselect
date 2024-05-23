@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 
 import {Header} from "./Header/Header.jsx";
-import PermanentDrawerRight from "./RightDrawer/RightDrawer.jsx";
 import {PageContext} from "../context/PageContext.js";
 import {Main} from "./Main/Main.jsx";
 import PageContent from "./PageContent/PageContent.jsx";

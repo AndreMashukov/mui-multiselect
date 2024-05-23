@@ -8,6 +8,7 @@ const StyledMain = styled("main", {
   shouldForwardProp: (prop) => prop !== "open",
 })(({theme, open, openrightdrawer}) => ({
   flexGrow: 1,
+  width: "1100px",
   // padding: theme.spacing(3),
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
