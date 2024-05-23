@@ -77,7 +77,6 @@ const PageComponent = (props) => {
               <Toolbar />
               <PageContent title={title}>{props.children}</PageContent>
             </Main>
-            {!hideRightSidebar && <PermanentDrawerRight />}
           </>
         )}
       </Box>
