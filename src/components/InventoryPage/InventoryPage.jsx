@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Grid from "@mui/material/Grid";
 import { useTableDefinitions } from "./hooks/useTableDefinitions.jsx";
 import InventoryPageContext from "./context/InventoryPageContext";
