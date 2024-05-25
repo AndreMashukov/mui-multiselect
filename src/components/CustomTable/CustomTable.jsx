@@ -6,6 +6,10 @@ import PropTypes from "prop-types";
 const Wrapper = styled.div`
   height: 80vh;
   overflow: hidden;
+
+  .rdt_TableBody {
+    min-height: 68vh !important;
+  }
 `;
 
 const CustomTable = ({
@@ -13,7 +17,6 @@ const CustomTable = ({
   state,
   actions,
   detailComponent,
-  subHeaderComponent,
 }) => {
   return (
     <Grid item xs={12}>
