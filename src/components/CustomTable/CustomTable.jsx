@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const Wrapper = styled.div`
   height: 80vh;
-  overflow: auto;
+  overflow: hidden;
 `;
 
 const CustomTable = ({
@@ -20,7 +20,7 @@ const CustomTable = ({
       <Wrapper>
         <DataTable
           fixedHeader
-          fixedHeaderScrollHeight="71vh"
+          fixedHeaderScrollHeight="75vh"
           columns={tableColumns}
           data={state.tableRows}
           progressPending={state.loading}
@@ -44,10 +44,10 @@ const CustomTable = ({
             minSize: 80,
             size: 150,
           }}
-          subHeader
-          subHeaderComponent={subHeaderComponent}
-          subHeaderAlign="left"
-          subHeaderWrap
+          // subHeader
+          // subHeaderComponent={subHeaderComponent}
+          // subHeaderAlign="left"
+          // subHeaderWrap
         />
       </Wrapper>
     </Grid>

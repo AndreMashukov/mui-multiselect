@@ -36,12 +36,13 @@ const InventoryPage = () => {
         open={Boolean(threeDots.anchorEl)}
         handleClose={threeDots.handleClose}
       /> */}
+      {subHeaderComponent}
       <CustomTable
         tableColumns={tableColumns}
         state={state}
         actions={actions}
         detailComponent={InventoryDetail}
-        subHeaderComponent={subHeaderComponent}
+        // subHeaderComponent={subHeaderComponent}
       />
     </>
   );

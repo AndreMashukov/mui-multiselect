@@ -1,5 +1,5 @@
 import { removeNullValues } from "../../../../utils";
-import { mock } from "./MOCK";
+import { mock } from "./MOCK10";
 
 export const useGetInventory = ({ state, actions }) => {
 
