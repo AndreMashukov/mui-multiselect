@@ -7,6 +7,7 @@ import InventoryDetail from "./InventoryDetail/InventoryDetail.jsx";
 import CustomTable from "../CustomTable/CustomTable.jsx";
 // import ThreeDotsMenu from "./TicketMenu/TicketMenu.jsx";
 import { useCustomTable } from "./hooks/useCustomTable.jsx";
+import { Box } from "@mui/material";
 
 const InventoryPage = () => {
   const { t } = useTranslation();
@@ -21,11 +22,11 @@ const InventoryPage = () => {
   const tableColumns = getTableColums();
 
   const subHeaderComponent = (
-    <>
+    <Box sx={{ p: 5 }}>
       <Grid container spacing={2}>
         Subheader
       </Grid>
-    </>
+    </Box>
   );
 
   return (
