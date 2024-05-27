@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import SankeyDiagram from "../components/SankeyDiagram/SankeyDiagram";
 
 function generateSankeyData() {
-  const nodes = Array.from({ length: 43 }, (_, i) => ({
+  const nodes = Array.from({ length: 51 }, (_, i) => ({
     id: i,
     name: `node${i}`,
   }));
@@ -54,6 +54,14 @@ function generateSankeyData() {
     { source: 40, target: 7, value: 2 },
     { source: 41, target: 7, value: 2 },
     { source: 42, target: 7, value: 2 },
+    { source: 43, target: 7, value: 2 },
+    { source: 44, target: 7, value: 2 },
+    { source: 45, target: 7, value: 2 },
+    { source: 46, target: 7, value: 2 },
+    { source: 47, target: 7, value: 2 },
+    { source: 48, target: 7, value: 2 },
+    { source: 49, target: 7, value: 2 },
+    { source: 50, target: 7, value: 2 },
     { source: 7, target: 9, value: 2 },
     { source: 7, target: 9, value: 2 },
     { source: 7, target: 9, value: 2 },
@@ -74,9 +82,9 @@ const sankeyData = generateSankeyData();
 
 export const SankeyDiagramView = () => {
   return (
-    <div style={{ padding: "20px", width: "100%", height: "100%" }}>
+    <div style={{ padding: "20px"}}>
       <Typography variant="h4">Sankey Diagram</Typography>
-      <SankeyDiagram sankeyData={sankeyData} width={1000} height={1000} />
+      <SankeyDiagram sankeyData={sankeyData} width={600} height={600} />
     </div>
   );
 };
