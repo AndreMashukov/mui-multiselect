@@ -18,21 +18,21 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid container sx={{ position: "relative", ml: 3 }}>
-        <Grid item xs={10} sx={{ position: "relative"  }}>
-          {/* <MultiSelectTestView /> */}
-          {/* <ModalContainerTestView /> */}
-          {/* <DatepickerView /> */}
-          {/* <RangePickerView /> */}
-          {/* <CustomSelectView /> */}
-          {/* <LineChartView /> */}
-          {/* <ZoomableLineChartView /> */}
-          {/* <SankeyDiagramView /> */}
-          {/* <StackedBarChartView /> */}
-          {/* <BasicBarChartView /> */}
-          <InventoryPageView />
-        </Grid>
-        <Grid xs={4}></Grid>
+      <Grid
+        container
+        sx={{ position: "relative", ml: 3}}
+      >
+        {/* <MultiSelectTestView /> */}
+        {/* <ModalContainerTestView /> */}
+        {/* <DatepickerView /> */}
+        {/* <RangePickerView /> */}
+        {/* <CustomSelectView /> */}
+        {/* <LineChartView /> */}
+        {/* <ZoomableLineChartView /> */}
+        <SankeyDiagramView />
+        {/* <StackedBarChartView /> */}
+        {/* <BasicBarChartView /> */}
+        {/* <InventoryPageView /> */}
       </Grid>
     </ThemeProvider>
   );

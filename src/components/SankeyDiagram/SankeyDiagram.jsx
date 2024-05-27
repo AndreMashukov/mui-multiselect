@@ -13,7 +13,7 @@ function getRandomColor() {
   return color;
 }
 
-const SankeyDiagram = ({ sankeyData }) => {
+const SankeyDiagram = ({ sankeyData, width, height }) => {
   const svgRef = useRef();
   // const gRef = useRef(); // Add a new ref for the group element
 
@@ -75,7 +75,7 @@ const SankeyDiagram = ({ sankeyData }) => {
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
     const g = svg.append("g"); // Add a group element to the SVG
-    const { width, height } = svg.node().getBoundingClientRect();
+    // const { width, height } = svg.node().getBoundingClientRect();
   
     const sankeyGenerator = sankey()
       .nodeWidth(15)
@@ -103,7 +103,7 @@ const SankeyDiagram = ({ sankeyData }) => {
   return (
     <div>
       <CurrentPointTooltip currentPoint={currentPoint}>
-        <svg ref={svgRef} style={{ width: "100%", height: "400px" }}></svg>
+        <svg ref={svgRef} style={{ width, height }}></svg>
       </CurrentPointTooltip>
     </div>
   );

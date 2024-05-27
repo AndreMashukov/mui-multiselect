@@ -1,11 +1,10 @@
 import { Typography } from "@mui/material";
 import SankeyDiagram from "../components/SankeyDiagram/SankeyDiagram";
 
-
 function generateSankeyData() {
-  const nodes = Array.from({ length: 21 }, (_, i) => ({
+  const nodes = Array.from({ length: 43 }, (_, i) => ({
     id: i,
-    name: `node${i}`
+    name: `node${i}`,
   }));
 
   const links = [
@@ -33,17 +32,39 @@ function generateSankeyData() {
     { source: 18, target: 7, value: 2 },
     { source: 19, target: 7, value: 2 },
     { source: 20, target: 7, value: 2 },
+    { source: 21, target: 7, value: 2 },
+    { source: 22, target: 7, value: 2 },
+    { source: 23, target: 7, value: 2 },
+    { source: 24, target: 7, value: 2 },
+    { source: 25, target: 7, value: 2 },
+    { source: 26, target: 7, value: 2 },
+    { source: 27, target: 7, value: 2 },
+    { source: 28, target: 7, value: 2 },
+    { source: 29, target: 7, value: 2 },
+    { source: 30, target: 7, value: 2 },
+    { source: 31, target: 7, value: 2 },
+    { source: 32, target: 7, value: 2 },
+    { source: 33, target: 7, value: 2 },
+    { source: 34, target: 7, value: 2 },
+    { source: 35, target: 7, value: 2 },
+    { source: 36, target: 7, value: 2 },
+    { source: 37, target: 7, value: 2 },
+    { source: 38, target: 7, value: 2 },
+    { source: 39, target: 7, value: 2 },
+    { source: 40, target: 7, value: 2 },
+    { source: 41, target: 7, value: 2 },
+    { source: 42, target: 7, value: 2 },
     { source: 7, target: 9, value: 2 },
     { source: 7, target: 9, value: 2 },
     { source: 7, target: 9, value: 2 },
     { source: 7, target: 9, value: 2 },
     { source: 7, target: 9, value: 2 },
-    { source: 7, target: 9, value: 2 },
-    { source: 7, target: 9, value: 2 },
-    { source: 7, target: 9, value: 2 },
-    { source: 7, target: 9, value: 2 },
-    { source: 7, target: 9, value: 2 },
-    { source: 7, target: 9, value: 2 },
+    { source: 7, target: 4, value: 2 },
+    { source: 7, target: 4, value: 2 },
+    { source: 7, target: 4, value: 2 },
+    { source: 7, target: 4, value: 2 },
+    { source: 7, target: 4, value: 2 },
+    { source: 7, target: 4, value: 2 },
   ];
 
   return { nodes, links };
@@ -53,9 +74,9 @@ const sankeyData = generateSankeyData();
 
 export const SankeyDiagramView = () => {
   return (
-    <div style={{ padding: "20px", width: 800 }}>
+    <div style={{ padding: "20px", width: "100%", height: "100%" }}>
       <Typography variant="h4">Sankey Diagram</Typography>
-      <SankeyDiagram sankeyData={sankeyData} />
+      <SankeyDiagram sankeyData={sankeyData} width={1000} height={1000} />
     </div>
   );
 };
