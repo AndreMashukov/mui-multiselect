@@ -68,6 +68,7 @@ const SankeyDiagram = ({ sankeyData, width, height }) => {
       })
       .on("mouseout", function () {
         d3.select(this).attr("stroke", "#D7D7D7"); // Reset the color back to original on mouseout
+        setCurrentPoint(null);
       });
   };
 
