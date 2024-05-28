@@ -8,15 +8,18 @@ import CustomTable from "../CustomTable/CustomTable.jsx";
 // import ThreeDotsMenu from "./TicketMenu/TicketMenu.jsx";
 import { useCustomTable } from "./hooks/useCustomTable.jsx";
 import { Box } from "@mui/material";
+import { DEFAULT_COLUMNS_SETTINGS } from "./inventoryTableDefaultSettings.js";
 
 const InventoryPage = () => {
   const { t } = useTranslation();
   const { state, actions } = useContext(InventoryPageContext);
 
-  const { getTableColums } = useCustomTable({
+  const { getTableColums, settings } = useCustomTable({
     threeDots: {
       handleClick: () => {},
     },
+    defaultSettings: DEFAULT_COLUMNS_SETTINGS,
+    tableName: "inventory",
   });
 
   const tableColumns = getTableColums();
@@ -37,13 +40,15 @@ const InventoryPage = () => {
         handleClose={threeDots.handleClose}
       /> */}
       {subHeaderComponent}
-      <CustomTable
-        tableColumns={tableColumns}
-        state={state}
-        actions={actions}
-        detailComponent={InventoryDetail}
-        // subHeaderComponent={subHeaderComponent}
-      />
+      {settings && (
+        <CustomTable
+          tableColumns={tableColumns}
+          state={state}
+          actions={actions}
+          detailComponent={InventoryDetail}
+          // subHeaderComponent={subHeaderComponent}
+        />
+      )}
     </>
   );
 };

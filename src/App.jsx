@@ -30,9 +30,9 @@ function App() {
         {/* <LineChartView /> */}
         {/* <ZoomableLineChartView /> */}
         {/* <SankeyDiagramView /> */}
-        <StackedBarChartView />
+        {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
-        {/* <InventoryPageView /> */}
+        <InventoryPageView />
       </Grid>
     </ThemeProvider>
   );
