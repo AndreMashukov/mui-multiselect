@@ -10,6 +10,7 @@ import { useCustomTable } from "./hooks/useCustomTable.jsx";
 import { Box } from "@mui/material";
 import { DEFAULT_COLUMNS_SETTINGS } from "./inventoryTableDefaultSettings.js";
 
+
 const InventoryPage = () => {
   const { t } = useTranslation();
   const { state, actions } = useContext(InventoryPageContext);
@@ -42,6 +43,7 @@ const InventoryPage = () => {
       {subHeaderComponent}
       {settings && (
         <CustomTable
+          tableName="inventory"
           tableColumns={tableColumns}
           state={state}
           actions={actions}

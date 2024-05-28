@@ -1,4 +1,4 @@
-import {useReducer} from "react";
+import { useReducer } from "react";
 
 // const {state, actions} = useTablePageReducer({
 //   extraReducers: {
@@ -25,7 +25,7 @@ import {useReducer} from "react";
 //   },
 // });
 
-export const useTablePageReducer = ({extraReducers, extraInitialState}) => {
+export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
   const TABLE_PAGE_ACTION = {
     SET_ITEMS_PER_PAGE: "SET_ITEMS_PER_PAGE",
     SET_PAGE: "SET_PAGE",
@@ -52,15 +52,15 @@ export const useTablePageReducer = ({extraReducers, extraInitialState}) => {
   });
 
   const addRawFilterReducer = (state, action) => {
-    const {slice, value} = action.payload;
-    const newState = {...state};
+    const { slice, value } = action.payload;
+    const newState = { ...state };
     newState.rawFilter[slice] = value;
     return newState;
   };
 
   const removeRawFilterReducer = (state, action) => {
     const slice = action.payload;
-    const newState = {...state};
+    const newState = { ...state };
     newState.rawFilter[slice] = null;
     return newState;
   };
@@ -109,13 +109,13 @@ export const useTablePageReducer = ({extraReducers, extraInitialState}) => {
 
   const getTableActions = (dispatch) => ({
     setItemsPerPage: (value) =>
-      dispatch({type: TABLE_PAGE_ACTION.SET_ITEMS_PER_PAGE, payload: value}),
+      dispatch({ type: TABLE_PAGE_ACTION.SET_ITEMS_PER_PAGE, payload: value }),
     setPage: (value) =>
-      dispatch({type: TABLE_PAGE_ACTION.SET_PAGE, payload: value}),
-    addRawFilter: ({slice, value}) =>
+      dispatch({ type: TABLE_PAGE_ACTION.SET_PAGE, payload: value }),
+    addRawFilter: ({ slice, value }) =>
       dispatch({
         type: TABLE_PAGE_ACTION.ADD_RAW_FILTER,
-        payload: {slice, value},
+        payload: { slice, value },
       }),
     removeRawFilter: (slice) =>
       dispatch({
@@ -123,19 +123,21 @@ export const useTablePageReducer = ({extraReducers, extraInitialState}) => {
         payload: slice,
       }),
     setTableRows: (invoices) =>
-      dispatch({type: TABLE_PAGE_ACTION.SET_TABLE_ROWS, payload: invoices}),
+      dispatch({ type: TABLE_PAGE_ACTION.SET_TABLE_ROWS, payload: invoices }),
     setTotalRows: (total) =>
-      dispatch({type: TABLE_PAGE_ACTION.SET_TOTAL_ROWS, payload: total}),
+      dispatch({ type: TABLE_PAGE_ACTION.SET_TOTAL_ROWS, payload: total }),
     setLoading: (loading) =>
-      dispatch({type: TABLE_PAGE_ACTION.SET_LOADING, payload: loading}),
-    setSort: (column) =>
-      dispatch({
+      dispatch({ type: TABLE_PAGE_ACTION.SET_LOADING, payload: loading }),
+    setSort: (column) => {
+      console.log("reducer", column);
+      return dispatch({
         type: TABLE_PAGE_ACTION.SET_SORT,
         payload: {
           sort: column.lable,
           sortDir: column.sortDirection,
         },
-      }),
+      });
+    },
   });
 
   const INITIAL_STATE = {
@@ -152,10 +154,10 @@ export const useTablePageReducer = ({extraReducers, extraInitialState}) => {
   const actions = getTableActions(dispatch);
   const extraActions = extraReducers
     ? Object.keys(extraReducers).reduce((acc, key) => {
-        acc[key] = (payload) => dispatch({type: key, payload});
+        acc[key] = (payload) => dispatch({ type: key, payload });
         return acc;
       }, {})
     : {};
 
-  return {state, actions: {...actions, ...extraActions}};
+  return { state, actions: { ...actions, ...extraActions } };
 };
