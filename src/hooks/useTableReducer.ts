@@ -129,7 +129,6 @@ export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
     setLoading: (loading) =>
       dispatch({ type: TABLE_PAGE_ACTION.SET_LOADING, payload: loading }),
     setSort: (column) => {
-      console.log("reducer", column);
       return dispatch({
         type: TABLE_PAGE_ACTION.SET_SORT,
         payload: {

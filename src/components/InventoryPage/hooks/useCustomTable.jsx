@@ -78,7 +78,8 @@ export const useCustomTable = ({
     return [
       ...buttons,
       ...settings.map((col) => ({
-        name: t(col.name),
+        name: t(`${tableName}.${col.selector}`),
+        label: col.selector,
         selector: (row) => {
           const value = row[col.selector];
           if (col.tooltip) {
@@ -114,6 +115,6 @@ export const useCustomTable = ({
 
   return {
     getTableColums,
-    settings
+    settings,
   };
 };

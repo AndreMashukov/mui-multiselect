@@ -100,7 +100,6 @@ import PropTypes from "prop-types";
 //   },
 // ];
 
-
 const Wrapper = styled.div`
   height: 80vh;
   overflow: hidden;
@@ -117,11 +116,14 @@ const CustomTable = ({
   actions,
   detailComponent,
 }) => {
-
-  const onSort = (column) => {
-    console.log({tableName, column})
-    actions.setSort(column);
-  }
+  const onSort = (column, sortDirection) => {
+    if (column && column.label) {
+      actions.setSort({
+        lable: column.label,
+        sortDirection,
+      });
+    }
+  };
 
   return (
     <Grid item xs={12}>
