@@ -36,7 +36,7 @@ data.columns = ["group", "Nitrogen", "normal", "stress"];
 export const StackedBarChartView = () => {
   const [selectedData, setSelectedData] = useState();
   return (
-    <>
+    <Grid flexDirection="column" container>
       <Box>
         <Grid container sx={{ minHeight: "50px" }}>
           {selectedData && (
@@ -63,10 +63,12 @@ export const StackedBarChartView = () => {
           )}
         </Grid>
       </Box>
-      {!selectedData && (
-        <StackedBarChart data={data} setSelectedData={setSelectedData} />
-      )}
-      {selectedData && <BasicBarChart data={selectedData.data} />}
-    </>
+      <Box sx={{height: "50vh"}}>
+        {!selectedData && (
+          <StackedBarChart data={data} setSelectedData={setSelectedData} />
+        )}
+        {selectedData && <BasicBarChart data={selectedData.data} />}
+      </Box>
+    </Grid>
   );
 };

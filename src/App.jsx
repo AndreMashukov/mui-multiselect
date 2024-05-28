@@ -29,8 +29,8 @@ function App() {
         {/* <CustomSelectView /> */}
         {/* <LineChartView /> */}
         {/* <ZoomableLineChartView /> */}
-        <SankeyDiagramView />
-        {/* <StackedBarChartView /> */}
+        {/* <SankeyDiagramView /> */}
+        <StackedBarChartView />
         {/* <BasicBarChartView /> */}
         {/* <InventoryPageView /> */}
       </Grid>
