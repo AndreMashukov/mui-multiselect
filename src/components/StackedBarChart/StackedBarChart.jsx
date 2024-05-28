@@ -79,6 +79,7 @@ const StackedBarChart = ({
       .attr("y", (d) => y(d[1]))
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth())
+      // adding subsection name to d
       .data((d) => d.map((data) => ({ ...data, key: d.key })))
       .on("mouseover", (event, d) => {
         const hoveredSection = {
