@@ -2,7 +2,13 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const StackedBarChart = ({ data, width, height, setSelectedData }) => {
+const StackedBarChart = ({
+  data,
+  width,
+  height,
+  setSelectedData,
+  setHoveredSectionData,
+}) => {
   const ref = useRef();
   // set the dimensions and margins of the graph
   const margin = { top: 10, right: 30, bottom: 20, left: 50 };
@@ -73,16 +79,27 @@ const StackedBarChart = ({ data, width, height, setSelectedData }) => {
       .attr("y", (d) => y(d[1]))
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth())
+      .data((d) => d.map((data) => ({ ...data, key: d.key })))
+      .on("mouseover", (event, d) => {
+        const hoveredSection = {
+          name: d.key,
+          value: d[1] - d[0],
+        };
+        setHoveredSectionData(hoveredSection);
+      })
+      .on("mouseout", () => {
+        setHoveredSectionData(null);
+      })
       .on("click", (event, d) => {
         const selected = {
           group: d.data.group,
           data: Object.keys(d.data)
             .slice(1)
-            .map((key) => ({ name: key, value: parseInt(d.data[key])})),
+            .map((key) => ({ name: key, value: parseInt(d.data[key]) })),
         };
         // console.log(selected);
         setSelectedData(selected);
-      });
+      })
 
     const zoom = d3
       .zoom()

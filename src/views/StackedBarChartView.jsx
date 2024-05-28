@@ -3,6 +3,7 @@ import StackedBarChart from "../components/StackedBarChart/StackedBarChart";
 import BasicBarChart from "../components/BasicBarChart/BasicBarChart";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { CurrentPointTooltip } from "../components/StackedBarChart/CurrentPointTooltip/CurrentPointTooltip";
 
 const data = [
   {
@@ -35,6 +36,8 @@ data.columns = ["group", "Nitrogen", "normal", "stress"];
 
 export const StackedBarChartView = () => {
   const [selectedData, setSelectedData] = useState();
+  const [hoveredSectionData, setHoveredSectionData] = useState();
+
   return (
     <Grid flexDirection="column" container>
       <Box>
@@ -63,9 +66,15 @@ export const StackedBarChartView = () => {
           )}
         </Grid>
       </Box>
-      <Box sx={{height: "50vh"}}>
+      <Box sx={{ height: "50vh" }}>
         {!selectedData && (
-          <StackedBarChart data={data} setSelectedData={setSelectedData} />
+          <CurrentPointTooltip currentPoint={hoveredSectionData}>
+            <StackedBarChart
+              data={data}
+              setSelectedData={setSelectedData}
+              setHoveredSectionData={setHoveredSectionData}
+            />
+          </CurrentPointTooltip>
         )}
         {selectedData && <BasicBarChart data={selectedData.data} />}
       </Box>
