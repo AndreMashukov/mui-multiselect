@@ -78,6 +78,7 @@ export const useCustomTable = ({
     return [
       ...buttons,
       ...settings.map((col) => ({
+        ...col,
         name: t(`${tableName}.${col.selector}`),
         label: col.selector,
         selector: (row) => {
