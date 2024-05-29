@@ -15,8 +15,15 @@ const InventoryPage = () => {
 
   const { getTableColums } = useCustomTable({
     state,
-    threeDots: {
-      handleClick: () => {},
+    // recordMode: {
+    //   threeDots: {
+    //     handleClick: () => {},
+    //   },
+    // },
+    editMode: {
+      handleView: () => {},
+      handleEdit: () => {},
+      handleDelete: () => {},
     },
   });
 
