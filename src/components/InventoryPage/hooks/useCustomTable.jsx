@@ -3,27 +3,17 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTranslation } from "react-i18next";
 import LaunchIcon from "@mui/icons-material/Launch";
 import DownloadIcon from "@mui/icons-material/Download";
-import { useEffect, useState } from "react";
 
 export const useCustomTable = ({
   threeDots,
   launchButton,
   downloadButton,
-  defaultSettings,
-  tableName,
+  state,
 }) => {
   const { t } = useTranslation();
   const isReseller = false;
-  const [settings, setSettings] = useState();
 
-  useEffect(() => {
-    let _settings = JSON.parse(localStorage.getItem(tableName));
-    if (!_settings) {
-      _settings = defaultSettings;
-      localStorage.setItem(tableName, JSON.stringify(_settings));
-    }
-    setSettings(_settings);
-  }, []);
+  const { settings, tableName } = state
 
   const getTableColums = () => {
     if (!settings) return [];
@@ -104,11 +94,7 @@ export const useCustomTable = ({
           }
           return value;
         },
-        allowOverflow: col.allowOverflow,
-        sortable: col.sortable,
-        width: col.width,
         omit: !isReseller && col.omitIfReseller,
-        tooltip: col.tooltip,
         reorder: true,
       })),
     ];
@@ -116,6 +102,5 @@ export const useCustomTable = ({
 
   return {
     getTableColums,
-    settings,
   };
 };

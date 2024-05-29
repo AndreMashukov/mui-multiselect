@@ -1,3 +1,5 @@
+export const INVENTORY_TABLE = "inventory";
+
 export const DEFAULT_COLUMNS_SETTINGS = [
   {
     selector: "space_id",

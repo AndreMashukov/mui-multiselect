@@ -25,8 +25,28 @@ import { useReducer } from "react";
 //   },
 // });
 
-export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
+export const useTablePageReducer = ({
+  tableName,
+  defaultSettings,
+  extraReducers,
+  extraInitialState,
+}) => {
+
+  const getSettingFromLocalStorage = () => {
+    try {
+      let _settings = JSON.parse(localStorage.getItem(tableName));
+      if (!_settings) {
+        _settings = defaultSettings;
+        localStorage.setItem(tableName, JSON.stringify(_settings));
+      }
+      return _settings;
+    } catch {
+      return [];
+    }
+  };
+
   const TABLE_PAGE_ACTION = {
+    SET_TABLE_NAME: "SET_TABLE_NAME",
     SET_ITEMS_PER_PAGE: "SET_ITEMS_PER_PAGE",
     SET_PAGE: "SET_PAGE",
     SET_SORT: "SET_SORT",
@@ -35,7 +55,13 @@ export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
     SET_TABLE_ROWS: "SET_TABLE_ROWS",
     SET_TOTAL_ROWS: "SET_TOTAL_ROWS",
     SET_LOADING: "SET_LOADING",
+    SET_SETTINGS: "SET_SETTINGS",
   };
+  const setTableName = (state, action) => ({
+    ...state,
+    tableName: action.payload,
+  });
+
   const setItemsPerPageReducer = (state, action) => ({
     ...state,
     itemsPerPage: action.payload,
@@ -80,8 +106,15 @@ export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
     loading: action.payload,
   });
 
+  const setSettings = (state, actions) => ({
+    ...state,
+    settings: actions.payload,
+  });
+
   const tableReducer = (state, action) => {
     switch (action.type) {
+      case TABLE_PAGE_ACTION.SET_TABLE_NAME:
+        return setTableName(state, action);
       case TABLE_PAGE_ACTION.SET_ITEMS_PER_PAGE:
         return setItemsPerPageReducer(state, action);
       case TABLE_PAGE_ACTION.SET_PAGE:
@@ -98,6 +131,8 @@ export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
         return setTotalRowsReducer(state, action);
       case TABLE_PAGE_ACTION.SET_LOADING:
         return setLoadingReducer(state, action);
+      case TABLE_PAGE_ACTION.SET_SETTINGS:
+        return setSettings(state, action);
       default:
         // eslint-disable-next-line no-prototype-builtins
         if (extraReducers && extraReducers.hasOwnProperty(action.type)) {
@@ -108,6 +143,8 @@ export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
   };
 
   const getTableActions = (dispatch) => ({
+    setTableName: (value) =>
+      dispatch({ type: TABLE_PAGE_ACTION.SET_TABLE_NAME, payload: value }),
     setItemsPerPage: (value) =>
       dispatch({ type: TABLE_PAGE_ACTION.SET_ITEMS_PER_PAGE, payload: value }),
     setPage: (value) =>
@@ -128,23 +165,29 @@ export const useTablePageReducer = ({ extraReducers, extraInitialState }) => {
       dispatch({ type: TABLE_PAGE_ACTION.SET_TOTAL_ROWS, payload: total }),
     setLoading: (loading) =>
       dispatch({ type: TABLE_PAGE_ACTION.SET_LOADING, payload: loading }),
-    setSort: (column) => {
-      return dispatch({
+    setSort: (column) =>
+      dispatch({
         type: TABLE_PAGE_ACTION.SET_SORT,
         payload: {
           sort: column.lable,
           sortDir: column.sortDirection,
         },
-      });
-    },
+      }),
+    setSettings: (settings) =>
+      dispatch({
+        type: TABLE_PAGE_ACTION.SET_SETTINGS,
+        payload: settings,
+      }),
   });
 
   const INITIAL_STATE = {
+    tableName,
     itemsPerPage: 10,
     page: 1,
     tableRows: [],
     totalRows: 0,
     loading: false,
+    settings: getSettingFromLocalStorage(),
     ...extraInitialState,
   };
 

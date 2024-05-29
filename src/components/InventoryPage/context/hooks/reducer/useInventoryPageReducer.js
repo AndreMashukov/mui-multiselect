@@ -1,8 +1,10 @@
 import { useTablePageReducer } from "../../../../../hooks/useTableReducer";
+import { DEFAULT_COLUMNS_SETTINGS, INVENTORY_TABLE } from "../../../inventoryTableDefaultSettings";
 
 export const useInventoryPageReducer = () => {
-
   const {state, actions} = useTablePageReducer({
+    tableName: INVENTORY_TABLE,
+    defaultSettings: DEFAULT_COLUMNS_SETTINGS,
     extraReducers: {
       setProductCategory: (state, action) => ({
         ...state,

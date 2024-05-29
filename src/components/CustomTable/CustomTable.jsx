@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 `;
 
 const CustomTable = ({
-  tableName,
   tableColumns,
   state,
   actions,
@@ -67,7 +66,6 @@ const CustomTable = ({
 export default CustomTable;
 
 CustomTable.propTypes = {
-  tableName: PropTypes.string.isRequired,
   tableColumns: PropTypes.array.isRequired,
   state: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
