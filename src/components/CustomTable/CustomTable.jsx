@@ -21,9 +21,9 @@ const CustomTable = ({
 }) => {
 
   const onSort = (column, sortDirection) => {
-    if (column && column.label) {
+    if (column && column.id) {
       actions.setSort({
-        lable: column.label,
+        lable: column.id,
         sortDirection,
       });
     }

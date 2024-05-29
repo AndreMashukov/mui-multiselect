@@ -97,6 +97,10 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
     return buttons;
   };
 
+  const getSelector = (id) => {
+    return state.selectors.find(s => s.id === id)?.selector
+  }
+
   const getTableColums = () => {
     if (!settings) return [];
     const buttons = [];
@@ -111,33 +115,9 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
       ...buttons,
       ...settings.map((col) => ({
         ...col,
-        name: t(`${tableName}.${col.selector}`),
-        label: col.selector,
-        selector: (row) => {
-          const value = row[col.selector];
-          if (col.tooltip) {
-            return (
-              <Tooltip
-                title={row[col.tooltip]}
-                arrow
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      // color: "purple",
-                      backgroundColor: "black",
-                      fontSize: "1em",
-                    },
-                  },
-                }}
-              >
-                <span>{value}</span>
-              </Tooltip>
-            );
-          }
-          return value;
-        },
+        name: t(`${tableName}.${col.id}`),
+        selector: getSelector(col.id),
         omit: !isReseller && col.omitIfReseller,
-        reorder: true,
       })),
     ];
   };

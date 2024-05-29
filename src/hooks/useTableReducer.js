@@ -56,6 +56,7 @@ export const useTablePageReducer = ({
     SET_TOTAL_ROWS: "SET_TOTAL_ROWS",
     SET_LOADING: "SET_LOADING",
     SET_SETTINGS: "SET_SETTINGS",
+    SET_SELECTORS: "SET_SELECTORS"
   };
   const setTableName = (state, action) => ({
     ...state,
@@ -111,6 +112,11 @@ export const useTablePageReducer = ({
     settings: actions.payload,
   });
 
+  const setSelectors = (state, actions) => ({
+    ...state,
+    selectors: actions.payload,
+  })
+
   const tableReducer = (state, action) => {
     switch (action.type) {
       case TABLE_PAGE_ACTION.SET_TABLE_NAME:
@@ -133,6 +139,8 @@ export const useTablePageReducer = ({
         return setLoadingReducer(state, action);
       case TABLE_PAGE_ACTION.SET_SETTINGS:
         return setSettings(state, action);
+      case TABLE_PAGE_ACTION.SET_SELECTORS:
+        return setSelectors(state, action);
       default:
         // eslint-disable-next-line no-prototype-builtins
         if (extraReducers && extraReducers.hasOwnProperty(action.type)) {
@@ -178,6 +186,11 @@ export const useTablePageReducer = ({
         type: TABLE_PAGE_ACTION.SET_SETTINGS,
         payload: settings,
       }),
+    setSelectors: (selectors) =>
+      dispatch({
+        type: TABLE_PAGE_ACTION.SET_SELECTORS,
+        payload: selectors,
+      }),
   });
 
   const INITIAL_STATE = {
@@ -188,6 +201,7 @@ export const useTablePageReducer = ({
     totalRows: 0,
     loading: false,
     settings: getSettingFromLocalStorage(),
+    selectors: [],
     ...extraInitialState,
   };
 
