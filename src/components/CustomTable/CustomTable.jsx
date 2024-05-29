@@ -17,6 +17,7 @@ const CustomTable = ({
   state,
   actions,
   detailComponent,
+  pagination
 }) => {
 
   const onSort = (column, sortDirection) => {
@@ -37,7 +38,7 @@ const CustomTable = ({
           columns={tableColumns}
           data={state.tableRows}
           progressPending={state.loading}
-          pagination
+          pagination={pagination}
           paginationServer
           paginationTotalRows={state.totalRows}
           onChangePage={actions.setPage}
@@ -71,4 +72,5 @@ CustomTable.propTypes = {
   actions: PropTypes.object.isRequired,
   detailComponent: PropTypes.elementType.isRequired,
   subHeaderComponent: PropTypes.elementType.isRequired,
+  pagination: PropTypes.bool,
 };
