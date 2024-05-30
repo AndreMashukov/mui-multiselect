@@ -29,10 +29,10 @@ function App() {
         {/* <CustomSelectView /> */}
         {/* <LineChartView /> */}
         {/* <ZoomableLineChartView /> */}
-        {/* <SankeyDiagramView /> */}
+        <SankeyDiagramView />
         {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
-        <InventoryPageView />
+        {/* <InventoryPageView /> */}
       </Grid>
     </ThemeProvider>
   );
