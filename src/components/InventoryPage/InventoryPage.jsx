@@ -2,12 +2,11 @@ import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import Grid from "@mui/material/Grid";
 import InventoryPageContext from "./context/InventoryPageContext";
-// import TicketMenu from "./TicketMenu/TicketMenu.jsx";
-import InventoryDetail from "./InventoryDetail/InventoryDetail.jsx";
-import CustomTable from "../CustomTable/CustomTable.jsx";
-// import ThreeDotsMenu from "./TicketMenu/TicketMenu.jsx";
-import { useCustomTable } from "./hooks/useCustomTable.jsx";
 import { Box } from "@mui/material";
+import CustomTable from "../CustomTable/CustomTable";
+import InventoryDetail from "./InventoryDetail/InventoryDetail";
+// import ThreeDotsMenu from "./TicketMenu/TicketMenu.jsx";
+import { useCustomTable } from "./hooks/useCustomTable";
 
 const InventoryPage = () => {
   const { t } = useTranslation();
@@ -51,6 +50,7 @@ const InventoryPage = () => {
           state={state}
           actions={actions}
           detailComponent={InventoryDetail}
+          pagination
         />
       )}
     </>

@@ -2,6 +2,8 @@ import DataTable from "react-data-table-component";
 import { Grid } from "@mui/material";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 const Wrapper = styled.div`
   height: 80vh;
@@ -17,8 +19,16 @@ const CustomTable = ({
   state,
   actions,
   detailComponent,
-  pagination
+  pagination,
+  customStyles,
 }) => {
+  const { sort } = state;
+
+  const updateLocalStorageProperty = (tableName, property, value) => {
+    const storedSettings = JSON.parse(localStorage.getItem(tableName));
+    storedSettings[property] = value;
+    localStorage.setItem(tableName, JSON.stringify(storedSettings));
+  };
 
   const onSort = (column, sortDirection) => {
     if (column && column.id) {
@@ -26,8 +36,35 @@ const CustomTable = ({
         lable: column.id,
         sortDirection,
       });
+
+      updateLocalStorageProperty(state.tableName, "sort", {
+        sort: column.id,
+        sortDir: sortDirection,
+      });
     }
   };
+
+  const getSortIcon = (direction) => {
+    if (!direction) return null;
+    if (direction === "asc")
+      return <ArrowUpwardIcon style={{ fontSize: "inherit" }} />;
+    if (direction === "desc")
+      return <ArrowDownwardIcon style={{ fontSize: "inherit" }} />;
+  };
+
+  const modifiedColumns = tableColumns.map((col) => {
+    if (col.sortable) {
+      return {
+        ...col,
+        name: (
+          <div>
+            {col.name} {getSortIcon(sort.sort === col.id ? sort.sortDir : null)}
+          </div>
+        ),
+      };
+    }
+    return col;
+  });
 
   return (
     <Grid item xs={12}>
@@ -35,7 +72,7 @@ const CustomTable = ({
         <DataTable
           fixedHeader
           fixedHeaderScrollHeight="75vh"
-          columns={tableColumns}
+          columns={modifiedColumns}
           data={state.tableRows}
           progressPending={state.loading}
           pagination={pagination}
@@ -58,6 +95,7 @@ const CustomTable = ({
             minSize: 80,
             size: 150,
           }}
+          customStyles={customStyles}
         />
       </Wrapper>
     </Grid>
@@ -70,7 +108,7 @@ CustomTable.propTypes = {
   tableColumns: PropTypes.array.isRequired,
   state: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  detailComponent: PropTypes.elementType.isRequired,
-  subHeaderComponent: PropTypes.elementType.isRequired,
+  detailComponent: PropTypes.elementType,
+  subHeaderComponent: PropTypes.elementType,
   pagination: PropTypes.bool,
 };
