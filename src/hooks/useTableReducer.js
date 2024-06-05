@@ -27,20 +27,33 @@ import { useReducer } from "react";
 
 export const useTablePageReducer = ({
   tableName,
+  defaultSort,
   defaultSettings,
   extraReducers,
   extraInitialState,
+  version,
 }) => {
-
   const getSettingFromLocalStorage = () => {
     try {
-      let _settings = JSON.parse(localStorage.getItem(tableName));
-      if (!_settings) {
-        _settings = defaultSettings;
-        localStorage.setItem(tableName, JSON.stringify(_settings));
+      const storedSettings = JSON.parse(localStorage.getItem(tableName));
+      if (
+        !storedSettings ||
+        storedSettings.version !== version ||
+        !storedSettings.version
+      ) {
+        localStorage.setItem(
+          tableName,
+          JSON.stringify({
+            version,
+            data: defaultSettings,
+            sort: defaultSort,
+          })
+        );
+        return defaultSettings;
       }
-      return _settings;
-    } catch {
+      return storedSettings;
+    } catch (err) {
+      console.log(err);
       return [];
     }
   };
@@ -56,7 +69,7 @@ export const useTablePageReducer = ({
     SET_TOTAL_ROWS: "SET_TOTAL_ROWS",
     SET_LOADING: "SET_LOADING",
     SET_SETTINGS: "SET_SETTINGS",
-    SET_SELECTORS: "SET_SELECTORS"
+    SET_SELECTORS: "SET_SELECTORS",
   };
   const setTableName = (state, action) => ({
     ...state,
@@ -115,7 +128,7 @@ export const useTablePageReducer = ({
   const setSelectors = (state, actions) => ({
     ...state,
     selectors: actions.payload,
-  })
+  });
 
   const tableReducer = (state, action) => {
     switch (action.type) {
@@ -200,7 +213,8 @@ export const useTablePageReducer = ({
     tableRows: [],
     totalRows: 0,
     loading: false,
-    settings: getSettingFromLocalStorage(),
+    settings: getSettingFromLocalStorage().data,
+    sort: getSettingFromLocalStorage().sort,
     selectors: [],
     ...extraInitialState,
   };
