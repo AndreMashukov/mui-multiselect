@@ -22,8 +22,9 @@ const CustomTable = ({
   pagination,
   customStyles,
 }) => {
-  const { sort } = state;
-
+  const { sort, columnOrder } = state;
+  const { setSort, setColumnOrder } = actions;
+  
   const updateLocalStorageProperty = (tableName, property, value) => {
     const storedSettings = JSON.parse(localStorage.getItem(tableName));
     storedSettings[property] = value;
@@ -32,7 +33,7 @@ const CustomTable = ({
 
   const onSort = (column, sortDirection) => {
     if (column && column.id) {
-      actions.setSort({
+      setSort({
         lable: column.id,
         sortDirection,
       });
@@ -44,27 +45,39 @@ const CustomTable = ({
     }
   };
 
+  const onColumnOrderChange = (newOrder) => {
+    const filteredNewOrder = newOrder
+      .filter((col) => !col.button)
+      .map((col) => col.id);
+    // console.log(filteredNewOrder);
+    setColumnOrder(filteredNewOrder);
+    updateLocalStorageProperty(state.tableName, "columnOrder", filteredNewOrder);
+  };
+
   const getSortIcon = (direction) => {
     if (!direction) return null;
     if (direction === "asc")
-      return <ArrowUpwardIcon style={{ fontSize: "inherit" }} />;
+      return <ArrowUpwardIcon  style={{ fontSize: "14px" }} />;
     if (direction === "desc")
-      return <ArrowDownwardIcon style={{ fontSize: "inherit" }} />;
+      return <ArrowDownwardIcon style={{ fontSize: "14px" }} />;
   };
 
-  const modifiedColumns = tableColumns.map((col) => {
-    if (col.sortable) {
-      return {
-        ...col,
-        name: (
-          <div>
-            {col.name} {getSortIcon(sort.sort === col.id ? sort.sortDir : null)}
-          </div>
-        ),
-      };
-    }
-    return col;
-  });
+  const modifiedColumns = tableColumns
+    .map((col) => {
+      if (col.sortable) {
+        return {
+          ...col,
+          name: (
+            <div>
+              {col.name}{" "}
+              {getSortIcon(sort.sort === col.id ? sort.sortDir : null)}
+            </div>
+          ),
+        };
+      }
+      return col;
+    })
+    .sort((a, b) => columnOrder.indexOf(a.id) - columnOrder.indexOf(b.id));
 
   return (
     <Grid item xs={12}>
@@ -80,7 +93,7 @@ const CustomTable = ({
           paginationTotalRows={state.totalRows}
           onChangePage={actions.setPage}
           onChangeRowsPerPage={actions.setItemsPerPage}
-          onColumnOrderChange={() => {}}
+          onColumnOrderChange={onColumnOrderChange}
           onSort={onSort}
           striped={true}
           highlightOnHover={true}
@@ -111,4 +124,5 @@ CustomTable.propTypes = {
   detailComponent: PropTypes.elementType,
   subHeaderComponent: PropTypes.elementType,
   pagination: PropTypes.bool,
+  customStyles: PropTypes.object,
 };

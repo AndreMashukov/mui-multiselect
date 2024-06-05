@@ -29,6 +29,7 @@ export const useTablePageReducer = ({
   tableName,
   defaultSort,
   defaultSettings,
+  defaultColumnOrder,
   extraReducers,
   extraInitialState,
   version,
@@ -41,20 +42,24 @@ export const useTablePageReducer = ({
         storedSettings.version !== version ||
         !storedSettings.version
       ) {
-        localStorage.setItem(
-          tableName,
-          JSON.stringify({
-            version,
-            data: defaultSettings,
-            sort: defaultSort,
-          })
-        );
-        return defaultSettings;
+        const defaultData = {
+          version,
+          data: defaultSettings,
+          sort: defaultSort,
+          columnOrder: defaultColumnOrder,
+        };
+        localStorage.setItem(tableName, JSON.stringify(defaultData));
+        return defaultData;
       }
       return storedSettings;
     } catch (err) {
       console.log(err);
-      return [];
+      return {
+        version,
+        data: defaultSettings,
+        sort: defaultSort,
+        columnOrder: defaultColumnOrder,
+      };
     }
   };
 
@@ -70,6 +75,7 @@ export const useTablePageReducer = ({
     SET_LOADING: "SET_LOADING",
     SET_SETTINGS: "SET_SETTINGS",
     SET_SELECTORS: "SET_SELECTORS",
+    SET_COLUMN_ORDER: "SET_COLUMN_ORDER",
   };
   const setTableName = (state, action) => ({
     ...state,
@@ -130,6 +136,11 @@ export const useTablePageReducer = ({
     selectors: actions.payload,
   });
 
+  const setColumnOrder = (state, actions) => ({
+    ...state,
+    columnOrder: actions.payload,
+  });
+
   const tableReducer = (state, action) => {
     switch (action.type) {
       case TABLE_PAGE_ACTION.SET_TABLE_NAME:
@@ -154,6 +165,8 @@ export const useTablePageReducer = ({
         return setSettings(state, action);
       case TABLE_PAGE_ACTION.SET_SELECTORS:
         return setSelectors(state, action);
+      case TABLE_PAGE_ACTION.SET_COLUMN_ORDER:
+        return setColumnOrder(state, action);
       default:
         // eslint-disable-next-line no-prototype-builtins
         if (extraReducers && extraReducers.hasOwnProperty(action.type)) {
@@ -204,6 +217,11 @@ export const useTablePageReducer = ({
         type: TABLE_PAGE_ACTION.SET_SELECTORS,
         payload: selectors,
       }),
+    setColumnOrder: (columnOrder) =>
+      dispatch({
+        type: TABLE_PAGE_ACTION.SET_COLUMN_ORDER,
+        payload: columnOrder,
+      }),
   });
 
   const INITIAL_STATE = {
@@ -216,6 +234,7 @@ export const useTablePageReducer = ({
     settings: getSettingFromLocalStorage().data,
     sort: getSettingFromLocalStorage().sort,
     selectors: [],
+    columnOrder: getSettingFromLocalStorage().columnOrder,
     ...extraInitialState,
   };
 

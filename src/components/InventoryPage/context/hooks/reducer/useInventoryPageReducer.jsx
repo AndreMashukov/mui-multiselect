@@ -7,7 +7,7 @@ export const INVENTORY_TABLE = "inventory";
 export const useInventoryPageReducer = () => {
   const { t } = useTranslation();
   const INVENTORTY_TABLE_SETTINGS = {
-    version: "8524336a-a812-48e7-a0f8-3f9e7006d39c",
+    version: "8524336a-a812-48e7-a0f8-3f9e7006d39e",
     sort: {
       sort: "installed_date",
       sortDir: "desc",
@@ -35,6 +35,7 @@ export const useInventoryPageReducer = () => {
             <span>{row.space_id}</span>
           </Tooltip>
         ),
+        reorder: true,
       },
       {
         id: "end_customer",
@@ -44,6 +45,7 @@ export const useInventoryPageReducer = () => {
         // omit: !isReseller,
         omitIfReseller: true,
         selector: (row) => row.end_customer,
+        reorder: true,
       },
       {
         id: "service_name",
@@ -51,12 +53,14 @@ export const useInventoryPageReducer = () => {
         sortable: true,
         width: "200px",
         selector: (row) => row.service_name,
+        reorder: true,
       },
       {
         id: "location_name",
         allowOverflow: true,
         sortable: true,
         selector: (row) => row.location_name,
+        reorder: true,
       },
       {
         id: "product_name",
@@ -64,6 +68,7 @@ export const useInventoryPageReducer = () => {
         sortable: true,
         width: "250px",
         selector: (row) => row.product_name,
+        reorder: true,
       },
       {
         id: "product_attribute",
@@ -71,6 +76,7 @@ export const useInventoryPageReducer = () => {
         sortable: false,
         width: "200px",
         selector: (row) => row.product_attribute,
+        reorder: true,
       },
       {
         id: "sales_order_name",
@@ -78,18 +84,21 @@ export const useInventoryPageReducer = () => {
         sortable: false,
         width: "200px",
         selector: (row) => row.sales_order_name,
+        reorder: true,
       },
       {
         id: "qty",
         sortable: true,
         width: "200px",
         selector: (row) => row.qty,
+        reorder: true,
       },
       {
         id: "status",
         sortable: true,
         width: "200px",
         selector: (row) => row.status,
+        reorder: true,
       },
       {
         id: "created_by",
@@ -97,24 +106,28 @@ export const useInventoryPageReducer = () => {
         width: "200px",
         omit: true,
         selector: (row) => row.created_by,
+        reorder: true,
       },
       {
         id: "legacy_number",
         sortable: true,
         width: "200px",
         selector: (row) => row.legacy_number,
+        reorder: true,
       },
       {
         id: "cs_reference",
         sortable: true,
         width: "200px",
         selector: (row) => row.payment_state,
+        reorder: true,
       },
       {
         id: "installed_date",
         sortable: true,
         width: "200px",
         selector: (row) => row.installed_date,
+        reorder: true,
       },
       {
         id: "contract_end_date",
@@ -123,6 +136,7 @@ export const useInventoryPageReducer = () => {
         selector: (row) => (
           <span data-tag="allowRowEvents">{row.contract_end_date}</span>
         ),
+        reorder: true,
       },
     ],
   };
@@ -136,6 +150,7 @@ export const useInventoryPageReducer = () => {
       selector: null,
       name: t(`${INVENTORY_TABLE}.${s.id}`),
     })),
+    defaultColumnOrder: INVENTORTY_TABLE_SETTINGS.data.map((s) => s.id),
     extraReducers: {
       setProductCategory: (state, action) => ({
         ...state,
