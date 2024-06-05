@@ -30,6 +30,7 @@ export const useTablePageReducer = ({
   defaultSort,
   defaultSettings,
   defaultColumnOrder,
+  defaultHiddenColumns,
   extraReducers,
   extraInitialState,
   version,
@@ -47,6 +48,7 @@ export const useTablePageReducer = ({
           data: defaultSettings,
           sort: defaultSort,
           columnOrder: defaultColumnOrder,
+          hiddenColumns: defaultHiddenColumns,
         };
         localStorage.setItem(tableName, JSON.stringify(defaultData));
         return defaultData;
@@ -59,6 +61,7 @@ export const useTablePageReducer = ({
         data: defaultSettings,
         sort: defaultSort,
         columnOrder: defaultColumnOrder,
+        hiddenColumns: defaultHiddenColumns,
       };
     }
   };
@@ -76,6 +79,8 @@ export const useTablePageReducer = ({
     SET_SETTINGS: "SET_SETTINGS",
     SET_SELECTORS: "SET_SELECTORS",
     SET_COLUMN_ORDER: "SET_COLUMN_ORDER",
+    SET_SHOW_HIDE_COLUMN_MODAL: "SET_SHOW_HIDE_COLUMN_MODAL",
+    SET_HIDDEN_COLUMNS: "SET_HIDDEN_COLUMNS",
   };
   const setTableName = (state, action) => ({
     ...state,
@@ -141,6 +146,16 @@ export const useTablePageReducer = ({
     columnOrder: actions.payload,
   });
 
+  const setShowHideColumnsModal = (state, actions) => ({
+    ...state,
+    showHideColumnsModal: actions.payload,
+  });
+  
+  const setHiddenColumns = (state, actions) => ({
+    ...state,
+    hiddenColumns: actions.payload,
+  })
+
   const tableReducer = (state, action) => {
     switch (action.type) {
       case TABLE_PAGE_ACTION.SET_TABLE_NAME:
@@ -167,6 +182,10 @@ export const useTablePageReducer = ({
         return setSelectors(state, action);
       case TABLE_PAGE_ACTION.SET_COLUMN_ORDER:
         return setColumnOrder(state, action);
+      case TABLE_PAGE_ACTION.SET_SHOW_HIDE_COLUMN_MODAL:
+        return setShowHideColumnsModal(state, action);
+      case TABLE_PAGE_ACTION.SET_HIDDEN_COLUMNS:
+        return setHiddenColumns(state, action);
       default:
         // eslint-disable-next-line no-prototype-builtins
         if (extraReducers && extraReducers.hasOwnProperty(action.type)) {
@@ -222,6 +241,16 @@ export const useTablePageReducer = ({
         type: TABLE_PAGE_ACTION.SET_COLUMN_ORDER,
         payload: columnOrder,
       }),
+    setShowHideColumnsModal: (flag) => 
+      dispatch({
+        type: TABLE_PAGE_ACTION.SET_SHOW_HIDE_COLUMN_MODAL,
+        payload: flag,
+      }),
+    setHiddenColumns: (columns) =>
+      dispatch({
+        type: TABLE_PAGE_ACTION.SET_HIDDEN_COLUMNS,
+        payload: columns,
+      }),
   });
 
   const INITIAL_STATE = {
@@ -235,6 +264,8 @@ export const useTablePageReducer = ({
     sort: getSettingFromLocalStorage().sort,
     selectors: [],
     columnOrder: getSettingFromLocalStorage().columnOrder,
+    showHideColumnsModal: false,
+    hiddenColumns: getSettingFromLocalStorage().hiddenColumns,
     ...extraInitialState,
   };
 

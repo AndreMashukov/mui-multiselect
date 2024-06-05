@@ -7,7 +7,7 @@ export const INVENTORY_TABLE = "inventory";
 export const useInventoryPageReducer = () => {
   const { t } = useTranslation();
   const INVENTORTY_TABLE_SETTINGS = {
-    version: "8524336a-a812-48e7-a0f8-3f9e7006d39e",
+    version: "8524336a-a812-48e7-a0f8-3f9e7006d39a",
     sort: {
       sort: "installed_date",
       sortDir: "desc",
@@ -151,6 +151,7 @@ export const useInventoryPageReducer = () => {
       name: t(`${INVENTORY_TABLE}.${s.id}`),
     })),
     defaultColumnOrder: INVENTORTY_TABLE_SETTINGS.data.map((s) => s.id),
+    defaultHiddenColumns: [],
     extraReducers: {
       setProductCategory: (state, action) => ({
         ...state,
