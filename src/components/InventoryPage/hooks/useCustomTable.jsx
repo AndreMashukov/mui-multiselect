@@ -9,7 +9,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 export const useCustomTable = ({ recordMode, editMode, state }) => {
   const { t } = useTranslation();
-  const isReseller = false;
+  const isReseller = true;
 
   const { settings, tableName } = state;
 

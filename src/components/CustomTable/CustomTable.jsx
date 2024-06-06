@@ -22,6 +22,9 @@ const Wrapper = styled.div`
   .rdt_TableBody {
     min-height: 68vh !important;
   }
+  .rdt_TableCol_Sortable > span {
+    color: white;
+  }
 `;
 
 const CustomTable = ({
@@ -43,15 +46,16 @@ const CustomTable = ({
   };
 
   const onSort = (column, sortDirection) => {
+    const sortDir = sort.sortDir === "asc" ? "desc" : "asc";
     if (column && column.id) {
       setSort({
         lable: column.id,
-        sortDirection,
+        sortDirection: sortDir,
       });
 
       updateLocalStorageProperty(state.tableName, "sort", {
         sort: column.id,
-        sortDir: sortDirection,
+        sortDir: sortDir,
       });
     }
   };
@@ -112,13 +116,13 @@ const CustomTable = ({
 
   return (
     <>
-      <Grid item xs={12} sx={{ position: "relative" }}>
+      <Grid item xs={12} sx={{ position: "relative", pt: 3 }}>
         <IconButton
           onClick={() => setShowHideColumnsModal(true)}
           sx={{
             position: "absolute",
             top: "-15px",
-            left: 0,
+            right: 0,
             zIndex: 1000,
           }}
         >
@@ -163,6 +167,7 @@ const CustomTable = ({
         <DialogContent>
           {tableColumns
             .filter((col) => !col.button)
+            .filter((col) => !col.omit)
             .map((column) => (
               <Stack flexDirection="column">
                 <FormControlLabel
