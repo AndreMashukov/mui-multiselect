@@ -8,12 +8,14 @@ import {
   Grid,
   IconButton,
   Stack,
+  Typography,
 } from "@mui/material";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { grey } from "@mui/material/colors";
 
 const Wrapper = styled.div`
   height: 80vh;
@@ -114,6 +116,15 @@ const CustomTable = ({
     })
     .sort((a, b) => columnOrder.indexOf(a.id) - columnOrder.indexOf(b.id));
 
+  const selectAllColumns = () => {
+    setHiddenColumns([]);
+    updateLocalStorageProperty(state.tableName, "hiddenColumns", []);
+  };
+
+  const areAllColumnsSelected = tableColumns
+    .filter((col) => !col.button && !col.omit)
+    .every((col) => !hiddenColumns.includes(col.id));
+
   return (
     <>
       <Grid item xs={12} sx={{ position: "relative", pt: 3 }}>
@@ -165,6 +176,28 @@ const CustomTable = ({
       >
         <DialogTitle>Hide/Unhide Columns</DialogTitle>
         <DialogContent>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              paddingBottom: "10px",
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                color: areAllColumnsSelected ? grey[500] : "black",
+                cursor: areAllColumnsSelected ? "not-allowed" : "pointer",
+                "&:hover": {
+                  color:  grey[500],
+                },
+              }}
+              onClick={areAllColumnsSelected ? null : selectAllColumns}
+            >
+              Select All
+            </Typography>
+          </div>
           {tableColumns
             .filter((col) => !col.button)
             .filter((col) => !col.omit)
