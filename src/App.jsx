@@ -28,11 +28,11 @@ function App() {
         {/* <RangePickerView /> */}
         {/* <CustomSelectView /> */}
         {/* <LineChartView /> */}
-        {/* <ZoomableLineChartView /> */}
+        <ZoomableLineChartView />
         {/* <SankeyDiagramView /> */}
         {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
-        <InventoryPageView />
+        {/* <InventoryPageView /> */}
       </Grid>
     </ThemeProvider>
   );
