@@ -10,12 +10,32 @@ const AnimatedList = () => {
 
   const shuffleItems = () => {
     const newItems = [...items];
+    const previousRanks = new Map(
+      items.map((item) => [item.customerId, item.rank])
+    );
+
+    // Shuffle the items
     for (let i = newItems.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [newItems[i], newItems[j]] = [newItems[j], newItems[i]];
     }
-    // Update ranks to match the new order of items
-    setItems(newItems.map((item, index) => ({ ...item, rank: index + 1 })));
+
+    // Update ranks and calculate rankChangeDirection
+    const updatedItems = newItems.map((item, index) => {
+      const newRank = index + 1;
+      const previousRank = previousRanks.get(item.customerId);
+      let rankChangeDirection = "none";
+
+      if (previousRank < newRank) {
+        rankChangeDirection = "down";
+      } else if (previousRank > newRank) {
+        rankChangeDirection = "up";
+      }
+
+      return { ...item, rank: newRank, rankChangeDirection };
+    });
+
+    setItems(updatedItems);
   };
 
   return (
@@ -38,7 +58,7 @@ const AnimatedList = () => {
           <List>
             {items.map((item, index) => (
               <ListItemComponent
-                key={item.customerId}
+                key={index}
                 item={item}
                 columnWidths={COLUMN_WIDTH}
                 isHeader={false}
