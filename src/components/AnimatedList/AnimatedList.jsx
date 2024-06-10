@@ -1,8 +1,8 @@
 import { useState } from "react";
-import FlipMove from "react-flip-move";
-import { Box, Button, List, Stack } from "@mui/material";
+import { Box, Button, List, Stack, ListItem } from "@mui/material";
 import { Shuffle } from "@mui/icons-material";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
+import { motion, AnimatePresence } from "framer-motion";
 import ListItemComponent from "./ListItemComponent/ListItemComnponent";
 
 const AnimatedList = () => {
@@ -10,9 +10,7 @@ const AnimatedList = () => {
 
   const shuffleItems = () => {
     const newItems = [...items];
-    const previousRanks = new Map(
-      items.map((item) => [item.customerId, item.rank])
-    );
+    const previousRanks = new Map(items.map((item) => [item.customerId, item.rank]));
 
     // Shuffle the items
     for (let i = newItems.length - 1; i > 0; i--) {
@@ -39,7 +37,7 @@ const AnimatedList = () => {
   };
 
   return (
-    <Box p={2}>
+    <Box p={2} width="50vw">
       <Stack direction="row" spacing={2} mb={2}>
         <Button
           startIcon={<Shuffle />}
@@ -54,18 +52,27 @@ const AnimatedList = () => {
         <ListItemComponent columnWidths={COLUMN_WIDTH} isHeader={true} />
       </List>
       <Box sx={{ height: "400px", overflowY: "auto" }}>
-        <FlipMove duration={750} easing="ease-in-out">
+        <AnimatePresence>
           <List>
-            {items.map((item, index) => (
-              <ListItemComponent
-                key={index}
-                item={item}
-                columnWidths={COLUMN_WIDTH}
-                isHeader={false}
-              />
+            {items.map((item) => (
+              <motion.div
+                key={item.customerId}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                layout
+                transition={{ duration: 1.5 }} 
+              >
+                <ListItemComponent
+                  key={item.customerId}
+                  item={item}
+                  columnWidths={COLUMN_WIDTH}
+                  isHeader={false}
+                />
+              </motion.div>
             ))}
           </List>
-        </FlipMove>
+        </AnimatePresence>
       </Box>
     </Box>
   );

@@ -24,6 +24,7 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
                 width: columnWidths.rank,
                 display: "flex",
                 alignItems: "center",
+                fontWeight: isHeader ? "bold" : "normal",
               }}
             >
               {isHeader ? "Rank" : item.rank}
@@ -31,13 +32,16 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
             </Typography>
             <Typography
               variant={isHeader ? "subtitle1" : "body1"}
-              sx={{ flex: 1 }}
+              sx={{ flex: 1, fontWeight: isHeader ? "bold" : "normal" }}
             >
               {isHeader ? "Customer" : item.customerName}
             </Typography>
             <Typography
               variant={isHeader ? "subtitle1" : "body1"}
-              sx={{ width: columnWidths.traffic }}
+              sx={{
+                width: columnWidths.traffic,
+                fontWeight: isHeader ? "bold" : "normal",
+              }}
             >
               {isHeader ? "Traffic" : item.traffic}
             </Typography>
