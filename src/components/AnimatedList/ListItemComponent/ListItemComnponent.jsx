@@ -41,7 +41,7 @@ const ListItemComponent = ({
 );
 
 ListItemComponent.propTypes = {
-  key: PropTypes.string.isRequired,
+  key: PropTypes.string,
   item: PropTypes.shape({
     customerId: PropTypes.string,
     rank: PropTypes.number,
@@ -57,6 +57,7 @@ ListItemComponent.propTypes = {
 };
 
 ListItemComponent.defaultProps = {
+  key: "",
   item: {
     customerId: "",
     rank: 0,

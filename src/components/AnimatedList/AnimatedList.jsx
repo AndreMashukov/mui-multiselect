@@ -1,14 +1,6 @@
 import { useState } from "react";
 import FlipMove from "react-flip-move";
-import {
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, List, Stack } from "@mui/material";
 import { Shuffle } from "@mui/icons-material";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 import ListItemComponent from "./ListItemComponent/ListItemComnponent";
