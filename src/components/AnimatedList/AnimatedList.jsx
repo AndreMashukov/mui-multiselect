@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import FlipMove from "react-flip-move";
 import {
   Box,
@@ -8,11 +8,58 @@ import {
   ListItem,
   ListItemText,
   Stack,
+  Typography,
 } from "@mui/material";
 import { ArrowUpward, ArrowDownward, Shuffle } from "@mui/icons-material";
 
+const INTERNET_TRAFFIC_LEADER_BOARD = [
+  {
+    customerId: "cust1",
+    customerName: "Golden Lucky Telecom",
+    rank: 1,
+    traffic: "3.40G",
+  },
+  {
+    customerId: "cust2",
+    customerName: "Silver Star Networks",
+    rank: 2,
+    traffic: "2.90G",
+  },
+  {
+    customerId: "cust3",
+    customerName: "Pacific Link Communications",
+    rank: 3,
+    traffic: "2.70G",
+  },
+  {
+    customerId: "cust4",
+    customerName: "Global Internet Services",
+    rank: 4,
+    traffic: "2.50G",
+  },
+  {
+    customerId: "cust5",
+    customerName: "Digital Dragon Solutions",
+    rank: 5,
+    traffic: "2.20G",
+  },
+  {
+    customerId: "cust6",
+    customerName: "Broadband Tiger Co.",
+    rank: 6,
+    traffic: "2.10G",
+  },
+];
+
+const columnWidths = {
+  rank: "50px",
+  customer: "flex",
+  traffic: "100px",
+  actions: "100px",
+};
+
 const AnimatedList = () => {
-  const [items, setItems] = useState(["Item 1", "Item 2", "Item 3", "Item 4"]);
+  const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
 
   const moveItemUp = (index) => {
     if (index === 0) return;
@@ -40,7 +87,8 @@ const AnimatedList = () => {
       const j = Math.floor(Math.random() * (i + 1));
       [newItems[i], newItems[j]] = [newItems[j], newItems[i]];
     }
-    setItems(newItems);
+    // Update ranks to match the new order of items
+    setItems(newItems.map((item, index) => ({ ...item, rank: index + 1 })));
   };
 
   return (
@@ -54,21 +102,63 @@ const AnimatedList = () => {
           Shuffle
         </Button>
       </Stack>
+      <List>
+        {/* Header Row */}
+        <ListItem divider>
+          <ListItemText
+            primary={
+              <Stack direction="row" spacing={2}>
+                <Typography variant="subtitle1" sx={{ width: "50px" }}>
+                  Rank
+                </Typography>
+                <Typography variant="subtitle1" sx={{ flex: 1 }}>
+                  Customer
+                </Typography>
+                <Typography variant="subtitle1" sx={{ width: "100px" }}>
+                  Traffic
+                </Typography>
+                <Box sx={{ width: "100px" }} /> {/* For spacing actions */}
+              </Stack>
+            }
+          />
+        </ListItem>
+      </List>
       <FlipMove duration={750} easing="ease-in-out">
-        {items.map((item, index) => (
-          <ListItem key={item} divider>
-            <ListItemText primary={item} />
-            <IconButton onClick={() => moveItemUp(index)} aria-label="move up">
-              <ArrowUpward />
-            </IconButton>
-            <IconButton
-              onClick={() => moveItemDown(index)}
-              aria-label="move down"
-            >
-              <ArrowDownward />
-            </IconButton>
-          </ListItem>
-        ))}
+        <List>
+          {items.map((item, index) => (
+            <ListItem key={item.customerId} divider>
+              <ListItemText
+                primary={
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <Typography variant="body1" sx={{ width: "50px" }}>
+                      {item.rank}
+                    </Typography>
+                    <Typography variant="body1" sx={{ flex: 1 }}>
+                      {item.customerName}
+                    </Typography>
+                    <Typography variant="body1" sx={{ width: "100px" }}>
+                      {item.traffic}
+                    </Typography>
+                  </Stack>
+                }
+              />
+              <Stack direction="row" spacing={1}>
+                <IconButton
+                  onClick={() => moveItemUp(index)}
+                  aria-label="move up"
+                >
+                  <ArrowUpward />
+                </IconButton>
+                <IconButton
+                  onClick={() => moveItemDown(index)}
+                  aria-label="move down"
+                >
+                  <ArrowDownward />
+                </IconButton>
+              </Stack>
+            </ListItem>
+          ))}
+        </List>
       </FlipMove>
     </Box>
   );
