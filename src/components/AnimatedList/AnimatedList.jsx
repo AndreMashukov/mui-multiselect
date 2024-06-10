@@ -15,26 +15,6 @@ import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 const AnimatedList = () => {
   const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
 
-  const moveItemUp = (index) => {
-    if (index === 0) return;
-    const newItems = [...items];
-    [newItems[index - 1], newItems[index]] = [
-      newItems[index],
-      newItems[index - 1],
-    ];
-    setItems(newItems);
-  };
-
-  const moveItemDown = (index) => {
-    if (index === items.length - 1) return;
-    const newItems = [...items];
-    [newItems[index], newItems[index + 1]] = [
-      newItems[index + 1],
-      newItems[index],
-    ];
-    setItems(newItems);
-  };
-
   const shuffleItems = () => {
     const newItems = [...items];
     for (let i = newItems.length - 1; i > 0; i--) {
@@ -56,9 +36,17 @@ const AnimatedList = () => {
           Shuffle
         </Button>
       </Stack>
-      <List>
-        {/* Header Row */}
-        <ListItem divider>
+      <List sx={{ position: "relative" }}>
+        {/* Fixed Header Row */}
+        <ListItem
+          divider
+          sx={{
+            position: "sticky",
+            top: 0,
+            backgroundColor: "white",
+            zIndex: 100000,
+          }}
+        >
           <Stack direction="row" spacing={2} width="100%">
             <Typography variant="subtitle1" sx={{ width: COLUMN_WIDTH.rank }}>
               Rank
@@ -75,40 +63,42 @@ const AnimatedList = () => {
           </Stack>
         </ListItem>
       </List>
-      <FlipMove duration={750} easing="ease-in-out">
-        <List>
-          {items.map((item) => (
-            <ListItem key={item.customerId} divider>
-              <ListItemText
-                primary={
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                    alignItems="center"
-                    width="100%"
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{ width: COLUMN_WIDTH.rank }}
+      <Box sx={{ height: "400px", overflowY: "auto" }}>
+        <FlipMove duration={750} easing="ease-in-out">
+          <List>
+            {items.map((item) => (
+              <ListItem key={item.customerId} divider>
+                <ListItemText
+                  primary={
+                    <Stack
+                      direction="row"
+                      spacing={2}
+                      alignItems="center"
+                      width="100%"
                     >
-                      {item.rank}
-                    </Typography>
-                    <Typography variant="body1" sx={{ flex: 1 }}>
-                      {item.customerName}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ width: COLUMN_WIDTH.traffic }}
-                    >
-                      {item.traffic}
-                    </Typography>
-                  </Stack>
-                }
-              />
-            </ListItem>
-          ))}
-        </List>
-      </FlipMove>
+                      <Typography
+                        variant="body1"
+                        sx={{ width: COLUMN_WIDTH.rank }}
+                      >
+                        {item.rank}
+                      </Typography>
+                      <Typography variant="body1" sx={{ flex: 1 }}>
+                        {item.customerName}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{ width: COLUMN_WIDTH.traffic }}
+                      >
+                        {item.traffic}
+                      </Typography>
+                    </Stack>
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
+        </FlipMove>
+      </Box>
     </Box>
   );
 };

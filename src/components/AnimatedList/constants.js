@@ -35,7 +35,34 @@ export const INTERNET_TRAFFIC_LEADER_BOARD = [
     rank: 6,
     traffic: "2.10G",
   },
-];
+  {
+    customerId: "cust7",
+    customerName: "Fast Internet Co.",
+    rank: 7,
+    traffic: "2.00G",
+  },
+  {
+    customerId: "cust8",
+    customerName: "Four Elements Connect",
+    rank: 8,
+    traffic: "1.90G",
+  },
+  {
+    customerId: "cust9",
+    customerName: "Speedy Internet",
+    rank: 9,
+    traffic: "1.80G",
+  },
+  {
+    customerId: "cust10",
+    customerName: "888 Swift Broadband",
+    rank: 10,
+    traffic: "1.75G",
+  },
+].map((item) => {
+  item.rankChangeDirection = null;
+  return item;
+});
 
 export const COLUMN_WIDTH = {
   rank: "50px",
