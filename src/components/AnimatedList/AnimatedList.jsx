@@ -105,22 +105,22 @@ const AnimatedList = () => {
       <List>
         {/* Header Row */}
         <ListItem divider>
-          <ListItemText
-            primary={
-              <Stack direction="row" spacing={2}>
-                <Typography variant="subtitle1" sx={{ width: "50px" }}>
-                  Rank
-                </Typography>
-                <Typography variant="subtitle1" sx={{ flex: 1 }}>
-                  Customer
-                </Typography>
-                <Typography variant="subtitle1" sx={{ width: "100px" }}>
-                  Traffic
-                </Typography>
-                <Box sx={{ width: "100px" }} /> {/* For spacing actions */}
-              </Stack>
-            }
-          />
+          <Stack direction="row" spacing={2} width="100%">
+            <Typography variant="subtitle1" sx={{ width: columnWidths.rank }}>
+              Rank
+            </Typography>
+            <Typography variant="subtitle1" sx={{ flex: 1 }}>
+              Customer
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ width: columnWidths.traffic }}
+            >
+              Traffic
+            </Typography>
+            <Box sx={{ width: columnWidths.actions }} />{" "}
+            {/* For spacing actions */}
+          </Stack>
         </ListItem>
       </List>
       <FlipMove duration={750} easing="ease-in-out">
@@ -129,33 +129,48 @@ const AnimatedList = () => {
             <ListItem key={item.customerId} divider>
               <ListItemText
                 primary={
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Typography variant="body1" sx={{ width: "50px" }}>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    alignItems="center"
+                    width="100%"
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{ width: columnWidths.rank }}
+                    >
                       {item.rank}
                     </Typography>
                     <Typography variant="body1" sx={{ flex: 1 }}>
                       {item.customerName}
                     </Typography>
-                    <Typography variant="body1" sx={{ width: "100px" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{ width: columnWidths.traffic }}
+                    >
                       {item.traffic}
                     </Typography>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      sx={{ width: columnWidths.actions }}
+                    >
+                      <IconButton
+                        onClick={() => moveItemUp(index)}
+                        aria-label="move up"
+                      >
+                        <ArrowUpward />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => moveItemDown(index)}
+                        aria-label="move down"
+                      >
+                        <ArrowDownward />
+                      </IconButton>
+                    </Stack>
                   </Stack>
                 }
               />
-              <Stack direction="row" spacing={1}>
-                <IconButton
-                  onClick={() => moveItemUp(index)}
-                  aria-label="move up"
-                >
-                  <ArrowUpward />
-                </IconButton>
-                <IconButton
-                  onClick={() => moveItemDown(index)}
-                  aria-label="move down"
-                >
-                  <ArrowDownward />
-                </IconButton>
-              </Stack>
             </ListItem>
           ))}
         </List>
