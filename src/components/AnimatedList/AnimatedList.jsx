@@ -3,60 +3,14 @@ import FlipMove from "react-flip-move";
 import {
   Box,
   Button,
-  IconButton,
   List,
   ListItem,
   ListItemText,
   Stack,
   Typography,
 } from "@mui/material";
-import { ArrowUpward, ArrowDownward, Shuffle } from "@mui/icons-material";
-
-const INTERNET_TRAFFIC_LEADER_BOARD = [
-  {
-    customerId: "cust1",
-    customerName: "Golden Lucky Telecom",
-    rank: 1,
-    traffic: "3.40G",
-  },
-  {
-    customerId: "cust2",
-    customerName: "Silver Star Networks",
-    rank: 2,
-    traffic: "2.90G",
-  },
-  {
-    customerId: "cust3",
-    customerName: "Pacific Link Communications",
-    rank: 3,
-    traffic: "2.70G",
-  },
-  {
-    customerId: "cust4",
-    customerName: "Global Internet Services",
-    rank: 4,
-    traffic: "2.50G",
-  },
-  {
-    customerId: "cust5",
-    customerName: "Digital Dragon Solutions",
-    rank: 5,
-    traffic: "2.20G",
-  },
-  {
-    customerId: "cust6",
-    customerName: "Broadband Tiger Co.",
-    rank: 6,
-    traffic: "2.10G",
-  },
-];
-
-const columnWidths = {
-  rank: "50px",
-  customer: "flex",
-  traffic: "100px",
-  actions: "100px",
-};
+import { Shuffle } from "@mui/icons-material";
+import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 
 const AnimatedList = () => {
   const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
@@ -106,7 +60,7 @@ const AnimatedList = () => {
         {/* Header Row */}
         <ListItem divider>
           <Stack direction="row" spacing={2} width="100%">
-            <Typography variant="subtitle1" sx={{ width: columnWidths.rank }}>
+            <Typography variant="subtitle1" sx={{ width: COLUMN_WIDTH.rank }}>
               Rank
             </Typography>
             <Typography variant="subtitle1" sx={{ flex: 1 }}>
@@ -114,18 +68,16 @@ const AnimatedList = () => {
             </Typography>
             <Typography
               variant="subtitle1"
-              sx={{ width: columnWidths.traffic }}
+              sx={{ width: COLUMN_WIDTH.traffic }}
             >
               Traffic
             </Typography>
-            <Box sx={{ width: columnWidths.actions }} />{" "}
-            {/* For spacing actions */}
           </Stack>
         </ListItem>
       </List>
       <FlipMove duration={750} easing="ease-in-out">
         <List>
-          {items.map((item, index) => (
+          {items.map((item) => (
             <ListItem key={item.customerId} divider>
               <ListItemText
                 primary={
@@ -137,7 +89,7 @@ const AnimatedList = () => {
                   >
                     <Typography
                       variant="body1"
-                      sx={{ width: columnWidths.rank }}
+                      sx={{ width: COLUMN_WIDTH.rank }}
                     >
                       {item.rank}
                     </Typography>
@@ -146,28 +98,10 @@ const AnimatedList = () => {
                     </Typography>
                     <Typography
                       variant="body1"
-                      sx={{ width: columnWidths.traffic }}
+                      sx={{ width: COLUMN_WIDTH.traffic }}
                     >
                       {item.traffic}
                     </Typography>
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      sx={{ width: columnWidths.actions }}
-                    >
-                      <IconButton
-                        onClick={() => moveItemUp(index)}
-                        aria-label="move up"
-                      >
-                        <ArrowUpward />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => moveItemDown(index)}
-                        aria-label="move down"
-                      >
-                        <ArrowDownward />
-                      </IconButton>
-                    </Stack>
                   </Stack>
                 }
               />
