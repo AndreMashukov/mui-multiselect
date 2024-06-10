@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 import FlipMove from "react-flip-move";
+import {
+  Box,
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+} from "@mui/material";
+import { ArrowUpward, ArrowDownward, Shuffle } from "@mui/icons-material";
 
 const AnimatedList = () => {
   const [items, setItems] = useState(["Item 1", "Item 2", "Item 3", "Item 4"]);
@@ -34,18 +44,33 @@ const AnimatedList = () => {
   };
 
   return (
-    <div>
-      <button onClick={shuffleItems}>Shuffle</button>
+    <Box p={2}>
+      <Stack direction="row" spacing={2} mb={2}>
+        <Button
+          startIcon={<Shuffle />}
+          variant="contained"
+          onClick={shuffleItems}
+        >
+          Shuffle
+        </Button>
+      </Stack>
       <FlipMove duration={750} easing="ease-in-out">
         {items.map((item, index) => (
-          <div key={item}>
-            <span>{item}</span>
-            <button onClick={() => moveItemUp(index)}>Up</button>
-            <button onClick={() => moveItemDown(index)}>Down</button>
-          </div>
+          <ListItem key={item} divider>
+            <ListItemText primary={item} />
+            <IconButton onClick={() => moveItemUp(index)} aria-label="move up">
+              <ArrowUpward />
+            </IconButton>
+            <IconButton
+              onClick={() => moveItemDown(index)}
+              aria-label="move down"
+            >
+              <ArrowDownward />
+            </IconButton>
+          </ListItem>
         ))}
       </FlipMove>
-    </div>
+    </Box>
   );
 };
 
