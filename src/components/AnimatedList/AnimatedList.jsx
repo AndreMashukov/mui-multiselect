@@ -1,16 +1,21 @@
 import { useState } from "react";
-import { Box, Button, List, Stack, ListItem } from "@mui/material";
+import { Box, Button, List, Stack, ListItem, Typography } from "@mui/material";
 import { Shuffle } from "@mui/icons-material";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 import { motion, AnimatePresence } from "framer-motion";
 import ListItemComponent from "./ListItemComponent/ListItemComnponent";
+import moment from "moment";
 
 const AnimatedList = () => {
   const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
+  const [lastUpdated, setLastUpdated] = useState(moment());
 
   const shuffleItems = () => {
+    setLastUpdated(moment());
     const newItems = [...items];
-    const previousRanks = new Map(items.map((item) => [item.customerId, item.rank]));
+    const previousRanks = new Map(
+      items.map((item) => [item.customerId, item.rank])
+    );
 
     // Shuffle the items
     for (let i = newItems.length - 1; i > 0; i--) {
@@ -38,7 +43,12 @@ const AnimatedList = () => {
 
   return (
     <Box p={2} width="50vw">
-      <Stack direction="row" spacing={2} mb={2}>
+      <Stack direction="row" spacing={2} mb={2} justifyContent="space-between">
+        <Stack>
+          <Typography variant="body1">
+            Last Updated: {lastUpdated.format("MMM DD, YYYY hh:mm:ss")}
+          </Typography>
+        </Stack>
         <Button
           startIcon={<Shuffle />}
           variant="contained"
@@ -61,7 +71,7 @@ const AnimatedList = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 layout
-                transition={{ duration: 1.5 }} 
+                transition={{ duration: 1.5 }}
               >
                 <ListItemComponent
                   key={item.customerId}
