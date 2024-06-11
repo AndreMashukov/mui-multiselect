@@ -61,11 +61,13 @@ export const INTERNET_TRAFFIC_LEADER_BOARD = [
   },
 ].map((item) => {
   item.rankChangeDirection = null;
+  item.gap = "-0.95G";
   return item;
 });
 
 export const COLUMN_WIDTH = {
   rank: "50px",
   customer: "flex",
-  traffic: "50px",
+  traffic: "80px",
+  gap: "80px",
 };

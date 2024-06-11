@@ -13,6 +13,16 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
     }
   };
 
+  const getExtraStyles = () => {
+    if (isHeader) {
+      return {
+        position: "relative",
+        left: "-15px",
+      };
+    }
+    return {}
+  };
+
   return (
     <ListItem divider key={key}>
       <ListItemText
@@ -41,9 +51,20 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
               sx={{
                 width: columnWidths.traffic,
                 fontWeight: isHeader ? "bold" : "normal",
+                ...getExtraStyles(),
               }}
             >
               {isHeader ? "Traffic" : item.traffic}
+            </Typography>
+            <Typography
+              variant={isHeader ? "subtitle1" : "body1"}
+              sx={{
+                width: columnWidths.gap,
+                fontWeight: isHeader ? "bold" : "normal",
+                ...getExtraStyles(),
+              }}
+            >
+              {isHeader ? "Gap" : item.gap}
             </Typography>
           </Stack>
         }
@@ -59,7 +80,8 @@ ListItemComponent.propTypes = {
     rank: PropTypes.number,
     customerName: PropTypes.string,
     traffic: PropTypes.string,
-    rankChangeDirection: PropTypes.string, // <- Added rankChangeDirection prop type
+    rankChangeDirection: PropTypes.string,
+    gap: PropTypes.string,
   }),
   columnWidths: PropTypes.shape({
     rank: PropTypes.string.isRequired,

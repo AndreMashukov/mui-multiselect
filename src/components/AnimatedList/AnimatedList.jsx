@@ -42,7 +42,9 @@ const AnimatedList = () => {
   };
 
   return (
-    <Box p={2} width="50vw">
+    <Box p={2} width="50vw" sx={{
+      minWidth: "500px"
+    }}>
       <Stack direction="row" spacing={2} mb={2} justifyContent="space-between">
         <Stack>
           <Typography variant="body1">
