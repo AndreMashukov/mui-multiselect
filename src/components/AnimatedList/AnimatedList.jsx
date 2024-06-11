@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Box, Button, List, Stack, ListItem, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  List,
+  Stack,
+  ListItem,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Shuffle } from "@mui/icons-material";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,11 +49,30 @@ const AnimatedList = () => {
     setItems(updatedItems);
   };
 
+  const theme = useTheme();
+
   return (
-    <Box p={2} width="50vw" sx={{
-      minWidth: "500px"
-    }}>
-      <Stack direction="row" spacing={2} mb={2} justifyContent="space-between">
+    <Box
+      p={2}
+      sx={{
+        minWidth: "500px",
+        width: {
+          xs: "90vw", // 90% of viewport width for small devices
+          sm: "70vw", // 70% of viewport width for medium devices
+          md: "50vw", // 50% of viewport width for large devices
+        },
+        [theme.breakpoints.down("sm")]: {
+          minWidth: "300px", // Minimum width of 300px for small devices
+        },
+      }}
+    >
+      <Stack
+        direction="row"
+        spacing={2}
+        mb={2}
+        justifyContent="space-between"
+        alignItems="flex-end"
+      >
         <Stack>
           <Typography variant="body1">
             Last Updated: {lastUpdated.format("MMM DD, YYYY hh:mm:ss")}

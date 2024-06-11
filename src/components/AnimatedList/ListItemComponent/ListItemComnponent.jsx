@@ -20,7 +20,7 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
         left: "-15px",
       };
     }
-    return {}
+    return {};
   };
 
   return (
@@ -42,7 +42,11 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
             </Typography>
             <Typography
               variant={isHeader ? "subtitle1" : "body1"}
-              sx={{ flex: 1, fontWeight: isHeader ? "bold" : "normal" }}
+              sx={{
+                flex: 1,
+                fontWeight: isHeader ? "bold" : "normal",
+                minWidth: "100px",
+              }}
             >
               {isHeader ? "Customer" : item.customerName}
             </Typography>
