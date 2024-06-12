@@ -1,18 +1,11 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  List,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Divider, List, Stack, Typography } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 import { motion, AnimatePresence } from "framer-motion";
 import ListItemComponent from "./ListItemComponent/ListItemComnponent";
 import moment from "moment";
+import useGetDevice from "../../hooks/useGetDevice";
 
 const VerticalDivider = () => (
   <Box display="flex" alignItems="center" sx={{ mx: 2 }}>
@@ -58,25 +51,22 @@ const AnimatedList = () => {
     setItems(updatedItems);
   };
 
-  const theme = useTheme();
+  const { isMobile } = useGetDevice();
 
   return (
     <Box
       p={2}
       sx={{
-        minWidth: "500px",
+        minWidth: isMobile ? "300px" : "500px",
         width: {
           xs: "90vw",
           sm: "70vw",
           md: "70vw",
         },
-        [theme.breakpoints.down("sm")]: {
-          minWidth: "300px", // Minimum width of 300px for small devices
-        },
       }}
     >
       <Stack
-        direction="row"
+        direction={isMobile ? "column" : "row"}
         spacing={2}
         mb={2}
         justifyContent="space-between"
