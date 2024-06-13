@@ -17,6 +17,8 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { grey } from "@mui/material/colors";
 
+const fixedHeaderScrollHeight = window.innerWidth > 1000 ? "70vh" : "75vh";
+
 const Wrapper = styled.div`
   height: 80vh;
   overflow: hidden;
@@ -124,8 +126,6 @@ const CustomTable = ({
   const areAllColumnsSelected = tableColumns
     .filter((col) => !col.button && !col.omit)
     .every((col) => !hiddenColumns.includes(col.id));
-
-  const fixedHeaderScrollHeight = window.innerWidth > 1000 ? "70vh" : "75vh";
 
   return (
     <>

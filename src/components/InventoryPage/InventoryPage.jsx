@@ -29,7 +29,7 @@ const InventoryPage = () => {
   const tableColumns = getTableColums();
 
   const subHeaderComponent = (
-    <Box sx={{ p: 5 }}>
+    <Box sx={{ p: 5, height: "200px" }}>
       <Grid container spacing={2}>
         Subheader
       </Grid>

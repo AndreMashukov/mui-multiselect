@@ -1,12 +1,12 @@
-import {useEffect, useLayoutEffect, useContext} from "react";
+import { useEffect, useLayoutEffect, useContext } from "react";
 
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 
-import {Header} from "./Header/Header.jsx";
-import {PageContext} from "../context/PageContext.js";
-import {Main} from "./Main/Main.jsx";
+import { Header } from "./Header/Header.jsx";
+import { PageContext } from "../context/PageContext.js";
+import { Main } from "./Main/Main.jsx";
 import PageContent from "./PageContent/PageContent.jsx";
 import LeftDrawer from "./LeftDrawer/LeftDrawer.jsx";
 import useGetDevice from "../../../hooks/useGetDevice.js";
@@ -15,11 +15,11 @@ const PageComponent = (props) => {
   let hideRightSidebar = "";
   const title = props.title || "Dashboard";
 
-  const {state, actions} = useContext(PageContext);
-  const {setOpen, setOpenRightDrawer, setArrowActive} = actions;
-  const {open, isArrowActive} = state;
+  const { state, actions } = useContext(PageContext);
+  const { setOpen, setOpenRightDrawer, setArrowActive } = actions;
+  const { open, isArrowActive } = state;
 
-  const {isMobile} = useGetDevice();
+  const { isMobile } = useGetDevice();
 
   useLayoutEffect(() => {
     let openDrawerStatus = JSON.parse(localStorage.getItem("isOpenDrawer"));
@@ -41,7 +41,6 @@ const PageComponent = (props) => {
 
   hideRightSidebar = false;
 
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
@@ -59,7 +58,6 @@ const PageComponent = (props) => {
     };
   }, []);
 
-
   return (
     <>
       <Box
@@ -68,16 +66,14 @@ const PageComponent = (props) => {
         }}
       >
         <CssBaseline />
-        {!isMobile && (
-          <>
-            <Header open={open} />
-            <LeftDrawer />
-            <Main>
-              <Toolbar />
-              <PageContent title={title}>{props.children}</PageContent>
-            </Main>
-          </>
-        )}
+        <>
+          <Header open={open} />
+          <LeftDrawer />
+          <Main>
+            <Toolbar />
+            <PageContent title={title}>{props.children}</PageContent>
+          </Main>
+        </>
       </Box>
     </>
   );
