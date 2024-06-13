@@ -27,6 +27,10 @@ const Wrapper = styled.div`
   .rdt_TableCol_Sortable > span {
     color: white;
   }
+  .rdt_Pagination {
+    position: relative;
+    bottom: 10px;
+  }
 `;
 
 const CustomTable = ({

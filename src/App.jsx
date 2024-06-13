@@ -30,8 +30,8 @@ function App() {
         {/* <SankeyDiagramView /> */}
         {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
-        {/* <InventoryPageView /> */}
-        <AnimatedListView />
+        <InventoryPageView />
+        {/* <AnimatedListView /> */}
       </Grid>
     </ThemeProvider>
   );
