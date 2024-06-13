@@ -110,7 +110,7 @@ const AnimatedList = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 layout
-                transition={{ duration: 1.5 }}
+                transition={{ duration: 0.5 }}
               >
                 <ListItemComponent
                   key={item.customerId}
