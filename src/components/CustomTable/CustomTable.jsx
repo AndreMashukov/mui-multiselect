@@ -27,10 +27,6 @@ const Wrapper = styled.div`
   .rdt_TableCol_Sortable > span {
     color: white;
   }
-  .rdt_Pagination {
-    position: relative;
-    bottom: 10px;
-  }
 `;
 
 const CustomTable = ({
@@ -129,6 +125,8 @@ const CustomTable = ({
     .filter((col) => !col.button && !col.omit)
     .every((col) => !hiddenColumns.includes(col.id));
 
+  const fixedHeaderScrollHeight = window.innerWidth > 1000 ? "70vh" : "75vh";
+
   return (
     <>
       <Grid item xs={12} sx={{ position: "relative", pt: 3 }}>
@@ -146,7 +144,7 @@ const CustomTable = ({
         <Wrapper>
           <DataTable
             fixedHeader
-            fixedHeaderScrollHeight="75vh"
+            fixedHeaderScrollHeight={fixedHeaderScrollHeight}
             columns={modifiedColumns}
             data={state.tableRows}
             progressPending={state.loading}
@@ -194,7 +192,7 @@ const CustomTable = ({
                 color: areAllColumnsSelected ? grey[500] : "black",
                 cursor: areAllColumnsSelected ? "not-allowed" : "pointer",
                 "&:hover": {
-                  color:  grey[500],
+                  color: grey[500],
                 },
               }}
               onClick={areAllColumnsSelected ? null : selectAllColumns}
