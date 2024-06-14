@@ -129,18 +129,14 @@ const CustomTable = ({
 
   return (
     <>
-      <Grid item xs={12} sx={{ position: "relative", pt: 3 }}>
-        <IconButton
-          onClick={() => setShowHideColumnsModal(true)}
-          sx={{
-            position: "absolute",
-            top: "-15px",
-            right: 0,
-            zIndex: 1000,
-          }}
-        >
-          <SettingsIcon />
-        </IconButton>
+      <Grid item xs={12} sx={{ pt: 3 }}>
+        <Grid container justifyContent="flex-end" sx={{ width: "100%" }}>
+          <Grid item>
+            <IconButton onClick={() => setShowHideColumnsModal(true)}>
+              <SettingsIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
         <Wrapper>
           <DataTable
             fixedHeader
