@@ -1,9 +1,7 @@
 import DataTable from "react-data-table-component";
 import {
   Checkbox,
-  Dialog,
   DialogContent,
-  DialogTitle,
   FormControlLabel,
   Grid,
   IconButton,
@@ -16,8 +14,9 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { grey } from "@mui/material/colors";
-
-const fixedHeaderScrollHeight = window.innerWidth > 1000 ? "70vh" : "75vh";
+import { StyledDialog } from "../Modal/StyledDialog.styled";
+import ModalHeader from "../Modal/ModalHeader/ModalHeader";
+import { useTranslation } from "react-i18next";
 
 const Wrapper = styled.div`
   height: 80vh;
@@ -39,6 +38,7 @@ const CustomTable = ({
   pagination,
   customStyles,
 }) => {
+  const { t } = useTranslation();
   const { sort, columnOrder, hiddenColumns, showHideColumnsModal } = state;
   const { setSort, setColumnOrder, setHiddenColumns, setShowHideColumnsModal } =
     actions;
@@ -79,16 +79,39 @@ const CustomTable = ({
 
   const toggleColumn = (columnId) => {
     let updatedHiddenColumns;
+    let updatedColumnOrder = [...columnOrder];
+
     if (hiddenColumns.includes(columnId)) {
+      // Remove from hiddenColumns
       updatedHiddenColumns = hiddenColumns.filter((id) => id !== columnId);
+      // Append to the end of columnOrder
+      if (!updatedColumnOrder.includes(columnId)) {
+        updatedColumnOrder.push(columnId);
+      }
     } else {
+      // Add to hiddenColumns
       updatedHiddenColumns = [...hiddenColumns, columnId];
+      // Remove from columnOrder
+      updatedColumnOrder = updatedColumnOrder.filter((id) => id !== columnId);
     }
+
+    // Remove duplicates in columnOrder
+    updatedColumnOrder = [...new Set(updatedColumnOrder)];
+
+    // Update state
     setHiddenColumns(updatedHiddenColumns);
+    setColumnOrder(updatedColumnOrder);
+
+    // Update local storage
     updateLocalStorageProperty(
       state.tableName,
       "hiddenColumns",
       updatedHiddenColumns
+    );
+    updateLocalStorageProperty(
+      state.tableName,
+      "columnOrder",
+      updatedColumnOrder
     );
   };
 
@@ -119,8 +142,26 @@ const CustomTable = ({
     .sort((a, b) => columnOrder.indexOf(a.id) - columnOrder.indexOf(b.id));
 
   const selectAllColumns = () => {
+    // Clear hiddenColumns
     setHiddenColumns([]);
     updateLocalStorageProperty(state.tableName, "hiddenColumns", []);
+
+    // Get all column IDs that are not buttons or omitted
+    const allColumnIds = tableColumns
+      .map((col) => col.id)
+      .filter((id) => {
+        const col = tableColumns.find((column) => column.id === id);
+        return col && !col.button && !col.omit;
+      });
+
+    // Update columnOrder with all columns, ensuring no duplicates
+    const updatedColumnOrder = [...new Set([...columnOrder, ...allColumnIds])];
+    setColumnOrder(updatedColumnOrder);
+    updateLocalStorageProperty(
+      state.tableName,
+      "columnOrder",
+      updatedColumnOrder
+    );
   };
 
   const areAllColumnsSelected = tableColumns
@@ -129,18 +170,22 @@ const CustomTable = ({
 
   return (
     <>
-      <Grid item xs={12} sx={{ pt: 3 }}>
-        <Grid container justifyContent="flex-end" sx={{ width: "100%" }}>
-          <Grid item>
-            <IconButton onClick={() => setShowHideColumnsModal(true)}>
-              <SettingsIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+      <Grid item xs={12} sx={{ position: "relative", pt: 3 }}>
+        <IconButton
+          onClick={() => setShowHideColumnsModal(true)}
+          sx={{
+            position: "absolute",
+            top: "-15px",
+            right: 0,
+            zIndex: 1000,
+          }}
+        >
+          <SettingsIcon />
+        </IconButton>
         <Wrapper>
           <DataTable
             fixedHeader
-            fixedHeaderScrollHeight={fixedHeaderScrollHeight}
+            fixedHeaderScrollHeight="75vh"
             columns={modifiedColumns}
             data={state.tableRows}
             progressPending={state.loading}
@@ -168,11 +213,16 @@ const CustomTable = ({
           />
         </Wrapper>
       </Grid>
-      <Dialog
+      <StyledDialog
         open={showHideColumnsModal}
         onClose={() => setShowHideColumnsModal(false)}
       >
-        <DialogTitle>Hide/Unhide Columns</DialogTitle>
+        <ModalHeader
+          title={t("hide-unhide-columns")}
+          handleCloseModal={() => setShowHideColumnsModal(false)}
+          showCloseButton
+        />
+
         <DialogContent>
           <div
             style={{
@@ -180,6 +230,7 @@ const CustomTable = ({
               justifyContent: "flex-end",
               alignItems: "center",
               paddingBottom: "10px",
+              minWidth: "420px",
             }}
           >
             <Typography
@@ -193,7 +244,7 @@ const CustomTable = ({
               }}
               onClick={areAllColumnsSelected ? null : selectAllColumns}
             >
-              Select All
+              {t("select-all")}
             </Typography>
           </div>
           {tableColumns
@@ -214,7 +265,7 @@ const CustomTable = ({
               </Stack>
             ))}
         </DialogContent>
-      </Dialog>
+      </StyledDialog>
     </>
   );
 };
