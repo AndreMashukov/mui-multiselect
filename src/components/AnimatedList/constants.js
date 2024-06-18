@@ -31,13 +31,13 @@ export const INTERNET_TRAFFIC_LEADER_BOARD = [
   },
   {
     customerId: "cust6",
-    customerName: "Broadband Tiger Co.",
+    customerName: "Tiger Broadband Co.",
     rank: 6,
     traffic: "2.10G",
   },
   {
     customerId: "cust7",
-    customerName: "Fast Internet Co.",
+    customerName: null,
     rank: 7,
     traffic: "2.00G",
   },
@@ -49,7 +49,7 @@ export const INTERNET_TRAFFIC_LEADER_BOARD = [
   },
   {
     customerId: "cust9",
-    customerName: "Speedy Internet",
+    customerName: null,
     rank: 9,
     traffic: "1.80G",
   },

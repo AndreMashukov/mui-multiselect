@@ -48,7 +48,18 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
                 minWidth: "100px",
               }}
             >
-              {isHeader ? "Customer" : item.customerName}
+              {isHeader ? (
+                "Customer"
+              ) : item.customerName ? (
+                item.customerName
+              ) : (
+                <div
+                  style={{
+                    height: "20px",
+                    background: "linear-gradient(to right, grey, white)",
+                  }}
+                />
+              )}
             </Typography>
             <Typography
               variant={isHeader ? "subtitle1" : "body1"}
