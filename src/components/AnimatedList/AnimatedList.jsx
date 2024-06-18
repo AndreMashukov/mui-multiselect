@@ -26,7 +26,7 @@ const AnimatedList = () => {
     if (refreshInterval !== "stop") {
       interval = setInterval(() => {
         shuffleItems();
-      }, parseInt(refreshInterval) * 60000);
+      }, parseInt(refreshInterval) * 1000);
     }
     return () => clearInterval(interval);
   }, [refreshInterval]);
