@@ -1,20 +1,12 @@
 import { useState } from "react";
-import { Box, Button, Divider, List, Stack, Typography } from "@mui/material";
+import { Box, Button, List, Stack, Typography } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 import { motion, AnimatePresence } from "framer-motion";
 import ListItemComponent from "./ListItemComponent/ListItemComnponent";
 import moment from "moment";
 import useGetDevice from "../../hooks/useGetDevice";
-
-const VerticalDivider = () => (
-  <Box display="flex" alignItems="center" sx={{ mx: 2 }}>
-    <Divider
-      orientation="vertical"
-      sx={{ bgcolor: "grey.100", height: "25px", width: "2px" }}
-    />
-  </Box>
-);
+import StackBottom from "./StackBottom/StackBottom";
 
 const AnimatedList = () => {
   const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
@@ -65,37 +57,16 @@ const AnimatedList = () => {
         },
       }}
     >
-      <Stack
-        direction={isMobile ? "column" : "row"}
-        spacing={2}
-        mb={2}
-        justifyContent="space-between"
-        alignItems="flex-end"
-      >
-        <Stack>
-          <Typography variant="body1">
-            Last Updated: {lastUpdated.format("MMM DD, YYYY hh:mm:ss")}
-          </Typography>
-        </Stack>
-        <Stack
-          spacing={2}
-          justifyContent="space-between"
-          direction="row"
-          alignItems="flex-end"
+      <Stack justifyContent="space-between" alignItems="flex-end" mb={1}>
+        <Button
+          startIcon={<RefreshIcon />}
+          variant="contained"
+          onClick={shuffleItems}
         >
-          <Button
-            startIcon={<RefreshIcon />}
-            variant="contained"
-            onClick={shuffleItems}
-          >
-            Refresh
-          </Button>
-          <VerticalDivider />
-          <Typography>Last 24 hours Peak</Typography>
-          <VerticalDivider />
-          <Typography>Last 7 days Peak</Typography>
-        </Stack>
+          Refresh
+        </Button>
       </Stack>
+      <StackBottom isMobile={isMobile} lastUpdated={lastUpdated} />
       <List sx={{ position: "relative" }}>
         {/* Fixed Header Row */}
         <ListItemComponent columnWidths={COLUMN_WIDTH} isHeader={true} />
