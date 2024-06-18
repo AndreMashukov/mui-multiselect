@@ -1,5 +1,13 @@
-import { useState } from "react";
-import { Box, Button, List, Stack, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  List,
+  Stack,
+  Typography,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +19,17 @@ import StackBottom from "./StackBottom/StackBottom";
 const AnimatedList = () => {
   const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
   const [lastUpdated, setLastUpdated] = useState(moment());
+  const [refreshInterval, setRefreshInterval] = useState("stop");
+
+  useEffect(() => {
+    let interval;
+    if (refreshInterval !== "stop") {
+      interval = setInterval(() => {
+        shuffleItems();
+      }, parseInt(refreshInterval) * 60000);
+    }
+    return () => clearInterval(interval);
+  }, [refreshInterval]);
 
   const shuffleItems = () => {
     setLastUpdated(moment());
@@ -57,7 +76,12 @@ const AnimatedList = () => {
         },
       }}
     >
-      <Stack justifyContent="space-between" alignItems="flex-end" mb={1}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-end"
+        mb={1}
+      >
         <Button
           startIcon={<RefreshIcon />}
           variant="contained"
@@ -65,6 +89,20 @@ const AnimatedList = () => {
         >
           Refresh
         </Button>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography>Auto-refresh</Typography>
+          <Select
+            value={refreshInterval}
+            onChange={(e) => setRefreshInterval(e.target.value)}
+            variant="outlined"
+            size="small"
+          >
+            <MenuItem value="stop">Stop</MenuItem>
+            <MenuItem value="5">5min</MenuItem>
+            <MenuItem value="10">10min</MenuItem>
+            <MenuItem value="15">15min</MenuItem>
+          </Select>
+        </Stack>
       </Stack>
       <StackBottom isMobile={isMobile} lastUpdated={lastUpdated} />
       <List sx={{ position: "relative" }}>
