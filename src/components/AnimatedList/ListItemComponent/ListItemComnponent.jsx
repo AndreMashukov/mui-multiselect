@@ -5,9 +5,9 @@ import { ArrowUpward, ArrowDownward, Remove } from "@mui/icons-material";
 const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
   const renderRankChangeIcon = (direction) => {
     if (direction === "up") {
-      return <ArrowUpward color="success" />;
+      return <ArrowUpward sx={{ color: "lightgreen" }} />;
     } else if (direction === "down") {
-      return <ArrowDownward color="error" />;
+      return <ArrowDownward sx={{ color: "red" }} />;
     } else {
       return <Remove />;
     }
@@ -56,7 +56,8 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
                 <div
                   style={{
                     height: "20px",
-                    background: "linear-gradient(to right, darkgrey, lightgrey)",
+                    background:
+                      "linear-gradient(to right, darkgrey, lightgrey)",
                   }}
                 />
               )}
