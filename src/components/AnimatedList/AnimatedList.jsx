@@ -63,6 +63,17 @@ const AnimatedList = () => {
     setItems(updatedItems);
   };
 
+  function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
+  }
+
   const { isMobile } = useGetDevice();
 
   return (
@@ -75,8 +86,13 @@ const AnimatedList = () => {
       <Box
         p={2}
         sx={{
-          // background: (theme) => theme.palette.secondary.main,
-          background: "transparent",
+          background: (theme) => {
+            const rgb = hexToRgb(theme.palette.secondary.main);
+            return rgb
+              ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`
+              : theme.palette.secondary.main;
+          },
+          // opacity: 0.5,
           color: "white",
           minWidth: isMobile ? "300px" : "500px",
           width: {
