@@ -89,7 +89,7 @@ const AnimatedList = () => {
           background: (theme) => {
             const rgb = hexToRgb(theme.palette.secondary.main);
             return rgb
-              ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`
+              ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.75)`
               : theme.palette.secondary.main;
           },
           // opacity: 0.5,
