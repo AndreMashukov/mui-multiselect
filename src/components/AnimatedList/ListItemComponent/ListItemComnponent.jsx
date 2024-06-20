@@ -56,7 +56,7 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
                 <div
                   style={{
                     height: "20px",
-                    background: "linear-gradient(to right, grey, white)",
+                    background: "linear-gradient(to right, darkgrey, lightgrey)",
                   }}
                 />
               )}
