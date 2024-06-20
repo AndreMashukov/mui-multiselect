@@ -15,6 +15,7 @@ import ListItemComponent from "./ListItemComponent/ListItemComnponent";
 import moment from "moment";
 import useGetDevice from "../../hooks/useGetDevice";
 import StackBottom from "./StackBottom/StackBottom";
+import backgroundImage from "./telecom-background.png";
 
 const AnimatedList = () => {
   const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
@@ -66,71 +67,81 @@ const AnimatedList = () => {
 
   return (
     <Box
-      p={2}
       sx={{
-        minWidth: isMobile ? "300px" : "500px",
-        width: {
-          xs: "90vw",
-          sm: "70vw",
-          md: "70vw",
-        },
+        background: `url(${backgroundImage}) no-repeat center center/cover`,
+        padding: "30px 50px",
       }}
     >
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="flex-end"
-        mb={1}
+      <Box
+        p={2}
+        sx={{
+          // background: (theme) => theme.palette.secondary.main,
+          background: "transparent",
+          color: "white",
+          minWidth: isMobile ? "300px" : "500px",
+          width: {
+            xs: "90vw",
+            sm: "70vw",
+            md: "70vw",
+          },
+        }}
       >
-        <Button
-          startIcon={<RefreshIcon />}
-          variant="contained"
-          onClick={shuffleItems}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="flex-end"
+          mb={1}
         >
-          Refresh
-        </Button>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Typography>Auto-refresh</Typography>
-          <Select
-            value={refreshInterval}
-            onChange={(e) => setRefreshInterval(e.target.value)}
-            variant="outlined"
-            size="small"
+          <Button
+            startIcon={<RefreshIcon />}
+            variant="contained"
+            onClick={shuffleItems}
           >
-            <MenuItem value="stop">Stop</MenuItem>
-            <MenuItem value="5">5min</MenuItem>
-            <MenuItem value="10">10min</MenuItem>
-            <MenuItem value="15">15min</MenuItem>
-          </Select>
+            Refresh
+          </Button>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography>Auto-refresh</Typography>
+            <Select
+              value={refreshInterval}
+              onChange={(e) => setRefreshInterval(e.target.value)}
+              variant="outlined"
+              size="small"
+            >
+              <MenuItem value="stop">Stop</MenuItem>
+              <MenuItem value="5">5min</MenuItem>
+              <MenuItem value="10">10min</MenuItem>
+              <MenuItem value="15">15min</MenuItem>
+            </Select>
+          </Stack>
         </Stack>
-      </Stack>
-      <StackBottom isMobile={isMobile} lastUpdated={lastUpdated} />
-      <List sx={{ position: "relative" }}>
-        {/* Fixed Header Row */}
-        <ListItemComponent columnWidths={COLUMN_WIDTH} isHeader={true} />
-      </List>
-      <Box sx={{ height: "400px", overflowY: "auto" }}>
-        <AnimatePresence>
-          <List>
-            {items.map((item) => (
-              <motion.div
-                key={item.customerId}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                layout
-                transition={{ duration: 0.5 }}
-              >
-                <ListItemComponent
+        <StackBottom isMobile={isMobile} lastUpdated={lastUpdated} />
+        <List sx={{ position: "relative" }}>
+          {/* Fixed Header Row */}
+          <ListItemComponent columnWidths={COLUMN_WIDTH} isHeader={true} />
+        </List>
+        <Box sx={{ height: "400px", overflowY: "auto" }}>
+          <AnimatePresence>
+            <List>
+              {items.map((item) => (
+                <motion.div
                   key={item.customerId}
-                  item={item}
-                  columnWidths={COLUMN_WIDTH}
-                  isHeader={false}
-                />
-              </motion.div>
-            ))}
-          </List>
-        </AnimatePresence>
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  layout
+                  transition={{ duration: 0.5 }}
+                >
+                  <ListItemComponent
+                    key={item.customerId}
+                    item={item}
+                    columnWidths={COLUMN_WIDTH}
+                    isHeader={false}
+                  />
+                </motion.div>
+              ))}
+            </List>
+          </AnimatePresence>
+        </Box>
       </Box>
     </Box>
   );

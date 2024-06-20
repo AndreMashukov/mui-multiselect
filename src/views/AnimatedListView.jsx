@@ -43,7 +43,9 @@ export const AnimatedListView = () => {
       <TabPanel value={value} index={0}>
         <Box sx={{ minHeight: "600px" }}>General content goes here.</Box>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={1} sx={{
+        backgroundColor: "red"
+      }}>
         <AnimatedList />
       </TabPanel>
     </Box>
