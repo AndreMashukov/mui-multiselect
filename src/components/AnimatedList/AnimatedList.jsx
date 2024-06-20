@@ -80,7 +80,7 @@ const AnimatedList = () => {
     <Box
       sx={{
         background: `url(${backgroundImage}) no-repeat center center/cover`,
-        padding: "30px 50px",
+        padding: isMobile ? "0px" : "30px 50px",
       }}
     >
       <Box
