@@ -22,6 +22,12 @@ const StackTop = ({ refreshInterval, setRefreshInterval, shuffleItems }) => (
         onChange={(e) => setRefreshInterval(e.target.value)}
         variant="outlined"
         size="small"
+        sx={{
+          color: "white",
+          svg: {
+            color: "white",
+          },
+        }}
       >
         <MenuItem value="stop">Stop</MenuItem>
         <MenuItem value="5">5min</MenuItem>
