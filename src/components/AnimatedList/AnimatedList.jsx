@@ -1,14 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  List,
-  Stack,
-  Typography,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { Box, List } from "@mui/material";
 import { COLUMN_WIDTH, INTERNET_TRAFFIC_LEADER_BOARD } from "./constants";
 import { motion, AnimatePresence } from "framer-motion";
 import ListItemComponent from "./ListItemComponent/ListItemComnponent";
@@ -16,6 +7,7 @@ import moment from "moment";
 import useGetDevice from "../../hooks/useGetDevice";
 import StackBottom from "./StackBottom/StackBottom";
 import backgroundImage from "./telecom-background.png";
+import StackTop from "./StackTop/StackTop";
 
 const AnimatedList = () => {
   const [items, setItems] = useState(INTERNET_TRAFFIC_LEADER_BOARD);
@@ -102,34 +94,11 @@ const AnimatedList = () => {
           },
         }}
       >
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="flex-end"
-          mb={1}
-        >
-          <Button
-            startIcon={<RefreshIcon />}
-            variant="contained"
-            onClick={shuffleItems}
-          >
-            Refresh
-          </Button>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Typography>Auto-refresh</Typography>
-            <Select
-              value={refreshInterval}
-              onChange={(e) => setRefreshInterval(e.target.value)}
-              variant="outlined"
-              size="small"
-            >
-              <MenuItem value="stop">Stop</MenuItem>
-              <MenuItem value="5">5min</MenuItem>
-              <MenuItem value="10">10min</MenuItem>
-              <MenuItem value="15">15min</MenuItem>
-            </Select>
-          </Stack>
-        </Stack>
+        <StackTop
+          refreshInterval={refreshInterval}
+          setRefreshInterval={setRefreshInterval}
+          shuffleItems={shuffleItems}
+        />
         <StackBottom isMobile={isMobile} lastUpdated={lastUpdated} />
         <List sx={{ position: "relative" }}>
           {/* Fixed Header Row */}
