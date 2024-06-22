@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import { ArrowUpward, ArrowDownward, Remove } from "@mui/icons-material";
 
+const CURRENT_COMPANY_ID = "cust5";
+
 const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
   const renderRankChangeIcon = (direction) => {
     if (direction === "up") {
@@ -24,7 +26,16 @@ const ListItemComponent = ({ key, item, columnWidths, isHeader }) => {
   };
 
   return (
-    <ListItem divider key={key}>
+    <ListItem
+      divider
+      key={key}
+      sx={{
+        bgcolor: (theme) =>
+          CURRENT_COMPANY_ID === item.customerId
+            ? theme.palette.primary.main
+            : "inherit",
+      }}
+    >
       <ListItemText
         primary={
           <Stack direction="row" spacing={2} alignItems="center" width="100%">

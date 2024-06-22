@@ -25,7 +25,7 @@ export const INTERNET_TRAFFIC_LEADER_BOARD = [
   },
   {
     customerId: "cust5",
-    customerName: "Digital Dragon Solutions",
+    customerName: "Dragon Digital Solutions",
     rank: 5,
     traffic: "2.20G",
   },
