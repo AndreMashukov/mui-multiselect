@@ -18,14 +18,9 @@ const PreferenceModal = ({ showHideColumnsModal, setShowHideColumnsModal }) => {
       <ModalHeader
         title="Preference"
         handleCloseModal={() => setShowHideColumnsModal(false)}
-        showCloseButton
       />
 
-      <DialogContent
-        sx={{
-          minWidth: "60vw"
-        }}
-      >
+      <DialogContent>
         <Stack>Top</Stack>
         <Divider />
         <Stack>Bottom</Stack>
