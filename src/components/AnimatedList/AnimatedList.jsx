@@ -86,12 +86,6 @@ const AnimatedList = () => {
           },
           // opacity: 0.5,
           color: "white",
-          minWidth: isMobile ? "300px" : "500px",
-          width: {
-            xs: "90vw",
-            sm: "70vw",
-            md: "70vw",
-          },
         }}
       >
         <StackTop

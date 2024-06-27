@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import AnimatedList from "../components/AnimatedList/AnimatedList";
+import { Page } from "../components/Page/page";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -33,19 +34,29 @@ export const AnimatedListView = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange}>
-          <Tab label="General" {...a11yProps(0)} />
-          <Tab label="Leaderboard" {...a11yProps(1)} />
-        </Tabs>
+    <Page title="Dashboard">
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="General" {...a11yProps(0)} />
+            <Tab label="Leaderboard" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        {value === 0 && (
+          <TabPanel key={value} value={value} index={0}>
+            General Tab
+          </TabPanel>
+        )}
+        {value === 1 && (
+          <TabPanel key={value} value={value} index={1}>
+            <AnimatedList />
+          </TabPanel>
+        )}
       </Box>
-      <TabPanel value={value} index={0}>
-        <Box sx={{ minHeight: "600px" }}>General content goes here.</Box>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <AnimatedList />
-      </TabPanel>
-    </Box>
+    </Page>
   );
 };
