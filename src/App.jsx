@@ -14,12 +14,13 @@ import { StackedBarChartView } from "./views/StackedBarChartView";
 import { BasicBarChartView } from "./views/BasicBarChartView";
 import { InventoryPageView } from "./views/InventoryPageView";
 import { AnimatedListView } from "./views/AnimatedListView";
+import { PreferenceView } from "./views/PreferenceView";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid container sx={{ position: "relative", ml: 3 }}>
+      <Grid container>
         {/* <MultiSelectTestView /> */}
         {/* <ModalContainerTestView /> */}
         {/* <DatepickerView /> */}
@@ -31,7 +32,8 @@ function App() {
         {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
         {/* <InventoryPageView /> */}
-        <AnimatedListView />
+        {/* <AnimatedListView /> */}
+        <PreferenceView />
       </Grid>
     </ThemeProvider>
   );
