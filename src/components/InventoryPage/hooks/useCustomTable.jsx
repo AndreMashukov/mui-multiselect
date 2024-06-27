@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTranslation } from "react-i18next";
 import LaunchIcon from "@mui/icons-material/Launch";
@@ -8,16 +8,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 export const useCustomTable = ({ recordMode, editMode, state }) => {
-  const { t } = useTranslation();
   const isReseller = true;
 
   const { settings, tableName } = state;
 
-  const getButton = ({ dataCy, handleClick, icon }) => ({
+  const getButton = ({ dataCy, handleClick, icon, isPermitted }) => ({
     button: true,
     cell: (row) => (
       <div data-cy={dataCy}>
         <IconButton
+          disabled={!isPermitted}
           data-cy={dataCy}
           id={"long-button"}
           aria-haspopup="true"
@@ -39,6 +39,8 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
           dataCy: `${tableName}-button-view-24603`,
           handleClick: handleView,
           icon: <VisibilityIcon />,
+          // isPermitted: editMode.permitted.isView,
+          isPermitted: true,
         })
       );
     }
@@ -48,6 +50,8 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
           dataCy: `${tableName}-button-edit-24603`,
           handleClick: handleEdit,
           icon: <ModeEditIcon />,
+          // isPermitted: editMode.permitted.isEdit,
+          isPermitted: true,
         })
       );
     }
@@ -57,6 +61,8 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
           dataCy: `${tableName}-button-delete-24603`,
           handleClick: handleDelete,
           icon: <DeleteIcon />,
+          // isPermitted: editMode.permitted.isDelete,
+          isPermitted: true,
         })
       );
     }
@@ -72,6 +78,7 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
           dataCy: `${tableName}-button-threeDots-24603`,
           handleClick: threeDots.handleClick,
           icon: <MoreVertIcon />,
+          isPermitted: true,
         })
       );
     }
@@ -81,6 +88,7 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
           dataCy: `${tableName}-button-launch-24603`,
           handleClick: () => {},
           icon: <LaunchIcon />,
+          isPermitted: true,
         })
       );
     }
@@ -91,15 +99,17 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
           dataCy: `${tableName}-button-download-24603`,
           handleClick: () => {},
           icon: <DownloadIcon />,
+          isPermitted: true,
         })
       );
     }
     return buttons;
   };
 
+  // console.log(settings, state.selectors)
   const getSelector = (id) => {
-    return state.selectors.find(s => s.id === id)?.selector
-  }
+    return state.selectors.find((s) => s.id === id)?.selector;
+  };
 
   const getTableColums = () => {
     if (!settings) return [];
@@ -115,7 +125,6 @@ export const useCustomTable = ({ recordMode, editMode, state }) => {
       ...buttons,
       ...settings.map((col) => ({
         ...col,
-        name: t(`${tableName}.${col.id}`),
         selector: getSelector(col.id),
         omit: !isReseller && col.omitIfReseller,
       })),

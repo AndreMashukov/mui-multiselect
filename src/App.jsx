@@ -13,26 +13,25 @@ import { SankeyDiagramView } from "./views/SankeyDiagramView";
 import { StackedBarChartView } from "./views/StackedBarChartView";
 import { BasicBarChartView } from "./views/BasicBarChartView";
 import { InventoryPageView } from "./views/InventoryPageView";
+import { AnimatedListView } from "./views/AnimatedListView";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid
-        container
-        sx={{ position: "relative", ml: 3}}
-      >
+      <Grid container sx={{ position: "relative", ml: 3 }}>
         {/* <MultiSelectTestView /> */}
         {/* <ModalContainerTestView /> */}
         {/* <DatepickerView /> */}
         {/* <RangePickerView /> */}
         {/* <CustomSelectView /> */}
         {/* <LineChartView /> */}
-        <ZoomableLineChartView />
+        {/* <ZoomableLineChartView /> */}
         {/* <SankeyDiagramView /> */}
         {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
         {/* <InventoryPageView /> */}
+        <AnimatedListView />
       </Grid>
     </ThemeProvider>
   );
