@@ -10,15 +10,15 @@ import {
 import ModalHeader from "../Modal/ModalHeader/ModalHeader";
 import { StyledDialog } from "../Modal/StyledDialog.styled";
 
-const PreferenceModal = ({ showHideColumnsModal, setShowHideColumnsModal }) => {
+const PreferenceModal = ({ showModal, setShowModal }) => {
   return (
     <StyledDialog
-      open={showHideColumnsModal}
-      onClose={() => setShowHideColumnsModal(false)}
+      open={showModal}
+      onClose={() => setShowModal(false)}
     >
       <ModalHeader
         title="Preference"
-        handleCloseModal={() => setShowHideColumnsModal(false)}
+        handleCloseModal={() => setShowModal(false)}
       />
 
       <DialogContent>
@@ -54,7 +54,7 @@ const PreferenceModal = ({ showHideColumnsModal, setShowHideColumnsModal }) => {
       </DialogContent>
       <DialogActions sx={{ position: "relative" }}>
         <Box justifyContent="flex-end">
-          <Button onClick={() => setShowHideColumnsModal(false)}>Close</Button>
+          <Button onClick={() => setShowModal(false)}>Close</Button>
         </Box>
       </DialogActions>
     </StyledDialog>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import PreferenceModal from "../components/PreferenceModal/PreferenceModal";
 
 export const PreferenceView = () => {
-  const [showHideColumnsModal, setShowHideColumnsModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   return (
     <>
       <Grid
@@ -14,17 +14,17 @@ export const PreferenceView = () => {
         }}
       >
         <Button
-          onClick={() => setShowHideColumnsModal(true)}
+          onClick={() => setShowModal(true)}
           variant="contained"
           color="primary"
         >
           Open
         </Button>
       </Grid>
-      {showHideColumnsModal && (
+      {showModal && (
         <PreferenceModal
-          showHideColumnsModal={showHideColumnsModal}
-          setShowHideColumnsModal={setShowHideColumnsModal}
+          showModal={showModal}
+          setShowModal={setShowModal}
         />
       )}
     </>
