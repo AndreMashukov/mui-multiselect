@@ -11,6 +11,7 @@ import ModalHeader from "../Modal/ModalHeader/ModalHeader";
 import { StyledDialog } from "../Modal/StyledDialog.styled";
 import { useState } from "react";
 import { PreferenceModalTopPart } from "./PreferenceModalTopPart/PreferenceModalTopPart";
+import { PreferenceModalBottomPart } from "./PreferenceModalBottomPart/PreferenceModalBottomPart";
 
 const PreferenceModal = ({ showModal, setShowModal }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -57,6 +58,10 @@ const PreferenceModal = ({ showModal, setShowModal }) => {
               Current Layout
             </Typography>
           </Stack>
+          <PreferenceModalBottomPart
+            selectedLayout={selectedLayout}
+            setSelectedLayout={setSelectedLayout}
+          />
         </Stack>
       </DialogContent>
       <DialogActions sx={{ position: "relative" }}>
