@@ -9,15 +9,10 @@ import {
 } from "@mui/material";
 import ModalHeader from "../../Modal/ModalHeader/ModalHeader";
 import { StyledDialog } from "../../Modal/StyledDialog.styled";
-import { useState } from "react";
 import { PreferenceModalTopPart } from "./PreferenceModalTopPart/PreferenceModalTopPart";
 import { PreferenceModalBottomPart } from "./PreferenceModalBottomPart/PreferenceModalBottomPart";
 
 const PreferenceModalContainer = ({ showModal, setShowModal }) => {
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  const [selectedLayout, setSelectedLayout] = useState(null);
-
   return (
     <StyledDialog open={showModal} onClose={() => setShowModal(false)}>
       <ModalHeader
@@ -38,12 +33,7 @@ const PreferenceModalContainer = ({ showModal, setShowModal }) => {
             </Typography>
           </Stack>
           <Stack sx={{ ml: 5 }}>
-            <PreferenceModalTopPart
-              selectedCountry={selectedCountry}
-              setSelectedCountry={setSelectedCountry}
-              selectedCompany={selectedCompany}
-              setSelectedCompany={setSelectedCompany}
-            />
+            <PreferenceModalTopPart />
           </Stack>
         </Stack>
         <Divider />
@@ -58,10 +48,7 @@ const PreferenceModalContainer = ({ showModal, setShowModal }) => {
               Current Layout
             </Typography>
           </Stack>
-          <PreferenceModalBottomPart
-            selectedLayout={selectedLayout}
-            setSelectedLayout={setSelectedLayout}
-          />
+          <PreferenceModalBottomPart />
         </Stack>
       </DialogContent>
       <DialogActions sx={{ position: "relative" }}>

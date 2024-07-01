@@ -1,7 +1,7 @@
 import PreferenceModalContainer from "./PreferenceModalContainer/PreferenceModalContainer";
 import { PreferenceModalContextProvider } from "./context/PreferenceModalContextProvider";
 
-export const PreferenceModal = ({ showModal, setShowModal }) => {
+const PreferenceModal = ({ showModal, setShowModal }) => {
   return (
     <PreferenceModalContextProvider>
       <PreferenceModalContainer
@@ -11,3 +11,5 @@ export const PreferenceModal = ({ showModal, setShowModal }) => {
     </PreferenceModalContextProvider>
   );
 };
+
+export default PreferenceModal;

@@ -11,22 +11,22 @@ const HEIGHT = "90px";
 
 const SELECT_LAYOUT_OPTIONS = [
   {
-    id: "1",
+    id: "all-docked",
     label: "All docked",
     icon: <LayoutAllDocked width={WIDTH} height={HEIGHT} />,
   },
   {
-    id: "2",
+    id: "all-expanded",
     label: "All expanded",
     icon: <LayoutAllExpanded width={WIDTH} height={HEIGHT} />,
   },
   {
-    id: "3",
+    id: "left-expanded",
     label: "Left expanded",
     icon: <LayoutLeftExpanded width={WIDTH} height={HEIGHT} />,
   },
   {
-    id: "4",
+    id: "right-expanded",
     label: "Right expanded",
     icon: <LayoutRightExpanded width={WIDTH} height={HEIGHT} />,
   },
