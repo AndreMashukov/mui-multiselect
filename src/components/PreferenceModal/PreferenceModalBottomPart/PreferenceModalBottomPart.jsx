@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import LayoutAllDocked from "./svg/LayoutAllDocked";
 import LayoutAllExpanded from "./svg/LayoutAllExpanded";
 import LayoutLeftExpanded from "./svg/LayoutLeftExpanded";
@@ -34,6 +34,7 @@ export const PreferenceModalBottomPart = ({
   selectedLayout,
   setSelectedLayout,
 }) => {
+  const theme = useTheme();
   return (
     <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
       {SELECT_LAYOUT_OPTIONS.map((layoutOption) => (
@@ -48,7 +49,7 @@ export const PreferenceModalBottomPart = ({
             // boxShadow:
             //   selectedLayout === layoutOption.id ? "0 0 10px #ffa500" : "none",
             ...(selectedLayout === layoutOption.id && {
-              borderColor: "orange", // Change border color upon selection
+              borderColor: theme.palette.primary.main
             }),
           }}
           key={layoutOption.id}
