@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import {Grid, ListItemText, SvgIcon} from "@mui/material";
+import PropTypes from "prop-types";
+import { Grid, ListItemText, SvgIcon } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import useGetDevice from "../../hooks/useGetDevice";
@@ -21,7 +21,7 @@ export default function CustomSelect({
   disabled,
   maxCharLength,
 }) {
-  const {isMobile} = useGetDevice();
+  const { isMobile } = useGetDevice();
   return (
     <Select
       sx={sx}
@@ -37,9 +37,17 @@ export default function CustomSelect({
           return "";
         }
         return (
-          <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap">
+          <Grid
+            container
+            justifyContent="flex-start"
+            alignItems="center"
+            wrap="nowrap"
+          >
             <Grid item>{icon}</Grid>
-            <Grid item sx={{position: "relative", width: `${maxCharLength || "25"}ch`}}>
+            <Grid
+              item
+              sx={{ position: "relative", width: `${maxCharLength || "25"}ch` }}
+            >
               <ListItemText
                 primary={selectedOption.label}
                 sx={{
@@ -74,7 +82,7 @@ export default function CustomSelect({
           <Grid container justifyContent="flex-start" alignItems="center">
             <Grid item>{icon}</Grid>
             <Grid item>
-              <ListItemText primary={option.label} sx={{pl: 1}} />
+              <ListItemText primary={option.label} sx={{ pl: 1 }} />
             </Grid>
           </Grid>
         </MenuItem>
@@ -82,3 +90,19 @@ export default function CustomSelect({
     </Select>
   );
 }
+
+CustomSelect.propTypes = {
+  value: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  sx: PropTypes.object,
+  icon: PropTypes.node,
+  replaceChevron: PropTypes.bool,
+  disabled: PropTypes.bool,
+  maxCharLength: PropTypes.number,
+};

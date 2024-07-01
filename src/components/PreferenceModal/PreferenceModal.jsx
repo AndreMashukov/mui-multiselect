@@ -9,13 +9,16 @@ import {
 } from "@mui/material";
 import ModalHeader from "../Modal/ModalHeader/ModalHeader";
 import { StyledDialog } from "../Modal/StyledDialog.styled";
+import { useState } from "react";
+import { PreferenceModalTopPart } from "./PreferenceModalTopPart/PreferenceModalTopPart";
 
 const PreferenceModal = ({ showModal, setShowModal }) => {
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [selectedLayout, setSelectedLayout] = useState(null);
+
   return (
-    <StyledDialog
-      open={showModal}
-      onClose={() => setShowModal(false)}
-    >
+    <StyledDialog open={showModal} onClose={() => setShowModal(false)}>
       <ModalHeader
         title="Preference"
         handleCloseModal={() => setShowModal(false)}
@@ -34,8 +37,12 @@ const PreferenceModal = ({ showModal, setShowModal }) => {
             </Typography>
           </Stack>
           <Stack sx={{ ml: 5 }}>
-            <Typography variant="body1">Country: United States</Typography>
-            <Typography variant="body1">Company: Apple</Typography>
+            <PreferenceModalTopPart
+              selectedCountry={selectedCountry}
+              setSelectedCountry={setSelectedCountry}
+              selectedCompany={selectedCompany}
+              setSelectedCompany={setSelectedCompany}
+            />
           </Stack>
         </Stack>
         <Divider />
@@ -54,6 +61,9 @@ const PreferenceModal = ({ showModal, setShowModal }) => {
       </DialogContent>
       <DialogActions sx={{ position: "relative" }}>
         <Box justifyContent="flex-end">
+          <Button onClick={() => setShowModal(false)} sx={{ mr: 1 }}>
+            Update
+          </Button>
           <Button onClick={() => setShowModal(false)}>Close</Button>
         </Box>
       </DialogActions>
