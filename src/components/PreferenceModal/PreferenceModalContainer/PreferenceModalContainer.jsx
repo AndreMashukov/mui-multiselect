@@ -13,7 +13,7 @@ import { useState } from "react";
 import { PreferenceModalTopPart } from "./PreferenceModalTopPart/PreferenceModalTopPart";
 import { PreferenceModalBottomPart } from "./PreferenceModalBottomPart/PreferenceModalBottomPart";
 
-const PreferenceModal = ({ showModal, setShowModal }) => {
+const PreferenceModalContainer = ({ showModal, setShowModal }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [selectedLayout, setSelectedLayout] = useState(null);
@@ -76,4 +76,4 @@ const PreferenceModal = ({ showModal, setShowModal }) => {
   );
 };
 
-export default PreferenceModal;
+export default PreferenceModalContainer;

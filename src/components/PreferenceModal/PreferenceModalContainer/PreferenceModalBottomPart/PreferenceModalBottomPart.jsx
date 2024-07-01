@@ -3,6 +3,8 @@ import LayoutAllDocked from "./svg/LayoutAllDocked";
 import LayoutAllExpanded from "./svg/LayoutAllExpanded";
 import LayoutLeftExpanded from "./svg/LayoutLeftExpanded";
 import LayoutRightExpanded from "./svg/LayoutRightExpanded";
+import { useContext } from "react";
+import { PreferenceModalContext } from "../../context/PreferenceModalContext";
 
 const WIDTH = "110px";
 const HEIGHT = "90px";
@@ -30,10 +32,10 @@ const SELECT_LAYOUT_OPTIONS = [
   },
 ];
 
-export const PreferenceModalBottomPart = ({
-  selectedLayout,
-  setSelectedLayout,
-}) => {
+export const PreferenceModalBottomPart = () => {
+  const { state, actions } = useContext(PreferenceModalContext);
+  const { selectedLayout } = state;
+  const { setSelectedLayout } = actions;
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
