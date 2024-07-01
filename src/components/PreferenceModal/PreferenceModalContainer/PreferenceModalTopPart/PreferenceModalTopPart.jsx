@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import CustomSelect from "../../CustomSelect/CustomSelect";
+import CustomSelect from "../../../CustomSelect/CustomSelect";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import StoreIcon from "@mui/icons-material/Store";
 

@@ -7,8 +7,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import ModalHeader from "../Modal/ModalHeader/ModalHeader";
-import { StyledDialog } from "../Modal/StyledDialog.styled";
+import ModalHeader from "../../Modal/ModalHeader/ModalHeader";
+import { StyledDialog } from "../../Modal/StyledDialog.styled";
 import { useState } from "react";
 import { PreferenceModalTopPart } from "./PreferenceModalTopPart/PreferenceModalTopPart";
 import { PreferenceModalBottomPart } from "./PreferenceModalBottomPart/PreferenceModalBottomPart";
