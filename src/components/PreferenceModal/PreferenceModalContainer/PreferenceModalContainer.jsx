@@ -11,8 +11,12 @@ import ModalHeader from "../../Modal/ModalHeader/ModalHeader";
 import { StyledDialog } from "../../Modal/StyledDialog.styled";
 import { PreferenceModalTopPart } from "./PreferenceModalTopPart/PreferenceModalTopPart";
 import { PreferenceModalBottomPart } from "./PreferenceModalBottomPart/PreferenceModalBottomPart";
+import { useContext } from "react";
+import { PreferenceModalContext } from "../context/PreferenceModalContext";
 
 const PreferenceModalContainer = ({ showModal, setShowModal }) => {
+  const {actions} = useContext(PreferenceModalContext);
+  const { handleUpdateClick } = actions
   return (
     <StyledDialog open={showModal} onClose={() => setShowModal(false)}>
       <ModalHeader
@@ -53,7 +57,10 @@ const PreferenceModalContainer = ({ showModal, setShowModal }) => {
       </DialogContent>
       <DialogActions sx={{ position: "relative" }}>
         <Box justifyContent="flex-end">
-          <Button onClick={() => setShowModal(false)} sx={{ mr: 1 }}>
+          <Button onClick={() => {
+            handleUpdateClick();
+            setShowModal(false);
+          }} sx={{ mr: 1 }}>
             Update
           </Button>
           <Button onClick={() => setShowModal(false)}>Close</Button>

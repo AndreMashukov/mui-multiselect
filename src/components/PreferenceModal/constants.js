@@ -1,0 +1,1 @@
+export const PREFERENCE_SLICE_NAME = "preference";

@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import useBaseReducer from "../../../../hooks/useBaseReducer";
-
-const PREFERENCE_SLICE_NAME = "preference";
+import { PREFERENCE_SLICE_NAME } from "../../constants";
 
 export const usePrefernceModalReducer = () => {
   const PREFERENCE_SETTINGS = {
@@ -48,10 +46,6 @@ export const usePrefernceModalReducer = () => {
   const { state, actions } = useBaseReducer({
     initialState: getSettingFromLocalStorage(),
   });
-
-  useEffect(() => {
-    localStorage.setItem(PREFERENCE_SLICE_NAME, JSON.stringify(state));
-  }, [state]);
 
   return { state, actions };
 };
