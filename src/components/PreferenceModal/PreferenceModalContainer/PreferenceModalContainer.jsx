@@ -14,14 +14,19 @@ import { PreferenceModalBottomPart } from "./PreferenceModalBottomPart/Preferenc
 import { useContext } from "react";
 import { PreferenceModalContext } from "../context/PreferenceModalContext";
 
-const PreferenceModalContainer = ({ showModal, setShowModal }) => {
-  const {actions} = useContext(PreferenceModalContext);
-  const { handleUpdateClick } = actions
+const PreferenceModalContainer = ({ showModal, setShowModal, isMobile }) => {
+  const { actions } = useContext(PreferenceModalContext);
+  const { handleUpdateClick } = actions;
   return (
-    <StyledDialog open={showModal} onClose={() => setShowModal(false)}>
+    <StyledDialog
+      open={showModal}
+      onClose={() => setShowModal(false)}
+      fullScreen={isMobile}
+    >
       <ModalHeader
         title="Preference"
         handleCloseModal={() => setShowModal(false)}
+        showCloseButton={isMobile}
       />
 
       <DialogContent>
@@ -52,15 +57,18 @@ const PreferenceModalContainer = ({ showModal, setShowModal }) => {
               Current Layout
             </Typography>
           </Stack>
-          <PreferenceModalBottomPart />
+          <PreferenceModalBottomPart isMobile={isMobile} />
         </Stack>
       </DialogContent>
       <DialogActions sx={{ position: "relative" }}>
         <Box justifyContent="flex-end">
-          <Button onClick={() => {
-            handleUpdateClick();
-            setShowModal(false);
-          }} sx={{ mr: 1 }}>
+          <Button
+            onClick={() => {
+              handleUpdateClick();
+              setShowModal(false);
+            }}
+            sx={{ mr: 1 }}
+          >
             Update
           </Button>
           <Button onClick={() => setShowModal(false)}>Close</Button>
