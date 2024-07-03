@@ -5,7 +5,7 @@ import useGetDevice from "../hooks/useGetDevice";
 
 export const PreferenceView = () => {
   const [showModal, setShowModal] = useState(false);
-  const { isMobile } = useGetDevice()
+  const { isMobile } = useGetDevice();
   return (
     <>
       <Grid
@@ -28,6 +28,14 @@ export const PreferenceView = () => {
           showModal={showModal}
           setShowModal={setShowModal}
           isMobile={isMobile}
+          countries={[
+            { id: "1", label: "Country 1" },
+            { id: "2", label: "Country 2" },
+          ]}
+          companies={[
+            { id: "1", label: "Company 1" },
+            { id: "2", label: "Company 2" },
+          ]}
         />
       )}
     </>

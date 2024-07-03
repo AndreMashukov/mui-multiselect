@@ -57,7 +57,9 @@ const LayoutOption = ({
     <Stack>
       <Box
         sx={{
-          display: "inline-block",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           p: 1,
           ...(selectedLayout === layoutOption.id && {
             backgroundColor: "rgba(255, 165, 0, 0.2)",

@@ -13,8 +13,15 @@ import { PreferenceModalTopPart } from "./PreferenceModalTopPart/PreferenceModal
 import { PreferenceModalBottomPart } from "./PreferenceModalBottomPart/PreferenceModalBottomPart";
 import { useContext } from "react";
 import { PreferenceModalContext } from "../context/PreferenceModalContext";
+import PropTypes from "prop-types";
 
-const PreferenceModalContainer = ({ showModal, setShowModal, isMobile }) => {
+const PreferenceModalContainer = ({
+  showModal,
+  setShowModal,
+  isMobile,
+  countries,
+  companies,
+}) => {
   const { actions } = useContext(PreferenceModalContext);
   const { handleUpdateClick } = actions;
   return (
@@ -42,7 +49,10 @@ const PreferenceModalContainer = ({ showModal, setShowModal, isMobile }) => {
             </Typography>
           </Stack>
           <Stack sx={{ ml: 5 }}>
-            <PreferenceModalTopPart />
+            <PreferenceModalTopPart
+              countries={countries}
+              companies={companies}
+            />
           </Stack>
         </Stack>
         <Divider />
@@ -79,3 +89,11 @@ const PreferenceModalContainer = ({ showModal, setShowModal, isMobile }) => {
 };
 
 export default PreferenceModalContainer;
+
+PreferenceModalContainer.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
+  countries: PropTypes.array.isRequired,
+  companies: PropTypes.array.isRequired,
+};

@@ -1,11 +1,12 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import CustomSelect from "../../../CustomSelect/CustomSelect";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import StoreIcon from "@mui/icons-material/Store";
 import { useContext } from "react";
 import { PreferenceModalContext } from "../../context/PreferenceModalContext";
+import PropTypes from "prop-types";
 
-export const PreferenceModalTopPart = () => {
+export const PreferenceModalTopPart = ({ countries, companies }) => {
   const { state, actions } = useContext(PreferenceModalContext);
   const { selectedCountry, selectedCompany } = state;
   const { setSelectedCountry, setSelectedCompany } = actions;
@@ -14,23 +15,22 @@ export const PreferenceModalTopPart = () => {
       <CustomSelect
         value={selectedCountry}
         handleChange={setSelectedCountry}
-        options={[
-          { id: "1", label: "Country 1" },
-          { id: "2", label: "Country 2" },
-        ]}
+        options={countries}
         sx={{ width: "100%" }}
         icon={<LocationOnOutlinedIcon />}
       />
       <CustomSelect
         value={selectedCompany}
         handleChange={setSelectedCompany}
-        options={[
-          { id: "1", label: "Company 1" },
-          { id: "2", label: "Company 2" },
-        ]}
+        options={companies}
         sx={{ width: "100%", mt: 1 }}
         icon={<StoreIcon />}
       />
     </Stack>
   );
+};
+
+PreferenceModalTopPart.propTypes = {
+  countries: PropTypes.array.isRequired,
+  companies: PropTypes.array.isRequired,
 };
