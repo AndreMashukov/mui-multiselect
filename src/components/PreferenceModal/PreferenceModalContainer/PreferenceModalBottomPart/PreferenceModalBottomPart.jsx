@@ -32,14 +32,67 @@ const SELECT_LAYOUT_OPTIONS = [
   },
 ];
 
+const LayoutOption = ({
+  layoutOption,
+  selectedLayout,
+  onSelectLayout,
+  theme,
+}) => (
+  <Box
+    sx={{
+      cursor: "pointer",
+      "&:hover": {
+        opacity: 0.7,
+      },
+      border: "3px solid transparent",
+      ...(selectedLayout === layoutOption.id && {
+        borderColor: theme.palette.primary.main,
+      }),
+      flex: 1,
+      mr: "0.5rem", // Adjust based on your requirement
+    }}
+    onClick={() => onSelectLayout(layoutOption.id)}
+    key={layoutOption.id}
+  >
+    <Stack>
+      <Box
+        sx={{
+          display: "inline-block",
+          p: 1,
+          ...(selectedLayout === layoutOption.id && {
+            backgroundColor: "rgba(255, 165, 0, 0.2)",
+          }),
+        }}
+      >
+        {layoutOption.icon}
+      </Box>
+    </Stack>
+    <Stack
+      sx={{
+        ...(selectedLayout === layoutOption.id && {
+          backgroundColor: "rgba(255, 165, 0, 0.2)",
+        }),
+      }}
+    >
+      <Typography
+        variant="body1"
+        sx={{
+          textAlign: "center",
+        }}
+      >
+        {layoutOption.label}
+      </Typography>
+    </Stack>
+  </Box>
+);
+
 export const PreferenceModalBottomPart = ({ isMobile }) => {
   const { state, actions } = useContext(PreferenceModalContext);
   const { selectedLayout } = state;
   const { setSelectedLayout } = actions;
   const theme = useTheme();
 
-  // Function to render layout options in groups of 2 for mobile
-  const renderLayoutOptionsForMobile = () => {
+  if (isMobile) {
     const rows = [];
     for (let i = 0; i < SELECT_LAYOUT_OPTIONS.length; i += 2) {
       rows.push(
@@ -52,111 +105,32 @@ export const PreferenceModalBottomPart = ({ isMobile }) => {
           {[SELECT_LAYOUT_OPTIONS[i], SELECT_LAYOUT_OPTIONS[i + 1]].map(
             (layoutOption, index) =>
               layoutOption && (
-                <Box
-                  sx={{
-                    flex: 1,
-                    mr: index % 2 === 0 ? 0.5 : 0, // Add margin right to the first item of the pair
-                    cursor: "pointer",
-                    "&:hover": {
-                      opacity: 0.7,
-                    },
-                    border: "3px solid transparent",
-                    ...(selectedLayout === layoutOption.id && {
-                      borderColor: theme.palette.primary.main,
-                    }),
-                  }}
+                <LayoutOption
                   key={layoutOption.id}
-                  onClick={() => setSelectedLayout(layoutOption.id)}
-                >
-                  <Stack>
-                    <Box
-                      sx={{
-                        display: "inline-block",
-                        p: 1,
-                        ...(selectedLayout === layoutOption.id && {
-                          backgroundColor: "rgba(255, 165, 0, 0.2)",
-                        }),
-                      }}
-                    >
-                      {layoutOption.icon}
-                    </Box>
-                  </Stack>
-                  <Stack
-                    sx={{
-                      ...(selectedLayout === layoutOption.id && {
-                        backgroundColor: "rgba(255, 165, 0, 0.2)",
-                      }),
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        textAlign: "center",
-                      }}
-                    >
-                      {layoutOption.label}
-                    </Typography>
-                  </Stack>
-                </Box>
+                  layoutOption={layoutOption}
+                  selectedLayout={selectedLayout}
+                  onSelectLayout={setSelectedLayout}
+                  theme={theme}
+                />
               )
           )}
         </Stack>
       );
     }
     return rows;
-  };
+  }
 
   return (
-    <Stack direction={isMobile ? "column" : "row"}>
-      {isMobile
-        ? renderLayoutOptionsForMobile()
-        : SELECT_LAYOUT_OPTIONS.map((layoutOption) => (
-            <Box
-              sx={{
-                mr: 1,
-                cursor: "pointer",
-                "&:hover": {
-                  opacity: 0.7,
-                },
-                border: "3px solid transparent",
-                ...(selectedLayout === layoutOption.id && {
-                  borderColor: theme.palette.primary.main,
-                }),
-              }}
-              key={layoutOption.id}
-              onClick={() => setSelectedLayout(layoutOption.id)}
-            >
-              <Stack>
-                <Box
-                  sx={{
-                    display: "inline-block",
-                    p: 1,
-                    ...(selectedLayout === layoutOption.id && {
-                      backgroundColor: "rgba(255, 165, 0, 0.2)",
-                    }),
-                  }}
-                >
-                  {layoutOption.icon}
-                </Box>
-              </Stack>
-              <Stack
-                sx={{
-                  ...(selectedLayout === layoutOption.id && {
-                    backgroundColor: "rgba(255, 165, 0, 0.2)",
-                  }),
-                }}
-              >
-                <Typography
-                  variant="body1"
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  {layoutOption.label}
-                </Typography>
-              </Stack>
-            </Box>
-          ))}
+    <Stack direction="row">
+      {SELECT_LAYOUT_OPTIONS.map((layoutOption) => (
+        <LayoutOption
+          key={layoutOption.id}
+          layoutOption={layoutOption}
+          selectedLayout={selectedLayout}
+          onSelectLayout={setSelectedLayout}
+          theme={theme}
+        />
+      ))}
     </Stack>
   );
 };
