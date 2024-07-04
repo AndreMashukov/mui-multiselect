@@ -31,10 +31,11 @@ export const PreferenceView = () => {
           countries={[
             { id: "1", label: "Country 1" },
             { id: "2", label: "Country 2" },
+            { id: "global", label: "Global" },
           ]}
           companies={[
-            { id: "1", label: "Company 1" },
-            { id: "2", label: "Company 2" },
+            { id: "1", label: "Company 1", countryId: "1" },
+            { id: "2", label: "Company 2", countryId: "2" },
           ]}
         />
       )}

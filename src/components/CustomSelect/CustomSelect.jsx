@@ -10,7 +10,6 @@ const CustomIcon = (props) => (
     <path d="M7 10l5 5 5-5z" fill="white" />
   </SvgIcon>
 );
-
 export default function CustomSelect({
   value,
   handleChange,
@@ -20,6 +19,7 @@ export default function CustomSelect({
   replaceChevron,
   disabled,
   maxCharLength,
+  placeholder,
 }) {
   const { isMobile } = useGetDevice();
   return (
@@ -29,24 +29,29 @@ export default function CustomSelect({
       disabled={disabled}
       onChange={(e) => handleChange(e.target.value)}
       IconComponent={replaceChevron ? CustomIcon : undefined}
+      displayEmpty // Ensure placeholder is displayed when value is empty
       renderValue={(selectedValue) => {
+        if (!selectedValue) {
+          // Return placeholder when value is null
+          return <em>{placeholder}</em>;
+        }
         const selectedOption = options.find(
           (option) => option.id === selectedValue.toString()
         );
         if (!selectedOption) {
-          return "";
+          return <em>{placeholder}</em>; // Return placeholder if no option matches the value
         }
         return (
           <Grid
             container
             justifyContent="flex-start"
             alignItems="center"
-            wrap="nowrap"
+            wrap="noWrap"
           >
             <Grid item>{icon}</Grid>
             <Grid
               item
-              sx={{ position: "relative", width: `${maxCharLength || "25"}ch` }}
+              sx={{ position: "relative", width: `${maxCharLength || "30ch"}` }}
             >
               <ListItemText
                 primary={selectedOption.label}
@@ -90,7 +95,6 @@ export default function CustomSelect({
     </Select>
   );
 }
-
 CustomSelect.propTypes = {
   value: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
@@ -105,4 +109,5 @@ CustomSelect.propTypes = {
   replaceChevron: PropTypes.bool,
   disabled: PropTypes.bool,
   maxCharLength: PropTypes.number,
+  placeholder: PropTypes.string,
 };
