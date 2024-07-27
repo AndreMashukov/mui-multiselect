@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import { useZoomableLineChart } from "./useZoomableLineChart";
-import { CurrentPointTooltip } from "./CurrentPointTooltip/CurrentPointTooltip";
+import {useEffect, useState} from "react";
+import {useZoomableLineChart} from "./useZoomableLineChart";
+import {CurrentPointTooltip} from "./CurrentPointTooltip/CurrentPointTooltip";
 import ChartLegend from "./ChartLegend/ChartLegend";
 
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const ZoomableLineChart = ({ dataArray, width, height, colors, labels }) => {
-  const margin = { top: 10, right: 30, bottom: 30, left: 60 };
-  const _width = (width || WIDTH) - margin.left - margin.right;
-  const _height = (height || HEIGHT) - margin.top - margin.bottom;
+const ZoomableLineChart = ({dataArray, width, height, colors, labels}) => {
+  const margin = {top: 10, right: 30, bottom: 30, left: 60};
+  const widthLocal = (width || WIDTH) - margin.left - margin.right;
+  const heightLocal = (height || HEIGHT) - margin.top - margin.bottom;
 
   const props = {
     dataArray,
-    _width,
-    _height,
+    widthLocal,
+    heightLocal,
     margin,
   };
 
@@ -44,11 +44,11 @@ const ZoomableLineChart = ({ dataArray, width, height, colors, labels }) => {
     if (!svg) return;
 
     const brush = createBrush();
-    const { xScale, yScale } = scale;
-    const { xAxis } = createAxes(xScale, yScale);
+    const {xScale, yScale} = scale;
+    const {xAxis} = createAxes(xScale, yScale);
     addClipping();
 
-    const { focus, focusText } = createCursor();
+    const {focus, focusText} = createCursor();
 
     svg
       .on("mouseover", function () {

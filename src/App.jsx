@@ -27,13 +27,13 @@ function App() {
         {/* <RangePickerView /> */}
         {/* <CustomSelectView /> */}
         {/* <LineChartView /> */}
-        {/* <ZoomableLineChartView /> */}
+        <ZoomableLineChartView />
         {/* <SankeyDiagramView /> */}
         {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
         {/* <InventoryPageView /> */}
         {/* <AnimatedListView /> */}
-        <PreferenceView />
+        {/* <PreferenceView /> */}
       </Grid>
     </ThemeProvider>
   );
