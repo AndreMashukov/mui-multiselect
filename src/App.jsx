@@ -15,6 +15,9 @@ import { BasicBarChartView } from "./views/BasicBarChartView";
 import { InventoryPageView } from "./views/InventoryPageView";
 import { AnimatedListView } from "./views/AnimatedListView";
 import { PreferenceView } from "./views/PreferenceView";
+import { DoughnutChartCardView } from "./views/DoughnutCardView"
+
+// import { Button } from "@digitaledgedc/deuikit";
 
 function App() {
   return (
@@ -27,13 +30,15 @@ function App() {
         {/* <RangePickerView /> */}
         {/* <CustomSelectView /> */}
         {/* <LineChartView /> */}
-        <ZoomableLineChartView />
+        {/* <ZoomableLineChartView /> */}
         {/* <SankeyDiagramView /> */}
         {/* <StackedBarChartView /> */}
         {/* <BasicBarChartView /> */}
         {/* <InventoryPageView /> */}
         {/* <AnimatedListView /> */}
         {/* <PreferenceView /> */}
+        {/* <Button>Test</Button> */}
+        <DoughnutChartCardView />
       </Grid>
     </ThemeProvider>
   );
