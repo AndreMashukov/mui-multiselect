@@ -14,7 +14,6 @@ const useDoughnutChart = (graphData) => {
   const chartRef = useRef(null);
   const cardContentRef = useRef(null);
   const centerBoxRef = useRef(null);
-  const isFirstLoad = useRef(true);
   const tooltipRef = useRef(null);
   const [showCenterContent, setShowCenterContent] = useState(false);
 
@@ -49,7 +48,7 @@ const useDoughnutChart = (graphData) => {
     };
   }, []);
 
-  const drawChart = () => {
+  const drawChart = (animate) => {
     const width = cardContentRef.current.clientWidth;
     const height = cardContentRef.current.clientHeight;
     const margin = 0;
@@ -112,7 +111,7 @@ const useDoughnutChart = (graphData) => {
         d3.select(this).style("opacity", 0.7);
       });
 
-    if (isFirstLoad.current) {
+    if (animate) {
       slices
         .select("path")
         .transition()
@@ -126,15 +125,14 @@ const useDoughnutChart = (graphData) => {
             return arc(interpolate(t));
           };
         });
-      isFirstLoad.current = false;
     } else {
       slices.select("path").attr("d", arc);
     }
   };
 
   useEffect(() => {
-    drawChart();
-    const handleResize = () => drawChart();
+    drawChart(true);
+    const handleResize = () => drawChart(false);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [graphData]);
