@@ -7,7 +7,6 @@ import { ModalContainerTestView } from "./views/ModalContainerTestView";
 import { DatepickerView } from "./views/DatepickerView";
 import { RangePickerView } from "./views/RangePickerView";
 import { CustomSelectView } from "./views/CustomSelectView";
-import LineChartView from "./views/LineChartView";
 import ZoomableLineChartView from "./views/ZoomableLineChartView";
 import { SankeyDiagramView } from "./views/SankeyDiagramView";
 import { StackedBarChartView } from "./views/StackedBarChartView";
@@ -16,6 +15,7 @@ import { InventoryPageView } from "./views/InventoryPageView";
 import { AnimatedListView } from "./views/AnimatedListView";
 import { PreferenceView } from "./views/PreferenceView";
 import { DoughnutChartCardView } from "./views/DoughnutCardView"
+import LineChartView from "./views/LineChartView";
 
 // import { Button } from "@digitaledgedc/deuikit";
 
@@ -29,7 +29,7 @@ function App() {
         {/* <DatepickerView /> */}
         {/* <RangePickerView /> */}
         {/* <CustomSelectView /> */}
-        {/* <LineChartView /> */}
+        <LineChartView />
         {/* <ZoomableLineChartView /> */}
         {/* <SankeyDiagramView /> */}
         {/* <StackedBarChartView /> */}
@@ -38,7 +38,7 @@ function App() {
         {/* <AnimatedListView /> */}
         {/* <PreferenceView /> */}
         {/* <Button>Test</Button> */}
-        <DoughnutChartCardView />
+        {/* <DoughnutChartCardView /> */}
       </Grid>
     </ThemeProvider>
   );

@@ -1,33 +1,51 @@
-import { useState } from "react";
-import LineChart from "../components/LineChart/LineChart";
-import moment from "moment";
+import LineChartThresholdSegment from "../components/LineChart/LineChartThresholdSegment/LineChartThresholdSegment";
 
 const LineChartView = () => {
-  const [data, setData] = useState([
-    { date: "1 Jan 2000", value: 100 },
-    { date: "1 Feb 2000", value: 120 },
-    { date: "1 Mar 2000", value: 140 },
-    { date: "1 Apr 2000", value: 130 },
-    { date: "1 May 2000", value: 150 },
-    { date: "1 Jun 2000", value: 160 },
-    { date: "1 Jul 2000", value: 170 },
-    { date: "1 Aug 2000", value: 180 },
-    { date: "1 Sep 2000", value: 190 },
-    { date: "1 Oct 2000", value: 200 },
-    { date: "1 Nov 2000", value: 210 },
-    { date: "1 Dec 2000", value: 220 },
-  ]);
+  // Sample data
+  const dataArray = [
+    [
+      { date: new Date("2024-02-29T20:30:22+08:00"), value: 10 },
+      { date: new Date("2024-03-01T20:30:22+08:00"), value: 20 },
+      { date: new Date("2024-03-02T20:30:22+08:00"), value: 30 },
+      { date: new Date("2024-03-03T20:30:22+08:00"), value: 25 },
+      { date: new Date("2024-03-04T20:30:22+08:00"), value: 35 },
+      { date: new Date("2024-03-05T20:30:22+08:00"), value: 50 },
+      { date: new Date("2024-03-06T20:30:22+08:00"), value: 45 },
+      { date: new Date("2024-03-07T20:30:22+08:00"), value: 30 },
+      { date: new Date("2024-03-08T20:30:22+08:00"), value: 28 },
+      { date: new Date("2024-03-09T20:30:22+08:00"), value: 27 },
+    ],
+    [
+      { date: new Date("2024-02-29T20:30:22+08:00"), value: 15 },
+      { date: new Date("2024-03-01T20:30:22+08:00"), value: 25 },
+      { date: new Date("2024-03-02T20:30:22+08:00"), value: 35 },
+      { date: new Date("2024-03-03T20:30:22+08:00"), value: 30 },
+      { date: new Date("2024-03-04T20:30:22+08:00"), value: 40 },
+      { date: new Date("2024-03-05T20:30:22+08:00"), value: 45 },
+      { date: new Date("2024-03-06T20:30:22+08:00"), value: 50 },
+      { date: new Date("2024-03-07T20:30:22+08:00"), value: 55 },
+      { date: new Date("2024-03-08T20:30:22+08:00"), value: 60 },
+      { date: new Date("2024-03-09T20:30:22+08:00"), value: 65 },
+    ],
+  ];
 
-  const mapData = (data) => {
-    return data.map((d) => {
-      return {
-        date: moment(d.date).toDate(),
-        value: d.value,
-      };
-    });
-  };
+  const colors = ["steelblue", "black"];
+  const labels = ["Series 1", "Series 2"];
 
-  return <LineChart data={mapData(data)} />;
+  return (
+    <LineChartThresholdSegment
+      dataArray={dataArray}
+      width={600}
+      height={400}
+      colors={colors}
+      labels={labels}
+      thresholds={[
+        { value: 40, color: "red" },
+        { value: 30, color: "orange" },
+        { value: 20, color: "purple" },
+      ]}
+    />
+  );
 };
 
 export default LineChartView;
